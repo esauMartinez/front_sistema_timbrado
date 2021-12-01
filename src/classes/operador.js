@@ -1,12 +1,17 @@
 import axios from 'axios';
-import { url, urlCp } from '../services/url'
+import { url } from '../services/url'
 import Swal from 'sweetalert2';
 
-class Cliente {
+class Operador {
     constructor(
         id = '',
-        razon_social = '',
-        origen = 'nacional',
+        nombre = '',
+        paterno = '',
+        materno = '',
+        fecha_nacimiento = '',
+        fecha_ingreso = '',
+        curp = '',
+        rfc = '',
         codigo_postal = '',
         colonia = '',
         municipio = '',
@@ -15,54 +20,56 @@ class Cliente {
         calle = '',
         exterior = '',
         interior = '',
-        rfc = '',
-        tax_id = ''
+        licencia = '',
+        vencimiento_licencia = '',
+        estatus = ''
     ) {
         this.id = id;
-        this.razon_social = razon_social;
-        this.origen = origen;
-        this.codigo_postal = codigo_postal;
-        this.colonia = colonia; 
-        this.municipio = municipio;
+        this.nombre = nombre;
+        this.paterno = paterno;
+        this.materno = materno;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.fecha_ingreso = fecha_ingreso;
+        this.curp = curp;
         this.estado = estado;
+        this.codigo_postal = codigo_postal;
+        this.colonia = colonia;
+        this.municipio = municipio;
+        this.rfc = rfc;
         this.pais = pais;
         this.calle = calle;
         this.exterior = exterior;
         this.interior = interior;
-        this.rfc = rfc;
-        this.tax_id = tax_id;
+        this.licencia = licencia;
+        this.vencimiento_licencia = vencimiento_licencia;
+        this.estatus = estatus;
     }
 
     findAll() {
         return new Promise((resolve, reject) => {
-            axios.get(`${url}/cliente`).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.get(`${url}/operador`).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
-    
+
     findById(id) {
         return new Promise((resolve, reject) => {
-            axios.get(`${url}/cliente/id/${id}`).then(response => resolve(response.data)).catch(error => reject(error))
-        });
-    }
-    
-    create(cliente) {
-        return new Promise((resolve, reject) => {
-            axios.post(`${url}/cliente`, cliente).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.get(`${url}/operador/${id}`).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 
-    update(cliente) {
+    create(operador) {
         return new Promise((resolve, reject) => {
-            axios.put(`${url}/cliente/${cliente.id}`, cliente).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.post(`${url}/operador`, operador).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 
-    searchCp(codigo_postal) {
+    update(operador) {
+        console.log(operador);
         return new Promise((resolve, reject) => {
-            axios.get(`${urlCp}/place/places/${codigo_postal}`).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.put(`${url}/operador/${operador.id}`, operador).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
-    
+
     delete(id) {
         return new Promise((resolve, reject) => {
             Swal.fire({
@@ -75,8 +82,8 @@ class Cliente {
                 confirmButtonText: 'Si, Eliminar',
                 cancelButtonText: 'No'
             }).then((result) => {
-                if (result.isConfirmed) {                    
-                    axios.delete(`${url}/cliente/${id}`).then(response => resolve(response.data)).catch(error => reject(error))
+                if (result.isConfirmed) {
+                    axios.delete(`${url}/operador/${id}`).then(response => resolve(response.data)).catch(error => reject(error))
                 }
             })
         });
@@ -112,4 +119,4 @@ class Cliente {
 }
 
 
-export default Cliente;
+export default Operador;
