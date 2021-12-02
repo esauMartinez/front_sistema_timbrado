@@ -1,16 +1,20 @@
 import Trip from '../classes/trip';
+import Mercancia from '../classes/mercancia'
 import router from '../router';
 
 let trip = new Trip();
+let mercancia = new Mercancia();
 
 const tripModule = {
     namespaced: true,
     state: () => ({
         trip,
+        mercancia,
         trips: [],
         clientes: [],
         operadores: [],
-        modal: false
+        modal: false,
+        mercancias: []
     }),
     mutations: {
         setTrips(state, trips) {
@@ -39,6 +43,9 @@ const tripModule = {
         },
         showModal(state) {
             state.modal = !state.modal;
+        },
+        setMercancias(state, mercancias) {
+            state.mercancias = mercancias;
         }
     },
     actions: {
@@ -50,20 +57,22 @@ const tripModule = {
                 trip.error(error);
             }
         },
-        async getTrip({ commit }, payload) {
+        async getTrip({ commit, dispatch }, payload) {
             try {
                 let data = await trip.findTripById(payload);
                 commit('setTrip', data);
+
+                dispatch('getMercancias', payload)
             } catch (error) {
                 trip.error(error);
             }
         },
-        async postTrip({ state, dispatch }, payload) {
+        async postTrip({ state, dispatch }) {
             try {
-                let response =await trip.create(payload);
+                let response = await trip.create();
                 trip.success(response.msg);
                 state.trip = new Trip();
-                dispatch('getTrips');
+                dispatch('getTrips', 'creado');
                 router.push('/trip');
             } catch (error) {
                 trip.error(error);
@@ -80,10 +89,14 @@ const tripModule = {
                 trip.error(error);
             }
         },
-        async getMercancias() {
+        async updateStatus({ state, dispatch }, payload) {
+            console.log(payload);
             try {
-                let mercancias = await trip.findMercanciasTrip(1);
-                console.log(mercancias);
+                let response = await trip.updateStatus(payload);
+                trip.success(response.msg);
+                state.trip = new Trip();
+                dispatch('getTrips');
+                router.push('/trip');
             } catch (error) {
                 trip.error(error);
             }
@@ -111,6 +124,34 @@ const tripModule = {
             } catch (error) {
                 trip.error(error);
             }        
+        },
+        async getMercancias({ commit }, payload) {
+            try {
+                let mercancias = await mercancia.findAll(payload);
+                commit('setMercancias', mercancias);
+            } catch (error) {
+                trip.error(error);
+            }
+        },
+        async postMercancia({ dispatch, state, commit }, payload) {
+            try {
+                payload.trip = state.trip.id;
+                let response = await mercancia.create(payload);
+                mercancia.success(response.msg);
+                state.mercancia = new Mercancia();
+                dispatch('getMercancias', payload.trip);
+            } catch (error) {
+                trip.error(error);
+            }
+        },
+        async deleteMercancia({ dispatch, state }, payload) {
+            try {
+                let response = await mercancia.delete(payload);
+                mercancia.success(response.msg);
+                dispatch('getMercancias', state.trip.id);
+            } catch (error) {
+                trip.error(error);
+            }
         }
     }
 }

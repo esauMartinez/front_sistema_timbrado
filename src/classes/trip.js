@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 
 import Mercancia from './mercancia';
 
-class Trip extends Mercancia {
+class Trip {
     
     constructor(
         id = '',
@@ -18,7 +18,6 @@ class Trip extends Mercancia {
         destino = '',
         estatus = ''
     ) {
-        super();
         this.id = id;
         this.nombre_cliente = nombre_cliente;
         this.cliente = cliente;
@@ -43,15 +42,33 @@ class Trip extends Mercancia {
         });
     }
     
-    create(trip) {
+    create() {
         return new Promise((resolve, reject) => {
-            axios.post(`${url}/trip`, trip).then(response => resolve(response.data)).catch(error => reject(error))
+            Swal.fire({
+                title: 'Deseas crear un nuevo trip ?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {                    
+                    axios.post(`${url}/trip`).then(response => resolve(response.data)).catch(error => reject(error))
+                }
+            })
         });
     }
     
     update(trip) {
         return new Promise((resolve, reject) => {
             axios.put(`${url}/trip/${trip.id}`, trip).then(response => resolve(response.data)).catch(error => reject(error))
+        });
+    }
+
+    updateStatus(trip) {
+        return new Promise((resolve, reject) => {
+            axios.put(`${url}/trip/${trip.id}/${trip.estatus}`, trip).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 

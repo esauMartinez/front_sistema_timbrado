@@ -8,16 +8,39 @@
                 <th>Peso</th>
                 <th>Fraccion Arancelaria</th>
                 <th>UUID de Comercio Exterior</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            
+            <tr v-for="(item, index) in mercancias" :key="index">
+                <td>{{item.producto}}</td>
+                <td>{{item.unidadMedida}}</td>
+                <td>{{item.cantidad}}</td>
+                <td>{{item.peso}}</td>
+                <td>{{item.fraccionArancelaria}}</td>
+                <td>{{item.uuidComercioExt}}</td>
+                <td>
+                    <div class="d-flex justify-content-around">
+                        <button class="btn btn-outline-danger" @click="deleteMercancia(item.id)">
+                            <font-awesome-icon icon="trash-alt" />
+                            Eliminar
+                        </button>
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
-    name: 'tableMercancia'
+    name: 'tableMercancia',
+    computed: {
+        ...mapState('tripModule', ['mercancias'])
+    },
+    methods: {
+        ...mapActions('tripModule', ['deleteMercancia'])
+    }
 }
 </script>

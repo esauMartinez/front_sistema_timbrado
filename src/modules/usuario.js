@@ -16,8 +16,9 @@ const usuarioModule = {
     mutations: {
         setAuth(state, auth) {
             state.user_accepted = true;
-            state.user_rol = auth.user_rol;
-            localStorage.setItem('usuario', JSON.stringify(auth));
+            state.user_rol = auth.data.user_rol;
+            localStorage.setItem('token', JSON.stringify(auth.token));
+            localStorage.setItem('usuario', JSON.stringify(auth.data));
             state.usuario = new Usuario();
         },
         logOut(state) {
@@ -32,7 +33,7 @@ const usuarioModule = {
                 let response = await usuario.auth(payload);
                 commit('setAuth', response);
                 
-                if (response.user_rol === 'CLIENTE') {
+                if (response.data.user_rol === 'CLIENTE') {
                     router.push('/cotizacion');
                 } else {
                     router.push('/home');

@@ -2,10 +2,14 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-lg-2 mb-3">
-                <router-link class="btn btn-success me-3 w-100" to="/crear-trip">
+                <button class="btn btn btn-success me-3 w-100" @click="postTrip">
                     <font-awesome-icon icon="plus" />
                     Crear Trip
-                </router-link>
+                </button>
+                <!-- <router-link class="btn btn-success me-3 w-100" to="/crear-trip">
+                    <font-awesome-icon icon="plus" />
+                    Crear Trip  
+                </router-link> -->
             </div>
             <div class="col-lg-3 mb-3">
                 <select class="form-control" v-model="estatus" @change="getTrips(estatus)">
@@ -34,7 +38,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions('tripModule', ['getTrips']),
+        ...mapActions('tripModule', ['getTrips', 'postTrip']),
     },
     mounted() {
         this.getTrips('creado');

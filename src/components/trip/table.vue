@@ -18,10 +18,10 @@
                 <tbody>
                     <tr v-for="(item, index) in trips" :key="index" 
                         :class="{ 
-                            'bg-info': item.estatus === 'creado', 
-                            'bg-success': item.estatus === 'terminado', 
-                            'bg-danger': item.estatus === 'cancelado',
-                            'bg-primary': item.estatus === 'transito'
+                            'table-info': item.estatus === 'creado', 
+                            'table-success': item.estatus === 'terminado', 
+                            'table-danger': item.estatus === 'cancelado',
+                            'table-warning': item.estatus === 'transito'
                     }">
                         <td>Trip - {{ item.id }}</td>
                         <td>{{ formatDate(item.fecha) }}</td>
@@ -32,8 +32,8 @@
                         <td>{{ item.origen }}</td>
                         <td>{{ item.destino }}</td>
                         <td>
-                            <div class="d-flex justify-content-around">
-                                <router-link class="btn btn-warning" :to="{ path: `/modificar-trip/${item.id}` }" v-if="user_rol === 'USER_ADMIN_SYSTEM'">
+                            <div class="d-flex justify-content-around" v-if="(item.estatus !== 'cancelado' || user_rol === 'USER_ADMIN_SYSTEM') && (item.estatus !== 'terminado' || user_rol === 'USER_ADMIN_SYSTEM')">
+                                <router-link class="btn btn-warning" :to="{ path: `/modificar-trip/${item.id}` }" >
                                     <font-awesome-icon icon="pencil-alt" />
                                     Modificar
                                 </router-link>

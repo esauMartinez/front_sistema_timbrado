@@ -39,7 +39,7 @@
                 <label for="" class="form-label">Destino</label>
                 <input type="text" class="form-control" v-model="trip.destino" required>
             </div>                
-            <div class="col-lg-12 mb-3" v-if="estatus">
+            <div class="col-lg-12 mb-3" v-if="user_rol === 'USER_ADMIN_SYSTEM'" @change="updateStatus(trip)">
                 <label for="" class="form-label">Estatus</label>
                 <select class="form-control" v-model="trip.estatus">
                     <option value="creado">Creado</option>
@@ -53,6 +53,7 @@
             </div>
             <div class="col-lg-12">
                 <tabla-mercancia></tabla-mercancia>
+
                 <modal-mercancia v-if="modal"></modal-mercancia>
             </div>               
         </div>
@@ -77,12 +78,13 @@ export default {
         }
     },
     computed: {
-        ...mapState('tripModule', ['trip', 'clientes', 'operadores', 'modal'])
+        ...mapState('tripModule', ['trip', 'clientes', 'operadores', 'modal']),
+        ...mapState('usuarioModule', ['user_rol'])
     },
     methods: {
         ...mapMutations('tripModule', ['setCliente', 'setOperador', 'showModal']),
-        ...mapActions('tripModule', ['getCliente', 'getOperador']),
-    },
+        ...mapActions('tripModule', ['getCliente', 'getOperador', 'updateStatus']),
+    }
 }
 </script>
 
