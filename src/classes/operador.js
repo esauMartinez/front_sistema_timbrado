@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { url } from '../services/url';
+import { url } from '../services/url'
 import Swal from 'sweetalert2';
 
 class Operador {
@@ -9,7 +9,7 @@ class Operador {
         paterno = '',
         materno = '',
         fecha_nacimiento = '',
-        fecha_ingreso ='',
+        fecha_ingreso = '',
         curp = '',
         rfc = '',
         codigo_postal = '',
@@ -22,8 +22,8 @@ class Operador {
         interior = '',
         licencia = '',
         vencimiento_licencia = '',
-        estatus = true
-    ){
+        estatus = ''
+    ) {
         this.id = id;
         this.nombre = nombre;
         this.paterno = paterno;
@@ -31,11 +31,11 @@ class Operador {
         this.fecha_nacimiento = fecha_nacimiento;
         this.fecha_ingreso = fecha_ingreso;
         this.curp = curp;
-        this.rfc = rfc;
+        this.estado = estado;
         this.codigo_postal = codigo_postal;
         this.colonia = colonia;
         this.municipio = municipio;
-        this.estado = estado;
+        this.rfc = rfc;
         this.pais = pais;
         this.calle = calle;
         this.exterior = exterior;
@@ -45,71 +45,74 @@ class Operador {
         this.estatus = estatus;
     }
 
-    findAll(){
+    findAll() {
         return new Promise((resolve, reject) => {
             axios.get(`${url}/operador`).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 
-    findById(id){
+    findById(id) {
         return new Promise((resolve, reject) => {
             axios.get(`${url}/operador/${id}`).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 
-    create(operador){
+    create(operador) {
         return new Promise((resolve, reject) => {
             axios.post(`${url}/operador`, operador).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 
-    update(operador){
+    update(operador) {
+        console.log(operador);
         return new Promise((resolve, reject) => {
             axios.put(`${url}/operador/${operador.id}`, operador).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 
-    delete(id){
+    delete(id) {
         return new Promise((resolve, reject) => {
             Swal.fire({
-                title: '¿Estás seguro?',
-                text: "No podrás revertir esto!",
+                title: 'Estas seguro ?',
+                text: "No podras revertir esta accion",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminar!'
+                confirmButtonText: 'Si, Eliminar',
+                cancelButtonText: 'No'
             }).then((result) => {
-                if (result.value) {
+                if (result.isConfirmed) {
                     axios.delete(`${url}/operador/${id}`).then(response => resolve(response.data)).catch(error => reject(error))
                 }
             })
         });
     }
 
-    success(message){
+
+    success(msg) {
         Swal.fire({
             position: 'top-end',
             icon: 'success',
-            title: message,
+            title: msg,
             showConfirmButton: false,
             timer: 1500
         })
     }
 
-    error (message){
+    error(msg) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: message
+            text: msg,
         })
     }
 
-    notFound(message){
+    notFound(msg) {
         Swal.fire({
             icon: 'warning',
             title: 'Oops...',
-            text: message
+            text: msg,
         })
     }
 

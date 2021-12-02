@@ -1,6 +1,5 @@
 import router from '../router';
-
-import Operador from '../classes/operador';
+import Operador from '../classes/operador'
 
 let operador = new Operador();
 
@@ -9,47 +8,53 @@ const operadorModule = {
     state: () => ({
         operador,
         operadores: [],
-        copia: [],
-        method: 'post',
+        copia: []
     }),
     mutations: {
-        setOperador(state, operador) {
-            state.operador = operador.operador;
-            state.method = operador.method;
-            router.push('/form-operador');
-        },
         setOperadores(state, operadores) {
             state.operadores = operadores;
             state.copia = operadores;
         },
-        searchOperaor(state, operador) {
+        setOperador(state, operador) {
+            state.operador = operador;
+        },
+        searchOperador(state, nombre) {
             let array = [];
-            if(operador !== ''){
+            if (nombre !== '') {
                 state.copia.filter(x => {
-                    let nombreCompleto = x.nombre + ' ' + x.materno + ' ' + x.paterno;
-                    if(nombreCompleto.toUperCase().indexOf(operador.toUpperCase()) > -1){
+                    if (x.nombre.toUpperCase().indexOf(nombre.toUpperCase()) > -1) {
                         array.push(x);
                     }
                 });
+
                 state.operadores = array;
             } else {
                 state.operadores = state.copia;
             }
-        }       
+        },
+        setCodigoPostal(state, postal) {
+            state.operador.colonia = postal.d_asenta;
+            state.operador.municipio = postal.D_mnpio;
+            state.operador.estado = postal.d_estado;
+            state.operador.pais = postal.pais;
+            this.state.postalModule.codigos = [];
+
+            console.log(postal);
+        }
     },
     actions: {
         async getOperadores({ commit }) {
             try {
-            let response = await operador.findAll();
-            commit('setOperadores', operadores);
+                let response = await operador.findAll();
+                commit('setOperadores', response);
             } catch (error) {
                 operador.error(error);
             }
         },
-        async getOperador({ commit }, id) {
-            try{
-                let response = await operador.findById(id);
-                commit('setOperador', {operador : response, method: 'put'});
+        async getOperador({ commit }, payload) {
+            try {
+                let response = await operador.findById(payload);
+                commit('setOperador', response);
             } catch (error) {
                 operador.error(error);
             }
@@ -58,34 +63,30 @@ const operadorModule = {
             try {
                 let response = await operador.create(payload);
                 operador.success(response.msg);
-                if(response.status === 200){
-                    router.push('/operador');
-                    state.operador = new Operador();
-                    dispatch('getOperadores');
-                }
-            } catch {
+                console.log('ruta a operador');
+                router.push('/operador');
+                state.operador = new Operador();
+                dispatch('getOperadores');
+            } catch (error) {
                 operador.error(error);
             }
         },
-        async putOperador({ dispatch, state }, payload) {
+        async putOperador({ dispatch }, payload) {
             try {
                 let response = await operador.update(payload);
                 operador.success(response.msg);
                 router.push('/operador');
                 dispatch('getOperadores');
-
-                state.operador = new Operador();
-                state.method = 'post';
-            } catch {
+            } catch (error) {
                 operador.error(error);
             }
         },
-        async deleteOperador({ dispatch }, id) {
+        async deleteOperador({ dispatch }, payload) {
             try {
-                let response = await operador.delete(id);
+                let response = await operador.delete(payload);
                 operador.success(response.msg);
                 dispatch('getOperadores');
-            } catch {
+            } catch (error) {
                 operador.error(error);
             }
         }
@@ -93,3 +94,4 @@ const operadorModule = {
 }
 
 export default operadorModule;
+

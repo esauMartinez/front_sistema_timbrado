@@ -1,7 +1,5 @@
 import router from '../router';
-
 import Cliente from '../classes/cliente'
-
 let cliente = new Cliente();
 
 const clienteModule = {
@@ -9,8 +7,7 @@ const clienteModule = {
     state: () => ({
         cliente,
         clientes: [],
-        copia: [],
-        method: 'post'
+        copia: []
     }),
     mutations: {
         setClientes(state, clientes) {
@@ -18,9 +15,7 @@ const clienteModule = {
             state.copia = clientes;
         },
         setCliente(state, cliente) {
-            state.cliente = cliente.cliente;
-            state.method = cliente.method;
-            router.push('/form-cliente');
+            state.cliente = cliente;
         },
         searchCliente(state, razon_social) {
             let array = [];
@@ -34,8 +29,16 @@ const clienteModule = {
                 state.clientes = array;
             } else {
                 state.clientes = state.copia;
-            }
+            }            
+        },
+        setCodigoPostal(state, postal) {
+            state.cliente.colonia = postal.d_asenta;
+            state.cliente.municipio = postal.D_mnpio;
+            state.cliente.estado = postal.d_estado;
+            state.cliente.pais = postal.pais;
+            this.state.postalModule.codigos = [];
             
+            console.log(postal);
         }
     },
     actions: {
@@ -50,7 +53,7 @@ const clienteModule = {
         async getCliente({ commit }, payload) {
             try {
                 let response = await cliente.findById(payload);
-                commit('setCliente', { cliente: response, method: 'put' });
+                commit('setCliente', response);
             } catch (error) {
                 cliente.error(error);
             }
@@ -59,24 +62,19 @@ const clienteModule = {
             try {
                 let response = await cliente.create(payload);
                 cliente.success(response.msg);
-                if (response.status === 200) {                    
-                    router.push('/cliente');
-                    state.cliente = new Cliente();
-                    dispatch('getClientes');
-                }
+                router.push('/cliente');
+                state.cliente = new Cliente();
+                dispatch('getClientes');
             } catch (error) {
                 cliente.error(error);
             }
         },
-        async putCliente({ dispatch, state }, payload) {
+        async putCliente({ dispatch }, payload) {
             try {
                 let response = await cliente.update(payload);
                 cliente.success(response.msg);
                 router.push('/cliente');
                 dispatch('getClientes');
-
-                state.cliente = new Cliente();
-                state.method = 'post';
             } catch (error) {
                 cliente.error(error);
             }

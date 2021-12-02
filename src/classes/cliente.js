@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { url } from '../services/url'
+import { url, urlCp } from '../services/url'
 import Swal from 'sweetalert2';
 
 class Cliente {
     constructor(
         id = '',
         razon_social = '',
-        origen = '',
+        origen = 'nacional',
         codigo_postal = '',
         colonia = '',
         municipio = '',
@@ -54,6 +54,12 @@ class Cliente {
     update(cliente) {
         return new Promise((resolve, reject) => {
             axios.put(`${url}/cliente/${cliente.id}`, cliente).then(response => resolve(response.data)).catch(error => reject(error))
+        });
+    }
+
+    searchCp(codigo_postal) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${urlCp}/place/places/${codigo_postal}`).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
     

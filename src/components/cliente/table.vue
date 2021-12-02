@@ -11,7 +11,7 @@
                         <th>Estado</th>
                         <th>Municipio</th>
                         <th>Colonia</th>
-                        <td>Opciones</td>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,8 +25,14 @@
                         <td>{{ item.colonia }}</td>
                         <td>
                             <div class="d-flex justify-content-around">
-                                <button class="btn btn-outline-danger" @click="deleteCliente(item.id)">Eliminar</button>
-                                <button class="btn btn-warning" @click="getCliente(item.id)">Modificar</button>
+                                <button class="btn btn-outline-danger" @click="deleteCliente(item.id)">
+                                    <font-awesome-icon icon="trash-alt" />
+                                    Eliminar
+                                </button>
+                                <router-link class="btn btn-warning" :to="{ path: `/modificar-cliente/${item.id}` }">
+                                    <font-awesome-icon icon="pencil-alt" />
+                                    Modificar
+                                </router-link>
                             </div>
                         </td>
                     </tr>
@@ -44,7 +50,7 @@ export default {
         ...mapState('clienteModule', ['clientes'])
     },
     methods: {
-        ...mapActions('clienteModule', ['getClientes', 'deleteCliente', 'getCliente'])
+        ...mapActions('clienteModule', ['getClientes', 'deleteCliente'])
     },
     mounted() {
         this.getClientes();

@@ -37,7 +37,4 @@ class Usuario {
 
 }
 
-
-const usuario = new Usuario();
-
-export default usuario;
+export default Usuario;
