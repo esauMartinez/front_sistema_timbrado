@@ -6,6 +6,8 @@ import Cliente from '../views/Cliente.vue'
 import formCliente from '../components/cliente/form.vue'
 
 import Operador from '../views/Operador.vue'
+import formOperador from '../components/operador/form.vue'
+
 import Remolque from '../views/Remolque.vue'
 import Unidad from '../views/Unidad.vue'
 import Patio from '../views/Patio.vue'
@@ -35,6 +37,11 @@ const routes = [
     path: '/operador',
     name: 'Operador',
     component: Operador
+  },
+  {
+    path: '/form-operador',
+    name: 'form-operador',
+    component: formOperador
   },
   {
     path: '/remolque',
