@@ -4,6 +4,7 @@ import clienteModule from '../modules/cliente'
 import operadorModule from '../modules/operador'
 import tripModule from '../modules/trip'
 import postalModule from '../modules/codigoPostal'
+import cotizacionModule from '../modules/cotizacion'
 
 
 export default createStore({
@@ -12,6 +13,7 @@ export default createStore({
     clienteModule,
     operadorModule,
     tripModule,
-    postalModule
+    postalModule,
+    cotizacionModule
   }
 })

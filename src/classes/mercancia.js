@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios from 'axios'
 import { url } from '../services/url'
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
+import token from '../services/token'
 
 class Mercancia {
     constructor(

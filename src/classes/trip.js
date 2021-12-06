@@ -1,8 +1,7 @@
-import axios from 'axios';
+import axios from 'axios'
 import { url, urlCp } from '../services/url'
-import Swal from 'sweetalert2';
-
-import Mercancia from './mercancia';
+import Swal from 'sweetalert2'
+import token from '../services/token'
 
 class Trip {
     
@@ -32,13 +31,13 @@ class Trip {
 
     findAllTrips(estatus) {
         return new Promise((resolve, reject) => {
-            axios.get(`${url}/trip/estatus/${estatus}`).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.get(`${url}/trip/estatus/${estatus}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 
     findTripById(id) {
         return new Promise((resolve, reject) => {
-            axios.get(`${url}/trip/${id}`).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.get(`${url}/trip/${id}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
     
@@ -53,8 +52,8 @@ class Trip {
                 confirmButtonText: 'Si',
                 cancelButtonText: 'No'
             }).then((result) => {
-                if (result.isConfirmed) {                    
-                    axios.post(`${url}/trip`).then(response => resolve(response.data)).catch(error => reject(error))
+                if (result.isConfirmed) {
+                    axios.post(`${url}/trip`, {}, token()).then(response => resolve(response.data)).catch(error => reject(error))
                 }
             })
         });
@@ -62,25 +61,75 @@ class Trip {
     
     update(trip) {
         return new Promise((resolve, reject) => {
-            axios.put(`${url}/trip/${trip.id}`, trip).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.put(`${url}/trip/${trip.id}`, trip, token()).then(response => resolve(response.data)).catch(error => reject(error))
+        });
+    }
+
+    observationsCancelTrip() {
+        return new Promise((resolve, reject) => {
+            Swal.fire({
+                title: 'Comentarios de cancelacion de trip',
+                input: 'text',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Aceptar',
+                showLoaderOnConfirm: true,
+                preConfirm: (comments) => {
+                    return comments;
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    resolve(result);
+                }
+            })
+        });
+    }
+
+    questionCancelTrip() {
+        return new Promise((resolve, reject) => {
+            Swal.fire({
+                title: 'Deseas cancelar el trip ?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const comments = await this.observationsCancelTrip();
+                    resolve(comments.value);
+                }
+            })
         });
     }
 
     updateStatus(trip) {
-        return new Promise((resolve, reject) => {
-            axios.put(`${url}/trip/${trip.id}/${trip.estatus}`, trip).then(response => resolve(response.data)).catch(error => reject(error))
+        return new Promise(async (resolve, reject) => {
+
+            let observationsCancel = null;
+
+            if (trip.estatus === 'cancelado') {
+                let response_question = await this.questionCancelTrip();
+                observationsCancel = response_question;
+            }
+
+            axios.put(`${url}/trip/${trip.id}/${trip.estatus}/${observationsCancel}`, trip, token()).then(response => resolve(response.data)).catch(error => reject(error));
         });
     }
 
     findCliente(nombre) {
         return new Promise((resolve, reject) => {
-            axios.get(`${url}/cliente/nombre/${nombre}`).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.get(`${url}/cliente/nombre/${nombre}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 
     findOperador(nombre) {
         return new Promise((resolve, reject) => {
-            axios.get(`${url}/operador/nombre/${nombre}`).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.get(`${url}/operador/nombre/${nombre}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 

@@ -3,6 +3,8 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 
 import Cotizacion from '../views/Cotizacion.vue'
+import modificarCotizacion from '../components/cotizacion/modificar.vue'
+import verCotizacion from '../components/cotizacion/ver.vue'
 
 import Cliente from '../views/Cliente.vue'
 import crearCliente from '../components/cliente/crear.vue'
@@ -19,6 +21,10 @@ import Patio from '../views/Patio.vue'
 import Trip from '../views/Trip'
 import crearTrip from '../components/trip/crear.vue'
 import modificarTrip from '../components/trip/modificar.vue'
+
+import Usuario from '../views/usuario.vue'
+import crearUsuario from '../components/usuario/crear.vue'
+import modificarUsuario from '../components/usuario/modificar.vue'
 
 const routes = [
   {
@@ -92,10 +98,40 @@ const routes = [
     component: Cotizacion
   },
   {
+    path: '/llenar-cotizacion/:id',
+    name: 'llenar-cotizacion',
+    component: modificarCotizacion
+  },
+  {
+    path: '/ver-cotizacion/:id',
+    name: 'ver-cotizacion',
+    component: verCotizacion
+  },
+  {
     path: '/modificar-trip/:id',
     name: 'modificar-trip',
     component: modificarTrip
   },
+  {
+    path: '/usuario',
+    name: 'Usuario',
+    component: Usuario
+  },
+  {
+    path: '/crear-usuario',
+    name: 'crear-usuario',
+    component: crearUsuario
+  },
+  {
+    path: '/modificar-usuario/:id',
+    name: 'modificar-usuario',
+    component: modificarUsuario
+  },
+  {
+    path: '/ver-usuario/:id',
+    name: 'ver-usuario',
+    component: modificarUsuario
+  }
 ]
 
 const router = createRouter({

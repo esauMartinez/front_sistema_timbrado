@@ -10,6 +10,7 @@ const tripModule = {
     state: () => ({
         trip,
         mercancia,
+        estatusTrip: 'creado',
         trips: [],
         clientes: [],
         operadores: [],
@@ -17,13 +18,17 @@ const tripModule = {
         mercancias: []
     }),
     mutations: {
+        setEstatus(state, estatus) {
+            state.estatusTrip = estatus;
+        },
         setTrips(state, trips) {
-            console.log(trips);
+            // console.log(trips);
             state.trips = trips;
         },
         setTrip(state, trip) {
-            console.log(trip);
+            // console.log(trip);
             state.trip = trip;
+            state.trip.nombre_operador = (trip.nombre_operador !== null) ? `${trip.nombre_operador} ${trip.paterno} ${trip.materno}` : '';
         },
         setClientes(state, clientes) {
             state.clientes = clientes;
@@ -34,7 +39,14 @@ const tripModule = {
             state.clientes = [];
         },
         setOperadores(state, operadores) {
-            state.operadores = operadores;
+            let arrayFilterOperadores = [];
+            operadores.map(x => {
+                if (x.estatus) {
+                    arrayFilterOperadores.push(x);
+                }
+            });
+
+            state.operadores = arrayFilterOperadores;
         },
         setOperador(state, operador) {
             state.trip.operador = operador.id;
@@ -72,7 +84,7 @@ const tripModule = {
                 let response = await trip.create();
                 trip.success(response.msg);
                 state.trip = new Trip();
-                dispatch('getTrips', 'creado');
+                dispatch('getTrips', state.estatusTrip);
                 router.push('/trip');
             } catch (error) {
                 trip.error(error);
@@ -83,19 +95,18 @@ const tripModule = {
                 let response = await trip.update(payload);
                 trip.success(response.msg);
                 state.trip = new Trip();
-                dispatch('getTrips');
+                dispatch('getTrips', state.estatusTrip);
                 router.push('/trip');
             } catch (error) {
                 trip.error(error);
             }
         },
         async updateStatus({ state, dispatch }, payload) {
-            console.log(payload);
             try {
                 let response = await trip.updateStatus(payload);
                 trip.success(response.msg);
                 state.trip = new Trip();
-                dispatch('getTrips');
+                dispatch('getTrips', state.estatusTrip);
                 router.push('/trip');
             } catch (error) {
                 trip.error(error);

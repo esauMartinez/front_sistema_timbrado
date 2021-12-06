@@ -1,6 +1,6 @@
 <template>
-    <div class="container mt-5">
-        <form-trip @submit.prevent="putTrip(trip)" id="form-trip" :estatus="trip.estatus"></form-trip>
+     <div class="container mt-5">
+         <form-usuario @submit.prevent="putUsuario(usuario)" id="form-usuario" :usuario="usuario"></form-usuario>
 
         <div class="row">
             <div class="col-lg-2 offset-lg-8 d-flex justify-content-end">
@@ -10,36 +10,35 @@
                 </button>
             </div>
             <div class="col-lg-2 d-flex justify-content-end">
-                <button type="submit" form="form-trip" :class="{'btn': true, 'btn-warning': true, 'w-100': true}">
+                <button type="submit" form="form-usuario" :class="{'btn': true, 'btn-warning': true, 'w-100': true}">
                     <font-awesome-icon icon="save" />
                     Guardar
                 </button>
             </div>
         </div>
-    </div>    
+    </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import router from '../../router';
-import formTrip from './form.vue'
-
+import { mapActions, mapState } from 'vuex'
+import router from '../../router'
+import formUsuario from './form.vue'
 export default {
-    name: 'updateTrip',
+    name: 'modificarUsuario',
     components: {
-        formTrip
+        formUsuario
     },
     computed: {
-        ...mapState('tripModule', ['trip'])
+        ...mapState('usuarioModule', ['usuario'])
     },
     methods: {
-        ...mapActions('tripModule', ['putTrip', 'getTrip']),
-        cancelar() {
-            router.push('/trip');
+        ...mapActions('usuarioModule', ['getUsuario', 'putUsuario']),
+        cancelar() {           
+            router.push('/usuario');
         }
     },
     mounted() {
-        this.getTrip(this.$route.params.id);
+        this.getUsuario(this.$route.params.id);
     },
 }
 </script>

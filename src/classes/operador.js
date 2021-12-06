@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios from 'axios'
 import { url } from '../services/url'
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
+import token from '../services/token'
 
 class Operador {
     constructor(
@@ -47,26 +48,26 @@ class Operador {
 
     findAll() {
         return new Promise((resolve, reject) => {
-            axios.get(`${url}/operador`).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.get(`${url}/operador`, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 
     findById(id) {
         return new Promise((resolve, reject) => {
-            axios.get(`${url}/operador/${id}`).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.get(`${url}/operador/${id}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 
     create(operador) {
         return new Promise((resolve, reject) => {
-            axios.post(`${url}/operador`, operador).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.post(`${url}/operador`, operador, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 
     update(operador) {
         console.log(operador);
         return new Promise((resolve, reject) => {
-            axios.put(`${url}/operador/${operador.id}`, operador).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.put(`${url}/operador/${operador.id}`, operador, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 
@@ -83,7 +84,7 @@ class Operador {
                 cancelButtonText: 'No'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.delete(`${url}/operador/${id}`).then(response => resolve(response.data)).catch(error => reject(error))
+                    axios.delete(`${url}/operador/${id}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
                 }
             })
         });

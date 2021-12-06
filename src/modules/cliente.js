@@ -37,8 +37,6 @@ const clienteModule = {
             state.cliente.estado = postal.d_estado;
             state.cliente.pais = postal.pais;
             this.state.postalModule.codigos = [];
-            
-            console.log(postal);
         }
     },
     actions: {
@@ -55,6 +53,7 @@ const clienteModule = {
                 let response = await cliente.findById(payload);
                 commit('setCliente', response);
             } catch (error) {
+                router.push('/cliente');
                 cliente.error(error);
             }
         },
