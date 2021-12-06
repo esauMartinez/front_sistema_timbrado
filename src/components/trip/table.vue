@@ -1,11 +1,12 @@
 <template>
      <div class="row">
         <div class="col-lg-12">
-            <table class="table table-striped table-bordered table-hover">
+            <table class="table table-striped table-bordered table-hover table-sm">
                 <thead>
                     <tr>
                         <th>Trip</th>
                         <th>Fecha</th>
+                        <th>Usuario Creo</th>
                         <th>Cliente</th>
                         <th>Operador</th>
                         <th>Remolque</th>
@@ -25,18 +26,27 @@
                     }">
                         <td>Trip - {{ item.id }}</td>
                         <td>{{ formatDate(item.fecha) }}</td>
-                        <td>{{ item.nombre_cliente }}</td>
-                        <td>{{ item.nombre_operador }} {{ item.paterno }} {{ item.materno }}</td>
-                        <td>{{ item.remolque }}</td>
-                        <td>{{ item.unidad }}</td>
-                        <td>{{ item.origen }}</td>
-                        <td>{{ item.destino }}</td>
+                        <td>{{ item.usuario_creo_nombre }} {{ item.usuario_creo_paterno }} {{ item.usuario_creo_materno }}</td>
+                        <td>{{ verifyData(item.nombre_cliente) }}</td>
+                        <td>{{ verifyData(item.nombre_operador) }} {{ item.paterno }} {{ item.materno }}</td>
+                        <td>{{ verifyData(item.remolque) }}</td>
+                        <td>{{ verifyData(item.unidad) }}</td>
+                        <td>{{ verifyData(item.origen) }}</td>
+                        <td>{{ verifyData(item.destino) }}</td>
                         <td>
-                            <div class="d-flex justify-content-around" v-if="(item.estatus !== 'cancelado' || user_rol === 'USER_ADMIN_SYSTEM') && (item.estatus !== 'terminado' || user_rol === 'USER_ADMIN_SYSTEM')">
-                                <router-link class="btn btn-warning" :to="{ path: `/modificar-trip/${item.id}` }" >
-                                    <font-awesome-icon icon="pencil-alt" />
+                            <div class="d-flex justify-content-around" 
+                                v-if="(item.estatus !== 'cancelado' || user_rol === 'USER_ADMIN_SYSTEM') && (item.estatus !== 'terminado' || user_rol === 'USER_ADMIN_SYSTEM')">
+                                <router-link class="btn btn-link" :to="{ path: `/modificar-trip/${item.id}` }" >
+                                    <!-- <font-awesome-icon icon="pencil-alt" /> -->
                                     Modificar
                                 </router-link>
+
+                                <button class="btn btn-link text-danger" 
+                                    v-if="(item.estatus !== 'terminado' && user_rol === 'USER_ADMIN_SYSTEM') && (item.estatus !== 'cancelado' && user_rol === 'USER_ADMIN_SYSTEM')"
+                                    @click="updateStatus({ id: item.id, estatus: 'cancelado' })">
+                                    <!-- <font-awesome-icon icon="pencil-alt" /> -->
+                                    Cancelar Trip
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -58,7 +68,14 @@ export default {
     methods: {
         formatDate(date) {
             return moment(date).format('YYYY/MM/DD HH:mm:ss')
-        }
+        },
+        verifyData(data) {
+            if (data === '' || data === 0 || data === null) {
+                return 'S/D';
+            }
+            return data;
+        },
+        ...mapActions('tripModule', ['updateStatus'])
     },
 }
 </script>

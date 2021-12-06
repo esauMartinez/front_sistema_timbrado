@@ -38,8 +38,6 @@ const operadorModule = {
             state.operador.estado = postal.d_estado;
             state.operador.pais = postal.pais;
             this.state.postalModule.codigos = [];
-
-            console.log(postal);
         }
     },
     actions: {

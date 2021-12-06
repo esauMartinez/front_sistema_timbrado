@@ -20,7 +20,7 @@
                 <td>{{item.fraccionArancelaria}}</td>
                 <td>{{item.uuidComercioExt}}</td>
                 <td>
-                    <div class="d-flex justify-content-around">
+                    <div class="d-flex justify-content-around" v-if="estatus === 'creado'">
                         <button class="btn btn-outline-danger" @click="deleteMercancia(item.id)">
                             <font-awesome-icon icon="trash-alt" />
                             Eliminar
@@ -36,6 +36,11 @@
 import { mapState, mapActions } from 'vuex'
 export default {
     name: 'tableMercancia',
+    props: {
+        estatus: {
+            type: String
+        }
+    },
     computed: {
         ...mapState('tripModule', ['mercancias'])
     },

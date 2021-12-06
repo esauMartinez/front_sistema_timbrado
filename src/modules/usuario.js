@@ -10,6 +10,8 @@ const usuarioModule = {
     namespaced: true,
     state: () => ({
         usuario,
+        usuarios: [],
+        copia: [],
         user_accepted: false,
         user_rol: ''
     }),
@@ -17,7 +19,7 @@ const usuarioModule = {
         setAuth(state, auth) {
             state.user_accepted = true;
             state.user_rol = auth.data.user_rol;
-            localStorage.setItem('token', JSON.stringify(auth.token));
+            localStorage.setItem('token', auth.token);
             localStorage.setItem('usuario', JSON.stringify(auth.data));
             state.usuario = new Usuario();
         },
@@ -25,7 +27,28 @@ const usuarioModule = {
             localStorage.removeItem('usuario');
             state.user_accepted = false;
             router.push('/');
-        }
+        },
+        setUsuarios(state, usuarios) {
+            state.usuarios = usuarios;
+            state.copia = usuarios;
+        },
+        setUsuario(state, usuario) {
+            state.usuario = usuario;
+        },
+        searchUsuario(state, nombre) {
+            let array = [];
+            if (nombre !== '') {
+                state.copia.filter(x => {
+                    if (x.nombre.toUpperCase().indexOf(nombre.toUpperCase()) > -1) {
+                        array.push(x);
+                    }
+                });
+
+                state.usuarios = array;
+            } else {
+                state.usuarios = state.copia;
+            }
+        },
     },
     actions: {
         async auth({ commit }, payload) {
@@ -33,7 +56,7 @@ const usuarioModule = {
                 let response = await usuario.auth(payload);
                 commit('setAuth', response);
                 
-                if (response.data.user_rol === 'CLIENTE') {
+                if (response.data.user_rol === 'USER_CLIENTE_SYSTEM') {
                     router.push('/cotizacion');
                 } else {
                     router.push('/home');
@@ -47,6 +70,53 @@ const usuarioModule = {
                 } else {
                     usuario.error('Hubo un error');
                 }
+            }
+        },
+        async getUsuarios({ commit }) {
+            try {
+                let response = await usuario.findAll();
+                commit('setUsuarios', response);
+            } catch (error) {
+                usuario.error(error);
+            }
+        },
+        async getUsuario({ commit }, payload) {
+            try {
+                let response = await usuario.findById(payload);
+                commit('setUsuario', response);
+            } catch (error) {
+                router.push('/usuario');
+                usuario.error(error);
+            }
+        },
+        async postUsuario({ dispatch, state }, payload) {
+            try {
+                let response = await usuario.create(payload);
+                usuario.success(response.msg);
+                router.push('/usuario');
+                state.usuario = new Usuario();
+                dispatch('getUsuarios');
+            } catch (error) {
+                usuario.error(error);
+            }
+        },
+        async putUsuario({ dispatch }, payload) {
+            try {
+                let response = await usuario.update(payload);
+                usuario.success(response.msg);
+                router.push('/usuario');
+                dispatch('getUsuarios');
+            } catch (error) {
+                usuario.error(error);
+            }
+        },
+        async deleteUsuario({ dispatch }, payload) {
+            try {
+                let response = await usuario.delete(payload);
+                usuario.success(response.msg);
+                dispatch('getUsuarios');
+            } catch (error) {
+                usuario.error(error);
             }
         }
     },

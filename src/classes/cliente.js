@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios from 'axios'
 import { url, urlCp } from '../services/url'
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
+import token from '../services/token'
 
 class Cliente {
     constructor(
@@ -35,25 +36,25 @@ class Cliente {
 
     findAll() {
         return new Promise((resolve, reject) => {
-            axios.get(`${url}/cliente`).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.get(`${url}/cliente`, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
     
     findById(id) {
         return new Promise((resolve, reject) => {
-            axios.get(`${url}/cliente/id/${id}`).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.get(`${url}/cliente/id/${id}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
     
     create(cliente) {
         return new Promise((resolve, reject) => {
-            axios.post(`${url}/cliente`, cliente).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.post(`${url}/cliente`, cliente, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 
     update(cliente) {
         return new Promise((resolve, reject) => {
-            axios.put(`${url}/cliente/${cliente.id}`, cliente).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.put(`${url}/cliente/${cliente.id}`, cliente, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 
@@ -76,7 +77,7 @@ class Cliente {
                 cancelButtonText: 'No'
             }).then((result) => {
                 if (result.isConfirmed) {                    
-                    axios.delete(`${url}/cliente/${id}`).then(response => resolve(response.data)).catch(error => reject(error))
+                    axios.delete(`${url}/cliente/${id}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
                 }
             })
         });
