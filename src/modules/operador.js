@@ -61,7 +61,6 @@ const operadorModule = {
             try {
                 let response = await operador.create(payload);
                 operador.success(response.msg);
-                console.log('ruta a operador');
                 router.push('/operador');
                 state.operador = new Operador();
                 dispatch('getOperadores');
