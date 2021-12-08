@@ -7,6 +7,9 @@ import postalModule from '../modules/codigoPostal'
 import cotizacionModule from '../modules/cotizacion'
 import empresaModule from '../modules/empresa'
 
+import remolqueModule from '../modules/remolque'
+import patioModule from '../modules/patio'
+import unidadModule from '../modules/unidad'
 
 export default createStore({
   modules: {
@@ -16,6 +19,9 @@ export default createStore({
     tripModule,
     postalModule,
     cotizacionModule,
-    empresaModule
+    empresaModule,
+    remolqueModule,
+    patioModule,
+    unidadModule
   }
 })

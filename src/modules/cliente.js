@@ -32,6 +32,7 @@ const clienteModule = {
             }            
         },
         setCodigoPostal(state, postal) {
+            console.log(postal);
             state.cliente.colonia = postal.d_asenta;
             state.cliente.municipio = postal.D_mnpio;
             state.cliente.estado = postal.d_estado;

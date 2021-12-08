@@ -76,7 +76,8 @@ const usuarioModule = {
                 }
 
             } catch (error) {
-                let errorStatus = error.response.status;
+                console.log(error);
+                let errorStatus = error.response;
 
                 if (errorStatus === 404) {
                     usuario.notFound(error.response.data.message);

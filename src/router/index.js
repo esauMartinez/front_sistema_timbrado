@@ -15,8 +15,16 @@ import crearOperador from '../components/operador/crear.vue'
 import modificarOperador from '../components/operador/modificar.vue'
 
 import Remolque from '../views/Remolque.vue'
+import crearRemolque from '../components/remolque/crear.vue'
+import modificarRemolque from '../components/remolque/modificar.vue'
+
 import Unidad from '../views/Unidad.vue'
+import crearUnidad from '../components/unidad/crear.vue'
+import modificarUnidad from '../components/unidad/modificar.vue'
+
 import Patio from '../views/Patio.vue'
+import crearPatio from '../components/patio/crear.vue'
+import modificarPatio from '../components/patio/modificar.vue'
 
 import Trip from '../views/Trip'
 import crearTrip from '../components/trip/crear.vue'
@@ -92,14 +100,41 @@ const routes = [
     component: Remolque
   },
   {
+    path: '/crear-remolque',
+    name: 'crear-remolque',
+    component: crearRemolque
+  }, {
+    path: '/modificar-remolque/:id',
+    name: 'modificar-remolque',
+    component: modificarRemolque
+  },
+  {
     path: '/unidad',
     name: 'Unidad',
     component: Unidad
   },
   {
+    path: '/crear-unidad',
+    name: 'crear-unidad',
+    component: crearUnidad
+  }, {
+    path: '/modificar-unidad/:id',
+    name: 'modificar-uniad',
+    component: modificarUnidad
+  },
+  {
     path: '/patio',
     name: 'Patio',
     component: Patio
+  },
+  {
+    path: '/crear-patio',
+    name: 'crear-patio',
+    component: crearPatio
+  }, {
+    path: '/modificar-patio/:id',
+    name: 'modificar-patio',
+    component: modificarPatio
   },
   {
     path: '/trip',

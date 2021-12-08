@@ -65,7 +65,6 @@ class Operador {
     }
 
     update(operador) {
-        console.log(operador);
         return new Promise((resolve, reject) => {
             axios.put(`${url}/operador/${operador.id}`, operador, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
@@ -118,6 +117,5 @@ class Operador {
     }
 
 }
-
 
 export default Operador;

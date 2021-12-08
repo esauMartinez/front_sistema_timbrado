@@ -1,5 +1,5 @@
 <template>
-     <div class="row">
+    <div class="row">
         <div class="col-lg-12">
             <table class="table table-striped table-bordered table-hover">
                 <thead>
