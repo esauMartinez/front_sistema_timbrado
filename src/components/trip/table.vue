@@ -36,17 +36,17 @@
                         <td>
                             <div class="d-flex justify-content-around" 
                                 v-if="(item.estatus !== 'cancelado' || user_rol === 'USER_ADMIN_SYSTEM') && (item.estatus !== 'terminado' || user_rol === 'USER_ADMIN_SYSTEM')">
-                                <router-link class="btn btn-link" :to="{ path: `/modificar-trip/${item.id}` }" >
-                                    <!-- <font-awesome-icon icon="pencil-alt" /> -->
-                                    Modificar
-                                </router-link>
-
-                                <button class="btn btn-link text-danger" 
+                                <button class="btn btn-outline-danger text-danger" 
                                     v-if="(item.estatus !== 'terminado' && user_rol === 'USER_ADMIN_SYSTEM') && (item.estatus !== 'cancelado' && user_rol === 'USER_ADMIN_SYSTEM')"
                                     @click="updateStatus({ id: item.id, estatus: 'cancelado' })">
-                                    <!-- <font-awesome-icon icon="pencil-alt" /> -->
-                                    Cancelar Trip
+                                    <font-awesome-icon icon="trash-alt" />
+                                    <!-- Cancelar Trip -->
                                 </button>
+
+                                <router-link class="btn btn-warning" :to="{ path: `/modificar-trip/${item.id}` }" >
+                                    <font-awesome-icon icon="pencil-alt" />
+                                    <!-- Modificar -->
+                                </router-link>
                             </div>
                         </td>
                     </tr>

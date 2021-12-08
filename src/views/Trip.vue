@@ -3,8 +3,8 @@
         <div class="row">
             <div class="col-lg-2 mb-3">
                 <button class="btn btn btn-success me-3 w-100" @click="postTrip">
-                    <font-awesome-icon icon="plus" />
-                    Crear Trip
+                    <!-- <font-awesome-icon icon="plus" /> -->
+                    Crear Nuevo Trip
                 </button>
             </div>
             <div class="col-lg-3 mb-3">

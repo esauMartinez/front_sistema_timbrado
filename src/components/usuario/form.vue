@@ -30,17 +30,34 @@
                     <option value="USER_CLIENTE_SYSTEM">Cliente</option>
                 </select>
             </div>
+            <div class="col-lg-12 mb-3" v-if="usuario.user_rol === 'USER_CLIENTE_SYSTEM'">
+                <label for="" class="form-label">Cliente</label>
+                <select class="form-control" v-model="usuario.cliente">
+                    <option value=""></option>
+                    <option v-for="(item, index) in clientes" :key="index" :value="item.id">{{item.razon_social}}</option>
+                </select>
+            </div>
         </div>
     </form>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
 export default {
     name: 'formUsuario',
     props: {
         usuario: {
             type: Object
         }
-    }
+    },
+    computed: {
+        ...mapState('clienteModule', ['clientes'])
+    },
+    methods: {
+        ...mapActions('clienteModule', ['getClientes'])
+    },
+    mounted() {
+        this.getClientes();
+    },
 }
 </script>

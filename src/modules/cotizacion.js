@@ -9,17 +9,24 @@ let mercancia = new Mercancia();
 
 import router from '../router';
 
+import socket from '../classes/socket'
+
 const cotizacionModule = {
     namespaced: true,
     state: () => ({
         cotizacion,
         cliente,
         mercancia,
+        socket,
+        estatusCotizacion: 'creada',
         codigosOrigen: [],
         codigosDestino: [],
         cotizaciones: []
     }),
     mutations: {
+        setEstatus(state, estatus) {
+            state.estatusCotizacion = estatus;
+        },
         setCodigosPostalesOrigen(state, codigos) {
             state.codigosOrigen = codigos;
         },
@@ -45,6 +52,7 @@ const cotizacionModule = {
         },
         setCotizacion(state, cotizacion) {
             state.cotizacion.id = cotizacion.id;
+            state.cotizacion.estatus = cotizacion.estatus;
 
             state.cotizacion.origen.nombre = cotizacion.origen_nombre;
             state.cotizacion.origen.codigo_postal = cotizacion.origen_codigo_postal;
@@ -65,6 +73,7 @@ const cotizacionModule = {
             state.cotizacion.destino.calle = cotizacion.destino_calle;
             state.cotizacion.destino.exterior = cotizacion.destino_exterior;
             state.cotizacion.destino.interior = cotizacion.destino_interior;
+            state.cotizacion.costo_viaje = cotizacion.costo_viaje;
         }
     },
     actions: {
@@ -72,14 +81,15 @@ const cotizacionModule = {
             try {
                 let response = await cotizacion.create();
                 cotizacion.success(response.msg);
-                dispatch('getCotizaciones');
+                dispatch('getCotizaciones', state.estatusCotizacion);
+                socket.messageCreada();
             } catch (error) {
                 cotizacion.error(error);
             }
         },
-        async getCotizaciones({ commit }) {
+        async getCotizaciones({ commit }, payload) {
             try {
-                let response = await cotizacion.findAll();
+                let response = await cotizacion.findAll(payload);
                 commit('setCotizaciones', response);
                 console.log(response);
             } catch (error) {
@@ -89,27 +99,40 @@ const cotizacionModule = {
         async getCotizacion({ commit }, payload) {
             try {
                 let response = await cotizacion.findById(payload);
+                console.log(response);
                 commit('setCotizacion', response);
             } catch (error) {
                 cotizacion.error(error);
             }
         },
-        async putCotizacion({ dispatch }, payload) {
+        async putCotizacion({ dispatch, state }, payload) {
             try {
                 let response = await cotizacion.update(payload);
                 cotizacion.success(response.msg);
                 router.push('/cotizacion');
-                dispatch('getCotizaciones');
+                dispatch('getCotizaciones', state.estatusCotizacion);
+                socket.messageCreada();
             } catch (error) {
                 cotizacion.error(error);
             }
         },
-        async aceptCotizacion({ dispatch }, payload) {
+        async cotizar({ dispatch, state }, payload) {
             try {
-                let response = await cotizacion.aceptCotizacion(payload);
+                let response = await cotizacion.cotizar(payload);
                 cotizacion.success(response.msg);
                 router.push('/cotizacion');
-                dispatch('getCotizaciones');
+                dispatch('getCotizaciones', state.estatusCotizacion);
+                socket.messageCotizar();
+            } catch (error) {
+                cotizacion.error(error);
+            }
+        },
+        async autorizar({ dispatch, state }, payload) {
+            try {
+                let response = await cotizacion.autorizar(payload);
+                cotizacion.success(response.msg);
+                router.push('/cotizacion');
+                dispatch('getCotizaciones', state.estatusCotizacion);
             } catch (error) {
                 cotizacion.error(error);
             }

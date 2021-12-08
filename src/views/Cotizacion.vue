@@ -7,6 +7,14 @@
                     Nueva Cotizacion
                 </button>
             </div>
+            <div class="col-lg-3 mb-3" v-if="user_rol === 'USER_CLIENTE_SYSTEM'">
+                <select class="form-control" v-model="estatus" @change="getCotizaciones(estatus)">
+                    <option value="creada">Creadas</option>
+                    <option value="enviada">Enviadas</option>
+                    <option value="cotizada">Cotizadas</option>
+                    <option value="autorizada">Autorizadas</option>
+                </select>
+            </div>
         </div>
 
         <table-cotizacion></table-cotizacion>
@@ -22,13 +30,28 @@ export default {
         tableCotizacion
     },
     computed: {
-        ...mapState('usuarioModule', ['user_rol'])
+        ...mapState('usuarioModule', ['user_rol']),
+        ...mapState('cotizacionModule', ['estatusCotizacion']),
+        estatus: {
+            get() {
+                return this.estatusCotizacion
+            },
+            set(value) {
+                this.$store.commit('cotizacionModule/setEstatus', value)
+            }
+        },
     },
     methods: {
         ...mapActions('cotizacionModule', ['postCotizacion', 'getCotizaciones'])
     },
     mounted() {
-        this.getCotizaciones();
+
+        let estatus = this.estatus;
+
+        if (this.user_rol === 'USER_ADMIN_SYSTEM') {
+            estatus = 'enviada';
+        }
+        this.getCotizaciones(estatus);
     },
 }
 </script>

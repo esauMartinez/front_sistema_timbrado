@@ -1,7 +1,7 @@
 <template>
     <form>
         <div class="row">
-            <div class="col-lg-6 mb-3" v-if="!cliente">
+            <div class="col-lg-6 mb-3">
                 <label for="" class="form-label">Cliente</label>
                 <input type="text" class="form-control" v-model="trip.nombre_cliente" @keyup="getCliente(trip.nombre_cliente)"
                         :disabled="trip.estatus !== 'creado'" required>
@@ -13,7 +13,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-6 mb-3" v-if="!cliente">
+            <div class="col-lg-6 mb-3">
                 <label for="" class="form-label">Operador</label>
                 <input type="text" class="form-control" v-model="trip.nombre_operador" @keyup="getOperador(trip.nombre_operador)" 
                         :disabled="trip.estatus !== 'creado'" required>
@@ -25,12 +25,12 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-6 mb-3" v-if="!cliente">
+            <div class="col-lg-6 mb-3">
                 <label for="" class="form-label">Remolque</label>
                 <input type="text" class="form-control" v-model="trip.remolque" 
                         :disabled="trip.estatus !== 'creado'" required>
             </div>
-            <div class="col-lg-6 mb-3" v-if="!cliente">
+            <div class="col-lg-6 mb-3">
                 <label for="" class="form-label">Unidad</label>
                 <input type="text" class="form-control" v-model="trip.unidad" 
                         :disabled="trip.estatus !== 'creado'" required>

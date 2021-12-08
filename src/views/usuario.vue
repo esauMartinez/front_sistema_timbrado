@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-2 mb-3">
                  <router-link class="btn btn-primary me-3" to="/crear-usuario">
-                    <font-awesome-icon icon="plus" />
+                    <!-- <font-awesome-icon icon="plus" /> -->
                     Crear Usuario
                 </router-link>
             </div>

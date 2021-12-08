@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-12 mb-3 d-flex justify-content-end">
                 <router-link class="btn btn-primary me-3" to="/crear-operador">
-                    <font-awesome-icon icon="plus" />
+                    <!-- <font-awesome-icon icon="plus" /> -->
                     Crear Operador
                 </router-link>
                 <input type="text" class="form-control w-25" v-model="nombre" @keyup="searchOperador(nombre)" placeholder="Buscar">

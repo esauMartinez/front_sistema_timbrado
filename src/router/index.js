@@ -26,11 +26,30 @@ import Usuario from '../views/usuario.vue'
 import crearUsuario from '../components/usuario/crear.vue'
 import modificarUsuario from '../components/usuario/modificar.vue'
 
+import Root from '../views/Root.vue'
+import crearEmpresa from '../components/empresa/crear.vue'
+import modificarEmpresa from '../components/empresa/modificar.vue'
+
 const routes = [
   {
     path: '/',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/root',
+    name: 'Root',
+    component: Root
+  },
+  {
+    path: '/crear-empresa',
+    name: 'crear-empresa',
+    component: crearEmpresa
+  },
+  {
+    path: '/modificar-empresa/:id',
+    name: 'modificar-empresa',
+    component: modificarEmpresa
   },
   {
     path: '/home',

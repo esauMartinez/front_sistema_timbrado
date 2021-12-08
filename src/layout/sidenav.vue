@@ -25,6 +25,7 @@ export default {
     data() {
         return {
             items: [
+                { nombre: 'Inicio', url: '/home', icon: 'home', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
                 { nombre: 'Clientes', url: '/cliente', icon: 'address-card', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
                 { nombre: 'Operadores', url: '/operador', icon: 'hard-hat', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
                 { nombre: 'Remolques', url: '/remolque', icon: 'truck-moving', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },

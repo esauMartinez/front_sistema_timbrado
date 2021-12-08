@@ -22,7 +22,7 @@ const tripModule = {
             state.estatusTrip = estatus;
         },
         setTrips(state, trips) {
-            // console.log(trips);
+            console.log(trips);
             state.trips = trips;
         },
         setTrip(state, trip) {

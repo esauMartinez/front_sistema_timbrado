@@ -1,6 +1,6 @@
 <template>
-     <div class="container mt-5">
-         <form-usuario @submit.prevent="putUsuario(usuario)" id="form-usuario" :usuario="usuario"></form-usuario>
+    <div class="container mt-5">
+        <form-empresa @submit.prevent="putEmpresa(empresa)" id="form-empresa"></form-empresa>
 
         <div class="row">
             <div class="col-lg-2 offset-lg-8 d-flex justify-content-end">
@@ -10,35 +10,36 @@
                 </button>
             </div>
             <div class="col-lg-2 d-flex justify-content-end">
-                <button type="submit" form="form-usuario" :class="{'btn': true, 'btn-warning': true, 'w-100': true}">
+                <button type="submit" form="form-empresa" :class="{'btn': true, 'btn-warning': true, 'w-100': true}">
                     <!-- <font-awesome-icon icon="save" /> -->
                     Guardar
                 </button>
             </div>
         </div>
-    </div>
+    </div>    
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
-import router from '../../router'
-import formUsuario from './form.vue'
+import { mapActions, mapMutations, mapState } from 'vuex';
+import router from '../../router';
+import formEmpresa from './form.vue'
+
 export default {
-    name: 'modificarUsuario',
+    name: 'updateOperador',
     components: {
-        formUsuario
+        formEmpresa
     },
     computed: {
-        ...mapState('usuarioModule', ['usuario'])
+        ...mapState('empresaModule', ['empresa'])
     },
     methods: {
-        ...mapActions('usuarioModule', ['getUsuario', 'putUsuario']),
-        cancelar() {           
-            router.push('/usuario');
-        }
+        cancelar() {
+            router.push('/root');
+        },
+        ...mapActions('empresaModule', ['getEmpresa', 'putEmpresa'])
     },
     mounted() {
-        this.getUsuario(this.$route.params.id);
+        this.getEmpresa(this.$route.params.id);
     },
 }
 </script>

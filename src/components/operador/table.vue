@@ -23,11 +23,11 @@
                             <div class="d-flex justify-content-around">
                                 <button class="btn btn-outline-danger" @click="deleteOperador(item.id)">
                                     <font-awesome-icon icon="trash-alt" />
-                                    Eliminar
+                                    <!-- Eliminar -->
                                 </button>
                                 <router-link class="btn btn-warning" :to="{ path: `/modificar-operador/${item.id}` }">
                                     <font-awesome-icon icon="pencil-alt" />
-                                    Modificar
+                                    <!-- Modificar -->
                                 </router-link>
                             </div>
                         </td>

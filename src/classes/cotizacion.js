@@ -26,19 +26,19 @@ class Cotizacion {
             pais: '',
             calle: '',
             exterior: '',
-            interior: ''
+            interior: '',
         },
-        mercancias = []
+        costo_viaje = 0
     ) {
         this.id = id;
         this.origen = origen;
         this.destino = destino;
-        this.mercancias = mercancias;
+        this.costo_viaje = costo_viaje;
     }
 
-    findAll() {
+    findAll(estatus) {
         return new Promise((resolve, reject) => {
-            axios.get(`${url}/cotizacion`, token()).then(response => resolve(response.data)).catch(error => reject(error));            
+            axios.get(`${url}/cotizacion/estatus/${estatus}`, token()).then(response => resolve(response.data)).catch(error => reject(error));            
         });
     }
     
@@ -54,9 +54,15 @@ class Cotizacion {
         });
     }
     
-    aceptCotizacion(id) {
+    cotizar(cotizacion) {
         return new Promise((resolve, reject) => {
-            axios.put(`${url}/cotizacion/aceptCotizacion/${id}`, {}, token()).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.put(`${url}/cotizacion/cotizar/${cotizacion.id}`, cotizacion, token()).then(response => resolve(response.data)).catch(error => reject(error))
+        });
+    }
+
+    autorizar(id) {
+        return new Promise((resolve, reject) => {
+            axios.put(`${url}/cotizacion/autorizar/${id}`, {}, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 

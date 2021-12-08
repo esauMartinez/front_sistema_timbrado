@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th>Fecha</th>
-                <th v-if="user_rol === 'USER_CLIENTE_SYSTEM'">Estatus</th>
+                <!-- <th v-if="user_rol === 'USER_CLIENTE_SYSTEM'">Estatus</th> -->
                 <th v-if="user_rol !== 'USER_CLIENTE_SYSTEM'">Cliente</th>
                 <th>Origen</th>
                 <th>Destino</th>
@@ -11,23 +11,31 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(item, index) in cotizaciones" :key="index" :class="{ 'hide': (item.estatus === 'creada' && user_rol !== 'USER_CLIENTE_SYSTEM') || item.estatus === 'aceptada' }">
+            <tr v-for="(item, index) in cotizaciones" 
+                :key="index" 
+                :class="{ 'hide': (item.estatus === 'creada' && user_rol !== 'USER_CLIENTE_SYSTEM') || item.estatus === 'aceptada' }">
                 <td>{{ formatDate(item.fecha) }}</td>
-                <td v-if="user_rol === 'USER_CLIENTE_SYSTEM'">{{ item.estatus }}</td>
+                <!-- <td v-if="user_rol === 'USER_CLIENTE_SYSTEM'">{{ item.estatus }}</td> -->
                 <td v-if="user_rol !== 'USER_CLIENTE_SYSTEM'">{{ item.razon_social }}</td>
                 <td>{{ item.origen_nombre }}</td>
                 <td>{{ item.destino_nombre }}</td>
                 <td>
                     <div class="d-flex justify-content-around">
-                        <router-link class="btn btn-warning" :to="{ path: `/llenar-cotizacion/${item.id}` }" v-if="item.estatus === 'creada' && user_rol === 'USER_CLIENTE_SYSTEM'">
-                            <font-awesome-icon icon="pencil-alt" />
+                        <router-link 
+                            class="btn btn-warning" 
+                            :to="{ path: `/llenar-cotizacion/${item.id}` }" 
+                            v-if="item.estatus === 'creada' && user_rol === 'USER_CLIENTE_SYSTEM'">
+                            <!-- <font-awesome-icon icon="pencil-alt" /> -->
                             Llenar Cotizacion
                         </router-link>
 
-                        <p v-if="item.estatus !== 'creada' && user_rol === 'USER_CLIENTE_SYSTEM'">Solicitud enviada</p>
+                        <p v-if="item.estatus === 'enviada' && user_rol === 'USER_CLIENTE_SYSTEM'">Solicitud Enviada</p>
+                        <p v-if="item.estatus === 'contestada' && user_rol === 'USER_CLIENTE_SYSTEM'">Solicitud Cotizada</p>
 
-                        <router-link  v-if="user_rol !== 'USER_CLIENTE_SYSTEM'" class="btn btn-info" :to="{ path: `/ver-cotizacion/${item.id}` }">
-                            <font-awesome-icon icon="pencil-alt" />
+                        <router-link  
+                            v-if="user_rol !== 'USER_CLIENTE_SYSTEM' || item.estatus === 'cotizada'" 
+                            class="btn btn-info" :to="{ path: `/ver-cotizacion/${item.id}` }">
+                            <!-- <font-awesome-icon icon="pencil-alt" /> -->
                             Ver  Cotizacion
                         </router-link>
                     </div>

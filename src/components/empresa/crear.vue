@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-5">
-        <form-trip @submit.prevent="putTrip(trip)" id="form-trip" :estatus="trip.estatus"></form-trip>
+        <form-empresa @submit.prevent="postEmpresa(empresa)" id="form-empresa"></form-empresa>
 
         <div class="row">
             <div class="col-lg-2 offset-lg-8 d-flex justify-content-end">
@@ -10,7 +10,7 @@
                 </button>
             </div>
             <div class="col-lg-2 d-flex justify-content-end">
-                <button type="submit" form="form-trip" :class="{'btn': true, 'btn-warning': true, 'w-100': true}">
+                <button type="submit" form="form-empresa" :class="{'btn': true, 'btn-warning': true, 'w-100': true}">
                     <!-- <font-awesome-icon icon="save" /> -->
                     Guardar
                 </button>
@@ -20,26 +20,23 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 import router from '../../router';
-import formTrip from './form.vue'
+import formEmpresa from './form.vue'
 
 export default {
-    name: 'updateTrip',
+    name: 'creteEmpresa',
     components: {
-        formTrip
+        formEmpresa
     },
     computed: {
-        ...mapState('tripModule', ['trip'])
+        ...mapState('empresaModule', ['empresa'])
     },
     methods: {
-        ...mapActions('tripModule', ['putTrip', 'getTrip']),
         cancelar() {
-            router.push('/trip');
-        }
-    },
-    mounted() {
-        this.getTrip(this.$route.params.id);
+            router.push('/root');
+        },
+        ...mapActions('empresaModule', ['postEmpresa'])
     },
 }
 </script>

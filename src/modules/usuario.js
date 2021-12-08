@@ -2,7 +2,7 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import Usuario from '../classes/usuario';
 import router from '../router';
-
+import socket from '../classes/socket'
 
 const usuario = new Usuario();
 
@@ -10,6 +10,7 @@ const usuarioModule = {
     namespaced: true,
     state: () => ({
         usuario,
+        socket,
         usuarios: [],
         copia: [],
         user_accepted: false,
@@ -22,10 +23,20 @@ const usuarioModule = {
             localStorage.setItem('token', auth.token);
             localStorage.setItem('usuario', JSON.stringify(auth.data));
             state.usuario = new Usuario();
+
+            let room = 'admin';
+
+            if (auth.data.user_rol === 'USER_CLIENTE_SYSTEM') {
+                room = 'cliente';
+            }
+
+            socket.connectToWorkspace(`empresa_${auth.data.empresa.replace(/-/g, '_')}`, room);
         },
         logOut(state) {
             localStorage.removeItem('usuario');
             state.user_accepted = false;
+
+            // state.socket.disconnectToWorkspace();
             router.push('/');
         },
         setUsuarios(state, usuarios) {
@@ -58,6 +69,8 @@ const usuarioModule = {
                 
                 if (response.data.user_rol === 'USER_CLIENTE_SYSTEM') {
                     router.push('/cotizacion');
+                } else if (response.data.user_rol === 'USER_ROOT_SYSTEM') {
+                    router.push('/root');
                 } else {
                     router.push('/home');
                 }

@@ -15,16 +15,16 @@
                         <td>{{ item.nombre }} {{ item.patern }} {{ item.materno }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.password }}</td>
-                        <td>{{ item.user_rol }}</td>
+                        <td>{{ tipoUsuario(item.user_rol) }}</td>
                         <td>
                             <div class="d-flex justify-content-around">
                                 <button class="btn btn-outline-danger" @click="deleteUsuario(item.id)">
                                     <font-awesome-icon icon="trash-alt" />
-                                    Eliminar
+                                    <!-- Eliminar -->
                                 </button>
                                 <router-link class="btn btn-warning" :to="{ path: `/modificar-usuario/${item.id}` }">
                                     <font-awesome-icon icon="pencil-alt" />
-                                    Modificar
+                                    <!-- Modificar -->
                                 </router-link>
                             </div>
                         </td>
@@ -43,7 +43,16 @@ export default {
         ...mapState('usuarioModule', ['usuarios'])
     },
     methods: {
-        ...mapActions('usuarioModule', ['getUsuarios', 'deleteUsuario'])
+        ...mapActions('usuarioModule', ['getUsuarios', 'deleteUsuario']),
+        tipoUsuario(rol) {
+            if (rol === 'USER_ADMIN_SYSTEM') {
+                return 'Administrador';
+            } else if(rol === 'USER_STD_SYSTEM') {
+                return 'Usuario';
+            } else if (rol === 'USER_CLIENTE_SYSTEM') {
+                return 'Cliente';
+            }
+        }
     },
     mounted() {
         this.getUsuarios();
