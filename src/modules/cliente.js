@@ -1,6 +1,7 @@
-import router from '../router';
+import router from '../router'
 import Cliente from '../classes/cliente'
-let cliente = new Cliente();
+let cliente = new Cliente()
+import store from '../store'
 
 const clienteModule = {
     namespaced: true,
@@ -16,6 +17,7 @@ const clienteModule = {
         },
         setCliente(state, cliente) {
             state.cliente = cliente;
+            store.commit('tripModule/setCliente', cliente);
         },
         searchCliente(state, razon_social) {
             let array = [];

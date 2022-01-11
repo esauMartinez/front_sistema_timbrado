@@ -10,6 +10,7 @@ let mercancia = new Mercancia();
 import router from '../router';
 
 import socket from '../classes/socket'
+import store from '../store';
 
 const cotizacionModule = {
     namespaced: true,
@@ -35,16 +36,26 @@ const cotizacionModule = {
         },
         setCodigoPostalOrigen(state, postal) {
             state.cotizacion.origen.colonia = postal.d_asenta;
+            state.cotizacion.origen.c_colonia = postal.id_asenta_cpcons;
             state.cotizacion.origen.municipio = postal.D_mnpio;
+            state.cotizacion.origen.c_municipio = postal.c_mnpio;
             state.cotizacion.origen.estado = postal.d_estado;
+            state.cotizacion.origen.c_estado = postal.abreviatura_estado;
             state.cotizacion.origen.pais = postal.pais;
+            state.cotizacion.origen.c_pais = postal.abreviatura_pais;
+            state.cotizacion.origen.localidad = postal.c_cve_ciudad;
             state.codigosOrigen = [];
         },
         setCodigoPostalDestino(state, postal) {
             state.cotizacion.destino.colonia = postal.d_asenta;
+            state.cotizacion.destino.c_colonia = postal.id_asenta_cpcons;
             state.cotizacion.destino.municipio = postal.D_mnpio;
+            state.cotizacion.destino.c_municipio = postal.c_mnpio;
             state.cotizacion.destino.estado = postal.d_estado;
+            state.cotizacion.destino.c_estado = postal.abreviatura_estado;
             state.cotizacion.destino.pais = postal.pais;
+            state.cotizacion.destino.c_pais = postal.abreviatura_pais;
+            state.cotizacion.destino.localidad = postal.c_cve_ciudad;
             state.codigosDestino = [];
         },
         setCotizaciones(state, cotizaciones) {
@@ -82,7 +93,6 @@ const cotizacionModule = {
                 let response = await cotizacion.create();
                 cotizacion.success(response.msg);
                 dispatch('getCotizaciones', state.estatusCotizacion);
-                socket.messageCreada();
             } catch (error) {
                 cotizacion.error(error);
             }
@@ -96,11 +106,12 @@ const cotizacionModule = {
                 cotizacion.error(error);
             }
         },
-        async getCotizacion({ commit }, payload) {
+        async getCotizacion({ commit, dispatch }, payload) {
             try {
                 let response = await cotizacion.findById(payload);
-                console.log(response);
+
                 commit('setCotizacion', response);
+                dispatch('getMercanciasCotizacion', payload)
             } catch (error) {
                 cotizacion.error(error);
             }
@@ -113,7 +124,11 @@ const cotizacionModule = {
                 dispatch('getCotizaciones', state.estatusCotizacion);
                 socket.messageCreada();
             } catch (error) {
-                cotizacion.error(error);
+                if (error.response.status === 404) {
+                    cotizacion.notFound(error.response.data.msg);
+                } else {
+                    cotizacion.error(error);
+                }
             }
         },
         async cotizar({ dispatch, state }, payload) {
@@ -133,6 +148,7 @@ const cotizacionModule = {
                 cotizacion.success(response.msg);
                 router.push('/cotizacion');
                 dispatch('getCotizaciones', state.estatusCotizacion);
+                socket.messageAutorizar();
             } catch (error) {
                 cotizacion.error(error);
             }
@@ -141,6 +157,7 @@ const cotizacionModule = {
             try {
                 if (payload !== '') {
                     let response = await cliente.searchCp(payload);
+                    console.log(response);
                     commit('setCodigosPostalesOrigen', response);
                 } else {
                     commit('setCodigosPostalesOrigen', []);
@@ -160,7 +177,41 @@ const cotizacionModule = {
             } catch (error) {
                 cliente.error(error);
             }
-        }
+        },
+        /**
+         * 
+         * to do traer mercancias
+         */
+        async getMercanciasCotizacion({ commit, rootState }, payload) {
+            try {
+                let mercancias = await mercancia.findAllCotizacion(payload);
+                store.commit('tripModule/setMercancias', mercancias);
+            } catch (error) {
+                trip.error(error);
+            }
+        },
+        async postMercanciaCotizacion({ dispatch, state, commit }, payload) {
+            try {
+                payload.tipo = 'cotizacion';
+                payload.cotizacion = state.cotizacion.id;
+
+                let response = await mercancia.create(payload);
+                mercancia.success(response.msg);
+                state.mercancia = new Mercancia();
+                dispatch('getMercanciasCotizacion', payload.cotizacion);
+            } catch (error) {
+                trip.error(error);
+            }
+        },
+        async deleteMercanciaCotizacion({ dispatch, state }, payload) {
+            try {
+                let response = await mercancia.delete(payload);
+                mercancia.success(response.msg);
+                dispatch('getMercanciasCotizacion', state.cotizacion.id);
+            } catch (error) {
+                trip.error(error);
+            }
+        },
     }
 }
 

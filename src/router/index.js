@@ -38,6 +38,10 @@ import Root from '../views/Root.vue'
 import crearEmpresa from '../components/empresa/crear.vue'
 import modificarEmpresa from '../components/empresa/modificar.vue'
 
+import Ajustes from '../views/Ajustes.vue'
+
+import verifyUser from '../guards'
+
 const routes = [
   {
     path: '/',
@@ -47,144 +51,179 @@ const routes = [
   {
     path: '/root',
     name: 'Root',
-    component: Root
+    component: Root,
+    beforeEnter: [verifyUser],
   },
   {
     path: '/crear-empresa',
     name: 'crear-empresa',
-    component: crearEmpresa
+    component: crearEmpresa,
+    beforeEnter: [verifyUser],
   },
   {
     path: '/modificar-empresa/:id',
     name: 'modificar-empresa',
-    component: modificarEmpresa
+    component: modificarEmpresa,
+    beforeEnter: [verifyUser],
   },
   {
     path: '/home',
     name: 'Home',
-    component: Home
+    component: Home,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/cliente',
     name: 'Cliente',
-    component: Cliente
+    component: Cliente,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/crear-cliente',
     name: 'crear-cliente',
-    component: crearCliente
+    component: crearCliente,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/modificar-cliente/:id',
     name: 'modificar-cliente',
-    component: modificarCliente
+    component: modificarCliente,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/operador',
     name: 'Operador',
-    component: Operador
+    component: Operador,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/crear-operador',
     name: 'crear-operador',
-    component: crearOperador
+    component: crearOperador,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/modificar-operador/:id',
     name: 'modificar-operador',
-    component: modificarOperador
+    component: modificarOperador,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/remolque',
     name: 'Remolque',
-    component: Remolque
+    component: Remolque,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/crear-remolque',
     name: 'crear-remolque',
-    component: crearRemolque
+    component: crearRemolque,
+    beforeEnter: [verifyUser]
   }, {
     path: '/modificar-remolque/:id',
     name: 'modificar-remolque',
-    component: modificarRemolque
+    component: modificarRemolque,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/unidad',
     name: 'Unidad',
-    component: Unidad
+    component: Unidad,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/crear-unidad',
     name: 'crear-unidad',
-    component: crearUnidad
+    component: crearUnidad,
+    beforeEnter: [verifyUser]
   }, {
     path: '/modificar-unidad/:id',
     name: 'modificar-uniad',
-    component: modificarUnidad
+    component: modificarUnidad,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/patio',
     name: 'Patio',
-    component: Patio
+    component: Patio,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/crear-patio',
     name: 'crear-patio',
-    component: crearPatio
+    component: crearPatio,
+    beforeEnter: [verifyUser]
   }, {
     path: '/modificar-patio/:id',
     name: 'modificar-patio',
-    component: modificarPatio
+    component: modificarPatio,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/trip',
     name: 'Trip',
-    component: Trip
+    component: Trip,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/crear-trip',
     name: 'crear-trip',
-    component: crearTrip
+    component: crearTrip,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/cotizacion',
     name: 'Cotizacion',
-    component: Cotizacion
+    component: Cotizacion,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/llenar-cotizacion/:id',
     name: 'llenar-cotizacion',
-    component: modificarCotizacion
+    component: modificarCotizacion,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/ver-cotizacion/:id',
     name: 'ver-cotizacion',
-    component: verCotizacion
+    component: verCotizacion,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/modificar-trip/:id',
     name: 'modificar-trip',
-    component: modificarTrip
+    component: modificarTrip,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/usuario',
     name: 'Usuario',
-    component: Usuario
+    component: Usuario,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/crear-usuario',
     name: 'crear-usuario',
-    component: crearUsuario
+    component: crearUsuario,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/modificar-usuario/:id',
     name: 'modificar-usuario',
-    component: modificarUsuario
+    component: modificarUsuario,
+    beforeEnter: [verifyUser]
   },
   {
     path: '/ver-usuario/:id',
     name: 'ver-usuario',
-    component: modificarUsuario
+    component: modificarUsuario,
+    beforeEnter: [verifyUser]
+  },
+  {
+    path: '/ajustes',
+    name: 'ajustes',
+    component: Ajustes,
+    beforeEnter: [verifyUser]
   }
 ]
 

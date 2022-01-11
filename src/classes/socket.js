@@ -16,6 +16,8 @@ class Socket {
         this.messageEnviada();
 
         this.messageCotizada();
+
+        this.messageAutorizada();
     }
 
     joinToRoom(room) {
@@ -53,17 +55,20 @@ class Socket {
     }
 
     messageAutorizar() {
-        
+        this.socket.emit('messageAutorizada');
     }
 
     messageAutorizada() {
-
+        this.socket.on('messageAutorizada', data => {
+            alert(data);
+            store.dispatch('cotizacionModule/getCotizaciones', 'enviada');
+        });
     }
 
 
     disconnectToWorkspace() {
         console.log('se desconecta alv');
-        this.socket.emit('disconnect');
+        this.socket.close('disconnect');
     }
 }
 

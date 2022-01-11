@@ -21,6 +21,7 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex';
+import Empresa from '../../classes/empresa';
 import router from '../../router';
 import formEmpresa from './form.vue'
 
@@ -36,7 +37,12 @@ export default {
         cancelar() {
             router.push('/root');
         },
-        ...mapActions('empresaModule', ['postEmpresa'])
+        ...mapActions('empresaModule', ['postEmpresa']),
+        ...mapMutations('empresaModule', ['setEmpresa'])
+    },
+    mounted() {
+        const empresa = new Empresa();
+        this.setEmpresa(empresa);
     },
 }
 </script>

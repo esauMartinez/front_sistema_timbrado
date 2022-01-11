@@ -12,15 +12,29 @@
                     ></button>
                 </div>
                 <div class="modal-body">
-                    <form @submit.prevent="postMercancia(mercancia)">
+                    <form @submit.prevent="(tipo === 'trip') ? postMercancia(mercancia) : postMercanciaCotizacion(mercancia)">
                         <div class="row">
                             <div class="col-lg-6 mb-3">
                                 <label for="">Producto</label>
-                                <input type="text" class="form-control" v-model="mercancia.producto" required>
+                                <input type="text" class="form-control" v-model="mercancia.producto" @keyup="searchProducto(mercancia.producto)" required>
+                                <div class="list">
+                                    <ul>
+                                        <li v-for="(item, index) in productos" :key="index" @click="setProducto(item)">
+                                            <a>{{ item.clave_STCC }} - {{item.descripcion}}</a>
+                                        </li> 
+                                    </ul>
+                                </div>
                             </div>      
                             <div class="col-lg-6 mb-3">
                                 <label for="">Unidad de Medida</label>
-                                <input type="text" class="form-control" v-model="mercancia.unidadMedida" required>
+                                <input type="text" class="form-control" v-model="mercancia.unidadMedida" @keyup="searchUnidadMedida(mercancia.unidadMedida)" required>
+                                <div class="list">
+                                    <ul>
+                                        <li v-for="(item, index) in unidadesMedida" :key="index" @click="setUnidadMedida(item)">
+                                            <a>{{ item.claveUnidad }} - {{item.nombre}}</a>
+                                        </li> 
+                                    </ul>
+                                </div>
                             </div>    
                             <div class="col-lg-6 mb-3">
                                 <label for="">Cantidad</label>
@@ -30,13 +44,13 @@
                                 <label for="">Peso</label>
                                 <input type="text" class="form-control" v-model="mercancia.peso" required>
                             </div>    
-                            <div class="col-lg-6 mb-3">
+                            <div class="col-lg-6 mb-3" v-if="tipo_viaje === 'importacion' || tipo_viaje === 'exportacion'">
                                 <label for="">Fraccion Arancelaria</label>
                                 <input type="text" class="form-control" v-model="mercancia.fraccionArancelaria" required>
                             </div>    
-                            <div class="col-lg-6 mb-3">
-                                <label for="">UUID de Comercio Exterior</label>
-                                <input type="text" class="form-control" v-model="mercancia.uuidComercioExt"  required>
+                            <div class="col-lg-6 mb-3" v-if="tipo_viaje === 'importacion'">
+                                <label for="">Pedimento</label>
+                                <input type="text" class="form-control" v-model="mercancia.pedimento"  required>
                             </div>
                             <div class="col-lg-12 d-flex justify-content-end">
                                 <button class="btn btn-primary w-25">
@@ -58,11 +72,21 @@ import { Modal } from 'bootstrap'
 export default {
     name: 'modalMercancia',
     computed: {
-        ...mapState('tripModule', ['mercancia'])
+        ...mapState('tripModule', ['mercancia', 'productos', 'unidadesMedida'])
+    },
+    props: {
+        tipo: {
+            type: String,
+            default: 'trip'
+        },
+        tipo_viaje: {
+            type: String
+        }
     },
     methods: {
-        ...mapMutations('tripModule', ['showModal']),
-        ...mapActions('tripModule', ['postMercancia'])
+        ...mapMutations('tripModule', ['showModal', 'setProducto', 'setUnidadMedida']),
+        ...mapActions('tripModule', ['postMercancia', 'searchProducto', 'searchUnidadMedida']),
+        ...mapActions('cotizacionModule', ['postMercanciaCotizacion']),
     },
     mounted() {
         var modalMercancia = new Modal(document.getElementById('modalMercancia'), {

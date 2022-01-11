@@ -1,6 +1,7 @@
 import router from '../router';
 import Unidad from '../classes/unidad';
 import remolqueModule from './remolque';
+import store from '../store'
 
 let unidad = new Unidad();
 
@@ -18,12 +19,14 @@ const unidadModule = {
         },
         setUnidad(state, unidad) {
             state.unidad = unidad;
+            store.commit('tripModule/setUnidad', unidad);
         },
         searchUnidad(state, numero_economico) {
             let arry = [];
             if(numero_economico !== '') {
                 state.copia.filter(x => {
-                    if(x.numero_economico.toUpeperCase().indexOf(numero_economico.toUpperCase()) > -1) {
+                    console.log();
+                    if (x.numero_economico.toUpperCase().indexOf(numero_economico.toUpperCase()) > -1) {
                         arry.push(x);
                     }
                 });

@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-5">
-        <form-empresa @submit.prevent="putEmpresa(empresa)" id="form-empresa"></form-empresa>
+        <form-empresa @submit.prevent="putEmpresa(empresa)" id="form-empresa" :show="false"></form-empresa>
 
         <div class="row">
             <div class="col-lg-2 offset-lg-8 d-flex justify-content-end">

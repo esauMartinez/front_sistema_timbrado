@@ -10,30 +10,44 @@ class Cotizacion {
             nombre: '',
             codigo_postal: '',
             colonia: '',
+            c_colonia: '',
             municipio: '',
+            c_municipio: '',
             estado: '',
+            c_estado: '',
             pais: '',
+            c_pais: '',
             calle: '',
             exterior: '',
-            interior: ''
+            interior: '',
+            localidad: ''
         },
         destino = {
             nombre: '',
             codigo_postal: '',
             colonia: '',
+            c_colonia: '',
             municipio: '',
+            c_municipio: '',
             estado: '',
+            c_estado: '',
             pais: '',
+            c_pais: '',
             calle: '',
             exterior: '',
             interior: '',
+            localidad: ''
         },
-        costo_viaje = 0
+        costo_viaje = 0,
+        moneda = 'MXN',
+        tipo_viaje = 'nacional'
     ) {
         this.id = id;
         this.origen = origen;
         this.destino = destino;
         this.costo_viaje = costo_viaje;
+        this.moneda = moneda;
+        this.tipo_viaje = tipo_viaje;
     }
 
     findAll(estatus) {

@@ -9,13 +9,23 @@ class Empresa {
         uuid = '',
         razon_social = '',
         usuarios = '',
-        rfc = ''
+        rfc = '',
+        email = '',
+        password = '',
+        confirm_password = '',
+        timbres = 1,
+        token = ''
     ) {
         this.id = id;
         this.uuid = uuid;
         this.razon_social = razon_social;
         this.usuarios = usuarios;
         this.rfc = rfc;
+        this.email = email;
+        this.password = password,
+        this.confirm_password = confirm_password;
+        this.timbres = timbres;
+        this.token = token;
     }
 
 

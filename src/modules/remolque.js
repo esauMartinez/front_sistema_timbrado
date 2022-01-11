@@ -1,7 +1,8 @@
-import router from '../router';
-import Remolque from '../classes/remolque';
+import router from '../router'
+import Remolque from '../classes/remolque'
+import store from '../store'
 
-let remolque = new Remolque();
+let remolque = new Remolque()
 
 const remolqueModule = {
     namespaced: true,
@@ -17,6 +18,7 @@ const remolqueModule = {
         },
         setRemolque(state, remolque) {
             state.remolque = remolque;
+            store.commit('tripModule/setRemolque', remolque);
         },
         searchRemolque(state, numero_economico) {
             let array = [];

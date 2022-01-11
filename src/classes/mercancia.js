@@ -6,15 +6,17 @@ import token from '../services/token'
 class Mercancia {
     constructor(
         id = '',
-        producto = 'asdasd',
+        producto = '',
         claveProducto = '',
         unidadMedida = '',
         claveUnidadMedida = '',
         cantidad = '',
         peso = '',
         fraccionArancelaria = '',
-        uuidComercioExt = '',
-        trip = ''
+        pedimento = '',
+        trip = '',
+        tipo = '',
+        cotizacion = ''
     ) {
         this.id = id;
         this.producto = producto;
@@ -24,13 +26,21 @@ class Mercancia {
         this.cantidad = cantidad;
         this.peso = peso;
         this.fraccionArancelaria = fraccionArancelaria;
-        this.uuidComercioExt = uuidComercioExt;
+        this.pedimento = pedimento;
         this.trip = trip;
+        this.tipo = tipo;
+        this.cotizacion = cotizacion;
     }
 
     findAll(trip) {
         return new Promise((resolve, reject) => {
             axios.get(`${url}/mercancia/${trip}`).then(response => resolve(response.data)).catch(error => reject(error))
+        });
+    }
+
+    findAllCotizacion(cotizacion) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${url}/mercancia/cotizacion/${cotizacion}`).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 
@@ -43,6 +53,18 @@ class Mercancia {
     delete(id) {
         return new Promise((resolve, reject) => {
             axios.delete(`${url}/mercancia/${id}`).then(response => resolve(response.data)).catch(error => reject(error))
+        });
+    }
+
+    findProducto(clave) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${url}/find-productos/${clave}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
+        });
+    }
+
+    findUnidadMedida(clave) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${url}/find-unidades/${clave}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 

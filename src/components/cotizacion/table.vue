@@ -7,7 +7,7 @@
                 <th v-if="user_rol !== 'USER_CLIENTE_SYSTEM'">Cliente</th>
                 <th>Origen</th>
                 <th>Destino</th>
-                <th v-if="user_rol === 'USER_CLIENTE_SYSTEM'"></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>

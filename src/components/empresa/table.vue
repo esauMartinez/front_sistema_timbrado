@@ -23,6 +23,10 @@
                             <font-awesome-icon icon="pencil-alt" />
                             <!-- Modificar -->
                         </router-link>
+
+                        <button class="btn btn-primary">
+                            <font-awesome-icon icon="users" />
+                        </button>
                     </div>
                 </td>
             </tr>

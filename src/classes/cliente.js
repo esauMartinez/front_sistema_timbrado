@@ -17,7 +17,8 @@ class Cliente {
         exterior = '',
         interior = '',
         rfc = '',
-        tax_id = ''
+        tax_id = '',
+        email = ''
     ) {
         this.id = id;
         this.razon_social = razon_social;
@@ -32,6 +33,7 @@ class Cliente {
         this.interior = interior;
         this.rfc = rfc;
         this.tax_id = tax_id;
+        this.email = email;
     }
 
     findAll() {
@@ -60,7 +62,7 @@ class Cliente {
 
     searchCp(codigo_postal) {
         return new Promise((resolve, reject) => {
-            axios.get(`${urlCp}/place/places/${codigo_postal}`).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.get(`${urlCp}/find-codigos/${codigo_postal}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
     

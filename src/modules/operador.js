@@ -1,7 +1,8 @@
-import router from '../router';
+import router from '../router'
 import Operador from '../classes/operador'
+import store from '../store'
 
-let operador = new Operador();
+let operador = new Operador()
 
 const operadorModule = {
     namespaced: true,
@@ -17,6 +18,7 @@ const operadorModule = {
         },
         setOperador(state, operador) {
             state.operador = operador;
+            store.commit('tripModule/setOperador', operador);
         },
         searchOperador(state, nombre) {
             let array = [];

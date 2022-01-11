@@ -14,12 +14,16 @@ const usuarioModule = {
         usuarios: [],
         copia: [],
         user_accepted: false,
-        user_rol: ''
+        user_rol: '',
+        empresa: '',
+        nombre: ''
     }),
     mutations: {
         setAuth(state, auth) {
             state.user_accepted = true;
             state.user_rol = auth.data.user_rol;
+            state.empresa = auth.data.empresa;
+            console.log(state);
             localStorage.setItem('token', auth.token);
             localStorage.setItem('usuario', JSON.stringify(auth.data));
             state.usuario = new Usuario();
@@ -34,9 +38,9 @@ const usuarioModule = {
         },
         logOut(state) {
             localStorage.removeItem('usuario');
+            localStorage.removeItem('token');
             state.user_accepted = false;
-
-            // state.socket.disconnectToWorkspace();
+            socket.disconnectToWorkspace();
             router.push('/');
         },
         setUsuarios(state, usuarios) {
@@ -140,10 +144,18 @@ const usuarioModule = {
             if (usuario === null) {
                 state.user_accepted = false;
                 state.user_rol = '';
+                state.empresa = '';
             } else {
                 state.user_accepted = true;
                 state.user_rol = usuario.user_rol;
+                state.empresa = usuario.empresa;
+                state.nombre = `${usuario.nombre} ${usuario.paterno} ${usuario.materno}`
             }
+        },
+        getEmpresaRol() {
+            const usuario = JSON.parse(localStorage.getItem('usuario'));
+
+            return usuario
         }
     }
 }

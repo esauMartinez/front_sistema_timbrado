@@ -6,8 +6,8 @@
             </div>
             <form @submit.prevent="auth(usuario)">
                 <div class="row">
-                    <div class="col-lg-12 mb-3 mt-3">
-                        <label for="" class="text-white">Email</label>
+                    <div class="col-lg-12 mb-3 mt-3">                        
+                        <label for="" class="text-white">{{$route.meta.hideNavba}}</label>
                         <input type="email" class="form-control" v-model="usuario.email" required>
                     </div>
                     <div class="col-lg-12 mb-3">
@@ -65,6 +65,7 @@ export default {
         align-items: center;
         flex-direction: column;
         justify-content: center;
+        box-shadow: 20px -16px 0px #888888;
     }
 
     .card-login h1 {

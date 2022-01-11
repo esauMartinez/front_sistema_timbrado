@@ -7,7 +7,7 @@
                 <th>Cantidad</th>
                 <th>Peso</th>
                 <th>Fraccion Arancelaria</th>
-                <th>UUID de Comercio Exterior</th>
+                <th>Pedimento</th>
                 <th></th>
             </tr>
         </thead>
@@ -18,10 +18,14 @@
                 <td>{{item.cantidad}}</td>
                 <td>{{item.peso}}</td>
                 <td>{{item.fraccionArancelaria}}</td>
-                <td>{{item.uuidComercioExt}}</td>
+                <td>{{item.pedimento}}</td>
                 <td>
-                    <div class="d-flex justify-content-around" v-if="estatus === 'creado'">
-                        <button class="btn btn-outline-danger" @click="deleteMercancia(item.id)">
+                    <div class="d-flex justify-content-around">
+                        <button type="button" class="btn btn-outline-danger" @click="deleteMercancia(item.id)" v-if="(tipo === 'trip' && estatus === 'creado')">
+                            <font-awesome-icon icon="trash-alt" />
+                            Eliminar
+                        </button>
+                        <button type="button" class="btn btn-outline-danger" @click="deleteMercanciaCotizacion(item.id)" v-if="(tipo === 'cotizacion' && estatus === 'creada')">
                             <font-awesome-icon icon="trash-alt" />
                             Eliminar
                         </button>
@@ -39,13 +43,17 @@ export default {
     props: {
         estatus: {
             type: String
+        },
+        tipo: {
+            type: String
         }
     },
     computed: {
         ...mapState('tripModule', ['mercancias'])
     },
     methods: {
-        ...mapActions('tripModule', ['deleteMercancia'])
+        ...mapActions('tripModule', ['deleteMercancia']),
+        ...mapActions('cotizacionModule', ['deleteMercanciaCotizacion']),
     }
 }
 </script>

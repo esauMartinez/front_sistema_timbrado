@@ -1,5 +1,6 @@
 import router from '../router';
 import Patio from '../classes/patio'
+import store from '../store'
 
 let patio = new Patio();
 
@@ -18,6 +19,14 @@ const patioModule = {
         setPatio(state, patio) {
             state.patio = patio;
         },
+        setPatioTrip(state, patio) {
+            if (patio.tipo === 'origen') {
+                store.commit('tripModule/setOrigen', patio.patio);
+            } else {
+                store.commit('tripModule/setDestino', patio.patio);
+            }
+            console.log(patio);
+        },
         searchPatio(state, nombre) {
             let array = [];
             if(nombre !== '') {
@@ -33,9 +42,13 @@ const patioModule = {
         },
         setCodigoPostal(state, postal) {
             state.patio.colonia = postal.d_asenta;
+            state.patio.c_colonia = postal.id_asenta_cpcons;
             state.patio.municipio = postal.D_mnpio;
+            state.patio.c_municipio = postal.c_mnpio;
             state.patio.estado = postal.d_estado;
+            state.patio.c_estado = postal.abreviatura_estado;
             state.patio.pais = postal.pais;
+            state.patio.c_pais = postal.abreviatura_pais;
             state.patio.localidad = postal.c_cve_ciudad;
             this.state.postalModule.codigos = [];
         }
@@ -53,6 +66,14 @@ const patioModule = {
             try {
                 let response = await patio.findById(id);
                 commit('setPatio', response);
+            } catch (error) {
+                patio.error(error);
+            }
+        },
+        async getPatioTrip({commit}, payload) {
+            try {
+                let response = await patio.findById(payload.id);
+                commit('setPatioTrip', { patio: response, tipo: payload.tipo });
             } catch (error) {
                 patio.error(error);
             }

@@ -48,7 +48,7 @@ export default {
 
         let estatus = this.estatus;
 
-        if (this.user_rol === 'USER_ADMIN_SYSTEM') {
+        if (this.user_rol === 'USER_ADMIN_SYSTEM' || this.user_rol === 'USER_STD_SYSTEM' ) {
             estatus = 'enviada';
         }
         this.getCotizaciones(estatus);

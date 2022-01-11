@@ -7,26 +7,53 @@ class Trip {
     
     constructor(
         id = '',
+
         nombre_cliente = '',
         cliente = '',
+
         nombre_operador = '',
         operador = '',
+
+        numero_economico_remolque = '',
         remolque = '',
+
+        numero_economico_unidad = '',
         unidad = '',
+
+        nombre_origen = '',
         origen = '',
+
+        nombre_destino = '',
         destino = '',
-        estatus = ''
+        
+        estatus = '',
+        moneda = 'MXN',
+        tipo_viaje = 'nacional'
     ) {
         this.id = id;
+        
         this.nombre_cliente = nombre_cliente;
         this.cliente = cliente;
+
         this.operador = operador;
         this.nombre_operador = nombre_operador;
+
+        this.numero_economico_remolque = numero_economico_remolque;
         this.remolque = remolque;
+
+        this.numero_economico_unidad = numero_economico_unidad;
         this.unidad = unidad;
+        
+        this.nombre_origen = nombre_origen;
         this.origen = origen;
+
+        this.nombre_destino = nombre_destino;
         this.destino = destino;
+
         this.estatus = estatus;
+
+        this.moneda = moneda;
+        this.tipo_viaje = tipo_viaje;
     }
 
     findAllTrips(estatus) {
@@ -157,6 +184,12 @@ class Trip {
             title: 'Oops...',
             text: msg,
         })
+    }
+
+    setBody() {
+        document.getElementsByClassName('modal-backdrop')[0].remove();
+        document.getElementsByTagName('body')[0].style.overflow = 'auto';
+        document.getElementsByTagName('body')[0].classList.remove('modal-open');
     }
 
 }

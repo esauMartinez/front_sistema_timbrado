@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 import router from '../../router';
 import formTrip from './form.vue'
 

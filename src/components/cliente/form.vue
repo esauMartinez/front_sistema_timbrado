@@ -59,6 +59,10 @@
                 <label for="" class="form-label">Numero Interior</label>
                 <input type="text" class="form-control" v-model="cliente.interior">
             </div>
+            <div class="col-lg-12 mb-3">
+                <label for="" class="form-label">Email</label>
+                <input type="email" class="form-control" v-model="cliente.email" required>
+            </div>
         </div>
     </form>
 </template>

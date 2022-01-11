@@ -6,7 +6,7 @@
 
 <script>
 import sidenav from './layout/sidenav.vue'
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
 	components: {
@@ -14,12 +14,6 @@ export default {
 	},
 	computed: {
 		...mapState('usuarioModule', ['user_accepted'])
-	},
-	methods: {
-		...mapGetters('usuarioModule', ['getUser'])
-	},
-	mounted() {
-		this.getUser();
 	}
 }
 </script>
@@ -38,11 +32,13 @@ export default {
 	}
 
 	.list {
-        /* position: absolute; */
-        background: rgb(87, 87, 87);
+        position: relative;
     }
 
     .list ul {
+        position: absolute;
+        width: 100%;
+        background: rgb(87, 87, 87);
         list-style-type: none;
         padding: 0;
         margin: 0;

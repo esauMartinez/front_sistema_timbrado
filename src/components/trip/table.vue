@@ -6,7 +6,7 @@
                     <tr>
                         <th>Trip</th>
                         <th>Fecha</th>
-                        <th>Usuario Creo</th>
+                        <!-- <th>Usuario Creo</th> -->
                         <th>Cliente</th>
                         <th>Operador</th>
                         <th>Remolque</th>
@@ -26,17 +26,17 @@
                     }">
                         <td>Trip - {{ item.id }}</td>
                         <td>{{ formatDate(item.fecha) }}</td>
-                        <td>{{ item.usuario_creo_nombre }} {{ item.usuario_creo_paterno }} {{ item.usuario_creo_materno }}</td>
+                        <!-- <td>{{ item.usuario_creo_nombre }} {{ item.usuario_creo_paterno }} {{ item.usuario_creo_materno }}</td> -->
                         <td>{{ verifyData(item.nombre_cliente) }}</td>
                         <td>{{ verifyData(item.nombre_operador) }} {{ item.paterno }} {{ item.materno }}</td>
-                        <td>{{ verifyData(item.remolque) }}</td>
-                        <td>{{ verifyData(item.unidad) }}</td>
-                        <td>{{ verifyData(item.origen) }}</td>
-                        <td>{{ verifyData(item.destino) }}</td>
+                        <td>{{ verifyData(item.numero_remolque) }}</td>
+                        <td>{{ verifyData(item.numero_unidad) }}</td>
+                        <td>{{ (item.tipo !== 'trip') ? verifyData(item.origen) : verifyData(item.patio_origen) }}</td>
+                        <td>{{ (item.tipo !== 'trip') ? verifyData(item.destino) : verifyData(item.patio_destino) }}</td>
                         <td>
                             <div class="d-flex justify-content-around" 
                                 v-if="(item.estatus !== 'cancelado' || user_rol === 'USER_ADMIN_SYSTEM') && (item.estatus !== 'terminado' || user_rol === 'USER_ADMIN_SYSTEM')">
-                                <button class="btn btn-outline-danger text-danger" 
+                                <button class="btn btn-outline-danger text-danger me-1" 
                                     v-if="(item.estatus !== 'terminado' && user_rol === 'USER_ADMIN_SYSTEM') && (item.estatus !== 'cancelado' && user_rol === 'USER_ADMIN_SYSTEM')"
                                     @click="updateStatus({ id: item.id, estatus: 'cancelado' })">
                                     <font-awesome-icon icon="trash-alt" />
