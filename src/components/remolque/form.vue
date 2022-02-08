@@ -33,6 +33,13 @@
                 <label for="" class="form-label">Vencimiento poliza</label>
                 <input type="date" class="form-control" v-model="remolque.vencimiento_poliza" required>
             </div>
+            <div class="col-lg-12 mb-3">
+                <label for="" class="form-label">Subtipo</label>
+                <select class="form-control" v-model="remolque.subtipo" required>
+                    <option value=""></option>
+                    <option v-for="(item, index) in arr_subtipo" :key="index" :value="item.clave">{{item.clave}} - {{ item.descripcion }}</option>
+                </select>
+            </div>
         </div>
     </form>
 </template>
@@ -43,7 +50,7 @@ import { mapState } from 'vuex'
 export default {
     name: 'formRemolque',
     computed: {
-        ...mapState('remolqueModule',['remolque']),
+        ...mapState('remolqueModule', ['remolque', 'arr_subtipo']),
     }
 }
 </script>

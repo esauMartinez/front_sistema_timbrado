@@ -28,7 +28,13 @@ class Trip {
         
         estatus = '',
         moneda = 'MXN',
-        tipo_viaje = 'nacional'
+        tipo_viaje = 'nacional',
+        metodo_pago = null,
+        forma_pago = null,
+        uso_CFDI = null,
+        fecha_salida = null,
+        fecha_llegada = null,
+        kilometros = null
     ) {
         this.id = id;
         
@@ -54,6 +60,12 @@ class Trip {
 
         this.moneda = moneda;
         this.tipo_viaje = tipo_viaje;
+        this.metodo_pago = metodo_pago;
+        this.forma_pago = forma_pago;
+        this.uso_CFDI = uso_CFDI;
+        this.fecha_salida = fecha_salida;
+        this.fecha_llegada = fecha_llegada;
+        this.kilometros = kilometros;
     }
 
     findAllTrips(estatus) {
@@ -187,9 +199,11 @@ class Trip {
     }
 
     setBody() {
-        document.getElementsByClassName('modal-backdrop')[0].remove();
-        document.getElementsByTagName('body')[0].style.overflow = 'auto';
-        document.getElementsByTagName('body')[0].classList.remove('modal-open');
+        if (document.getElementsByClassName('modal-backdrop')[0] !== undefined) {
+            document.getElementsByClassName('modal-backdrop')[0].remove();
+            document.getElementsByTagName('body')[0].style.overflow = 'auto';
+            document.getElementsByTagName('body')[0].classList.remove('modal-open');
+        }
     }
 
 }

@@ -9,23 +9,27 @@ class Unidad {
         numero_economico = '',
         matricula = '',
         numero_serie = '',
+        aseguradora = '',
         numero_poliza = '',
         vencimiento_poliza = '',
         marca = '',
         modelo = '',
         clase = '',
-        estatus = true
+        estatus = true,
+        configuracion_vehicular = ''
     ){
         this.id = id
         this.numero_economico = numero_economico
         this.matricula = matricula
         this.numero_serie = numero_serie
+        this.aseguradora = aseguradora
         this.numero_poliza = numero_poliza
         this.vencimiento_poliza = vencimiento_poliza
         this.marca = marca
         this.modelo = modelo
         this.clase = clase
         this.estatus = estatus
+        this.configuracion_vehicular = configuracion_vehicular
     }
 
     findAll(){

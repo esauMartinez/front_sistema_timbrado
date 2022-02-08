@@ -1,5 +1,8 @@
 <template>
-    <table class="table table-striped table-bordered table-hover">
+    <div class="d-flex justify-content-center" v-if="cotizaciones.length === 0">
+        <h1 class="text-danger">No hay cotizaciones pendientes</h1>
+    </div>
+    <table v-else class="table table-striped table-bordered table-hover">
         <thead>
             <tr>
                 <th>Fecha</th>

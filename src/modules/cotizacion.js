@@ -85,6 +85,10 @@ const cotizacionModule = {
             state.cotizacion.destino.exterior = cotizacion.destino_exterior;
             state.cotizacion.destino.interior = cotizacion.destino_interior;
             state.cotizacion.costo_viaje = cotizacion.costo_viaje;
+
+            state.cotizacion.metodo_pago = cotizacion.metodo_pago;
+            state.cotizacion.forma_pago = cotizacion.forma_pago;
+            state.cotizacion.uso_CFDI = cotizacion.uso_CFDI;
         }
     },
     actions: {
@@ -101,7 +105,6 @@ const cotizacionModule = {
             try {
                 let response = await cotizacion.findAll(payload);
                 commit('setCotizaciones', response);
-                console.log(response);
             } catch (error) {
                 cotizacion.error(error);
             }
@@ -112,6 +115,7 @@ const cotizacionModule = {
 
                 commit('setCotizacion', response);
                 dispatch('getMercanciasCotizacion', payload)
+                store.dispatch('conceptoModule/getConceptos', payload);
             } catch (error) {
                 cotizacion.error(error);
             }
@@ -157,7 +161,6 @@ const cotizacionModule = {
             try {
                 if (payload !== '') {
                     let response = await cliente.searchCp(payload);
-                    console.log(response);
                     commit('setCodigosPostalesOrigen', response);
                 } else {
                     commit('setCodigosPostalesOrigen', []);

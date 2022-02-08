@@ -33,6 +33,7 @@ export default {
         ...mapState('tripModule', ['trip'])
     },
     methods: {
+        ...mapMutations('tripModule', ['setModalTables']),
         ...mapActions('tripModule', ['putTrip', 'getTrip']),
         cancelar() {
             router.push('/trip');
@@ -40,6 +41,7 @@ export default {
     },
     mounted() {
         this.getTrip(this.$route.params.id);
+        this.setModalTables();
     },
 }
 </script>

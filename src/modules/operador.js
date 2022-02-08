@@ -56,7 +56,7 @@ const operadorModule = {
                 let response = await operador.findById(payload);
                 commit('setOperador', response);
             } catch (error) {
-                operador.error(error);
+                // operador.error(error);
             }
         },
         async postOperador({ dispatch, state }, payload) {

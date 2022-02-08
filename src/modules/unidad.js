@@ -10,7 +10,44 @@ const unidadModule = {
     state: () =>({
         unidad,
         unidades: [],
-        copia: []
+        copia: [],
+        comfiguracion: [
+            { clave: 'VL', descripcion: 'Vehículo ligero de carga(2 llantas en el eje delantero y 2 llantas en el eje trasero)'},
+            { clave: 'C2', descripcion: 'Camión Unitario(2 llantas en el eje delantero y 4 llantas en el eje trasero)'},
+            { clave: 'C3', descripcion: 'Camión Unitario(2 llantas en el eje delantero y 6 o 8 llantas en los dos ejes traseros)'},
+            { clave: 'C2R2', descripcion: 'Camión - Remolque(6 llantas en el camión y 8 llantas en remolque)'},
+            { clave: 'C3R2', descripcion: 'Camión - Remolque(10 llantas en el camión y 8 llantas en remolque)'},
+            { clave: 'C2R3', descripcion: 'Camión - Remolque(6 llantas en el camión y 12 llantas en remolque)'},
+            { clave: 'C3R3', descripcion: 'Camión - Remolque(10 llantas en el camión y 12 llantas en remolque)'},
+            { clave: 'T2S1', descripcion: 'Tractocamión Articulado(6 llantas en el tractocamión, 4 llantas en el semirremolque)'},
+            { clave: 'T2S2', descripcion: 'Tractocamión Articulado(6 llantas en el tractocamión, 8 llantas en el semirremolque)'},
+            { clave: 'T2S3', descripcion: 'Tractocamión Articulado(6 llantas en el tractocamión, 12 llantas en el semirremolque)'},
+            { clave: 'T3S1', descripcion: 'Tractocamión Articulado(10 llantas en el tractocamión, 4 llantas en el semirremolque)'},
+            { clave: 'T3S2', descripcion: 'Tractocamión Articulado(10 llantas en el tractocamión, 8 llantas en el semirremolque)'},
+            { clave: 'T3S3', descripcion: 'Tractocamión Articulado(10 llantas en el tractocamión, 12 llantas en el semirremolque)'},
+            { clave: 'T2S1R2', descripcion:	'Tractocamión Semirremolque - Remolque(6 llantas en el tractocamión, 4 llantas en el semirremolque y 8 llantas en el remolque)'},
+            { clave: 'T2S2R2', descripcion:	'Tractocamión Semirremolque - Remolque(6 llantas en el tractocamión, 8 llantas en el semirremolque y 8 llantas en el remolque)'},
+            { clave: 'T2S1R3', descripcion:	'Tractocamión Semirremolque - Remolque(6 llantas en el tractocamión, 4 llantas en el semirremolque y 12 llantas en el remolque)'},
+            { clave: 'T3S1R2', descripcion:	'Tractocamión Semirremolque - Remolque(10 llantas en el tractocamión, 4 llantas en el semirremolque y 8 llantas en el remolque)'},
+            { clave: 'T3S1R3', descripcion:	'Tractocamión Semirremolque - Remolque(10 llantas en el tractocamión, 4 llantas en el semirremolque y 12 llantas en el remolque)'},
+            { clave: 'T3S2R2', descripcion:	'Tractocamión Semirremolque - Remolque(10 llantas en el tractocamión, 8 llantas en el semirremolque y 8 llantas en el remolque)'},
+            { clave: 'T3S2R3', descripcion:	'Tractocamión Semirremolque - Remolque(10 llantas en el tractocamión, 8 llantas en el semirremolque y 12 llantas en el remolque)'},
+            { clave: 'T3S2R4', descripcion:	'Tractocamión Semirremolque - Remolque(10 llantas en el tractocamión, 8 llantas en el semirremolque y 16 llantas en el remolque)'},
+            { clave: 'T2S2S2', descripcion:	'Tractocamión Semirremolque - Semirremolque(6 llantas en el tractocamión, 8 llantas en el semirremolque delantero y 8 llantas en el semirremolque trasero)'},
+            { clave: 'T3S2S2', descripcion:	'Tractocamión Semirremolque - Semirremolque(10 llantas en el tractocamión, 8 llantas en el semirremolque delantero y 8 llantas en el semirremolque trasero)'},
+            { clave: 'T3S3S2', descripcion:	'Tractocamión Semirremolque - Semirremolque(10 llantas en el tractocamión, 12 llantas en el semirremolque delantero y 8 llantas en el semirremolque trasero)'},
+            { clave: 'OTROEVGP', descripcion: 'Especializado de carga Voluminosa y / o Gran Peso'},
+            { clave: 'OTROSG', descripcion:	'Servicio de Grúas'},
+            { clave: 'GPLUTA', descripcion:	'Grúa de Pluma Tipo A'},
+            { clave: 'GPLUTB', descripcion:	'Grúa de Pluma Tipo B'},
+            { clave: 'GPLUTC', descripcion:	'Grúa de Pluma Tipo C'},
+            { clave: 'GPLUTD', descripcion:	'Grúa de Pluma Tipo D'},
+            { clave: 'GPLATA', descripcion:	'Grúa de Plataforma Tipo A'},
+            { clave: 'GPLATB', descripcion:	'Grúa de Plataforma Tipo B'},
+            { clave: 'GPLATC', descripcion:	'Grúa de Plataforma Tipo C'},
+            { clave: 'GPLATD', descripcion:	'Grúa de Plataforma Tipo D'},
+
+        ]
     }),
     mutations: {
         setUnidades(state, unidades) {
@@ -51,7 +88,7 @@ const unidadModule = {
                 let response = await unidad.findById(id);
                 commit('setUnidad', response);
             } catch (error) {
-                unidad.error(error);
+                // unidad.error(error);
             }
         },
         async postUnidad({ dispatch, state}, payload) {

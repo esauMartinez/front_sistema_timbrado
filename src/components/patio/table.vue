@@ -1,11 +1,20 @@
 <template>
     <div class="row">
         <div class="col-lg-12 mb-3 d-flex justify-content-end">
+            <!-- <div class="dropdown me-3">
+                <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Nacionalidad
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item">Nacional</a></li>
+                    <li><a class="dropdown-item">Extranjero</a></li>
+                </ul>
+            </div> -->
             <router-link class="btn btn-primary me-3" to="/crear-patio" v-if="!hideItem">
                 <font-awesome-icon icon="plus" />
-                Agregar Patio
+                Crear Patio
             </router-link>
-            <input type="text" class="form-control w-25" v-model="nombre" @keyup="searchPatio(nombre)" placeholder="Buscar">
+            <input type="text" class="form-control w-25" v-model="nombre" @keyup="searchPatio(nombre)" placeholder="Buscar">            
         </div>
 
         <div class="col-lg-12">

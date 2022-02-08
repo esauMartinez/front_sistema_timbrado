@@ -24,7 +24,7 @@
                             'table-danger': item.estatus === 'cancelado',
                             'table-warning': item.estatus === 'transito'
                     }">
-                        <td>Trip - {{ item.id }}</td>
+                        <td>Trip - {{ item.numero_trip }}</td>
                         <td>{{ formatDate(item.fecha) }}</td>
                         <!-- <td>{{ item.usuario_creo_nombre }} {{ item.usuario_creo_paterno }} {{ item.usuario_creo_materno }}</td> -->
                         <td>{{ verifyData(item.nombre_cliente) }}</td>
@@ -36,6 +36,9 @@
                         <td>
                             <div class="d-flex justify-content-around" 
                                 v-if="(item.estatus !== 'cancelado' || user_rol === 'USER_ADMIN_SYSTEM') && (item.estatus !== 'terminado' || user_rol === 'USER_ADMIN_SYSTEM')">
+
+                                <boton class="me-1" :id="item.id" v-if="user_rol === 'USER_ADMIN_SYSTEM' && item.estatus !== 'creado'"></boton>
+
                                 <button class="btn btn-outline-danger text-danger me-1" 
                                     v-if="(item.estatus !== 'terminado' && user_rol === 'USER_ADMIN_SYSTEM') && (item.estatus !== 'cancelado' && user_rol === 'USER_ADMIN_SYSTEM')"
                                     @click="updateStatus({ id: item.id, estatus: 'cancelado' })">
@@ -43,7 +46,7 @@
                                     <!-- Cancelar Trip -->
                                 </button>
 
-                                <router-link class="btn btn-warning" :to="{ path: `/modificar-trip/${item.id}` }" >
+                                <router-link v-if="item.estatus !== 'cancelado'" class="btn btn-warning" :to="{ path: `/modificar-trip/${item.id}` }" >
                                     <font-awesome-icon icon="pencil-alt" />
                                     <!-- Modificar -->
                                 </router-link>
@@ -57,10 +60,14 @@
 </template>
 
 <script>
+import boton from './boton_estatus.vue'
 import { mapActions, mapState } from 'vuex'
 import moment from 'moment'
 export default {
     name: 'tableTrip',
+    components: {
+        boton
+    },
     computed: {
         ...mapState('tripModule', ['trips']),
         ...mapState('usuarioModule', ['user_rol'])

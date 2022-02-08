@@ -8,7 +8,7 @@
                 <th>Peso</th>
                 <th>Fraccion Arancelaria</th>
                 <th>Pedimento</th>
-                <th></th>
+                <th v-if="tipo === 'trip' && estatus === 'creado'"></th>
             </tr>
         </thead>
         <tbody>
@@ -19,7 +19,7 @@
                 <td>{{item.peso}}</td>
                 <td>{{item.fraccionArancelaria}}</td>
                 <td>{{item.pedimento}}</td>
-                <td>
+                <td v-if="tipo === 'trip' && estatus === 'creado'">
                     <div class="d-flex justify-content-around">
                         <button type="button" class="btn btn-outline-danger" @click="deleteMercancia(item.id)" v-if="(tipo === 'trip' && estatus === 'creado')">
                             <font-awesome-icon icon="trash-alt" />

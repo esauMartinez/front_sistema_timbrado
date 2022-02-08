@@ -10,6 +10,10 @@
                 <input type="text" class="form-control" v-model="empresa.rfc" required>
             </div>
             <div class="col-lg-12 mb-3">
+                <label for="" class="form-label">Codigo Postal</label>
+                <input type="text" class="form-control" v-model="empresa.codigo_postal" required>
+            </div>
+            <div class="col-lg-12 mb-3">
                 <label for="" class="form-label">Email</label>
                 <input type="email" class="form-control" v-model="empresa.email" required>
             </div>

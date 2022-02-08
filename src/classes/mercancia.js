@@ -12,11 +12,14 @@ class Mercancia {
         claveUnidadMedida = '',
         cantidad = '',
         peso = '',
-        fraccionArancelaria = '',
-        pedimento = '',
+        fraccionArancelaria = null,
+        pedimento = null,
         trip = '',
         tipo = '',
-        cotizacion = ''
+        cotizacion = '',
+        claveMaterialPeligroso = null,
+        embalaje = null,
+        materialPeligroso = null
     ) {
         this.id = id;
         this.producto = producto;
@@ -30,6 +33,9 @@ class Mercancia {
         this.trip = trip;
         this.tipo = tipo;
         this.cotizacion = cotizacion;
+        this.claveMaterialPeligroso = claveMaterialPeligroso;
+        this.embalaje = embalaje;
+        this.materialPeligroso = materialPeligroso;
     }
 
     findAll(trip) {

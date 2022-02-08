@@ -14,7 +14,8 @@ class Remolque {
         numero_serie = '',
         numero_poliza = '',
         vencimiento_poliza = '',
-        modelo = ''
+        modelo = '',
+        subtipo = ''
     ){
         this.id = id;
         this.numero_economico = numero_economico;
@@ -26,6 +27,7 @@ class Remolque {
         this.numero_poliza = numero_poliza;
         this.vencimiento_poliza = vencimiento_poliza;
         this.modelo = modelo;
+        this.subtipo = subtipo;
     }
 
     findAll(){

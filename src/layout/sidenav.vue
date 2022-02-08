@@ -40,6 +40,7 @@ export default {
                 { nombre: 'Remolques', url: '/remolque', icon: 'truck-loading', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
                 { nombre: 'Unidades', url: '/unidad', icon: 'truck-moving', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
                 { nombre: 'Patios', url: '/patio', icon: 'map-marker-alt', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
+                { nombre: 'Servicios', url: '/servicio', icon: 'file-alt', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
                 { nombre: 'Cotizaciones', url: '/cotizacion', icon: 'dollar-sign', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
                 { nombre: 'Trips', url: '/trip', icon: 'file-invoice', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
                 { nombre: 'Usuarios', url: '/usuario', icon: 'users', permisos: [ 'USER_ADMIN_SYSTEM' ] },

@@ -8,17 +8,23 @@ class Empresa {
         id = '',
         uuid = '',
         razon_social = '',
+        codigo_postal = '',
         usuarios = '',
         rfc = '',
         email = '',
         password = '',
         confirm_password = '',
         timbres = 1,
-        token = ''
+        token = '',
+        permiso_SCT = '',
+        numero_permiso_SCT = '',
+        clave_regimen_fiscal = '',
+        descripcion_regimen_fiscal = ''
     ) {
         this.id = id;
         this.uuid = uuid;
         this.razon_social = razon_social;
+        this.codigo_postal = codigo_postal;
         this.usuarios = usuarios;
         this.rfc = rfc;
         this.email = email;
@@ -26,6 +32,10 @@ class Empresa {
         this.confirm_password = confirm_password;
         this.timbres = timbres;
         this.token = token;
+        this.permiso_SCT = permiso_SCT;
+        this.numero_permiso_SCT = numero_permiso_SCT;
+        this.clave_regimen_fiscal= clave_regimen_fiscal;
+        this.descripcion_regimen_fiscal = descripcion_regimen_fiscal;
     }
 
 
@@ -50,6 +60,12 @@ class Empresa {
     update(empresa) {
         return new Promise((resolve, reject) => {
             axios.put(`${url}/empresa/${empresa.id}`, empresa, token()).then(response => resolve(response.data)).catch(error => reject(error))
+        });
+    }
+    
+    updatePermisoSCT(empresa) {
+        return new Promise((resolve, reject) => {
+            axios.put(`${url}/empresa/updatePermisoSCT/${empresa.empresa}`, empresa, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 

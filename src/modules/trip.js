@@ -2,6 +2,7 @@ import Trip from '../classes/trip';
 import Mercancia from '../classes/mercancia'
 import router from '../router';
 import store from '../store';
+import moment from 'moment';
 
 let trip = new Trip();
 let mercancia = new Mercancia();
@@ -38,6 +39,7 @@ const tripModule = {
             state.trips = trips;
         },
         setTrip(state, trip) {
+            console.log(trip);
             if (trip.tipo === 'cotizacion') {
                 state.trip.cliente = trip.cliente_id_cotizacion;
                 state.trip.nombre_cliente = trip.cliente_nombre_cotizacion;
@@ -59,6 +61,10 @@ const tripModule = {
                 state.trip.destino_exterior = trip.destino_exterior;
                 state.trip.moneda = trip.cotizacion_moneda;
                 state.trip.tipo_viaje = trip.cotizacion_tipo_viaje;
+                state.trip.forma_pago = trip.cotizacion_forma_pago;
+                state.trip.metodo_pago = trip.cotizacion_metodo_pago;
+                state.trip.uso_CFDI = trip.cotizacion_uso_CFDI;
+                store.state.conceptoModule.concepto.cotizacion = (trip.numero_cotizacion === 0) ? null : trip.numero_cotizacion;
             } else {
                 state.trip.cliente = trip.cliente;
                 state.trip.nombre_cliente = trip.nombre_cliente;
@@ -70,6 +76,10 @@ const tripModule = {
                 state.trip.nombre_destino = trip.patio_destino;
                 state.trip.moneda = trip.moneda;
                 state.trip.tipo_viaje = trip.tipo_viaje;
+                state.trip.uso_CFDI = trip.uso_CFDI;
+                state.trip.metodo_pago = trip.metodo_pago;
+                state.trip.forma_pago = trip.forma_pago;
+                store.state.conceptoModule.concepto.trip = trip.id;
             }
             state.trip.id = trip.id;
             state.trip.operador = trip.operador;
@@ -79,8 +89,15 @@ const tripModule = {
             state.trip.numero_economico_unidad = trip.numero_unidad;
             state.trip.estatus = trip.estatus;
             state.trip.tipo = trip.tipo;
+            state.trip.fecha_salida = moment(trip.fecha_llegada).format('YYYY-MM-DDThh:mm:ss');
+            state.trip.fecha_llegada = moment(trip.fecha_llegada).format('YYYY-MM-DDThh:mm:ss');
+            state.trip.kilometros = trip.kilometros;
             
             state.trip.nombre_operador = (trip.nombre_operador !== null) ? `${trip.nombre_operador} ${trip.paterno} ${trip.materno}` : '';
+        },
+        setModalTables(state) {
+            state.modalTables = false;
+            trip.setBody();
         },
         setClientes(state, clientes) {
             state.clientes = clientes;
@@ -88,6 +105,9 @@ const tripModule = {
         setCliente(state, cliente) {
             state.trip.cliente = cliente.id;
             state.trip.nombre_cliente = `${cliente.razon_social}`
+            state.trip.uso_CFDI = cliente.uso_CFDI;
+            state.trip.metodo_pago = cliente.metodo_pago;
+            state.trip.forma_pago = cliente.forma_pago;
             state.clientes = [];
             state.modalTables = !state.modalTables;
             trip.setBody();
@@ -149,6 +169,10 @@ const tripModule = {
         setProducto(state, producto) {
             state.mercancia.producto = `${producto.clave_STCC}-${producto.descripcion}`;
             state.mercancia.claveProducto = producto.clave_STCC;
+            state.mercancia.materialPeligroso = producto.material_peligroso;
+
+            console.log(state.mercancia);
+
             state.productos = [];
         },
         setUnidadesMedida(state, unidadesMedida) {
@@ -176,7 +200,9 @@ const tripModule = {
 
                 if (data.tipo === 'trip') {
                     dispatch('getMercancias', payload)
+                    store.dispatch('conceptoModule/getConceptos', payload);
                 } else {
+                    store.dispatch('conceptoModule/getConceptos', data.numero_cotizacion);
                     store.dispatch('cotizacionModule/getMercanciasCotizacion', data.numero_cotizacion);
                 }
 
@@ -197,14 +223,19 @@ const tripModule = {
         },
         async putTrip({ state, dispatch }, payload) {
             try {
-                let response = await trip.update(payload);
-                trip.success(response.msg);
+                await trip.update(payload);
                 state.trip = new Trip();
                 dispatch('getTrips', state.estatusTrip);
+                console.log(response);
+                
                 router.push('/trip');
             } catch (error) {
+
                 if (error.response.status === 404) {
                     trip.notFound(error.response.data.msg);
+                } else if (error.response.status === 400) {
+                    console.log(error.response.data);
+                    trip.error(error.response.data.msg.message);
                 } else {
                     trip.error(error);
                 }
@@ -215,7 +246,7 @@ const tripModule = {
                 let response = await trip.updateStatus(payload);
                 trip.success(response.msg);
                 state.trip = new Trip();
-                dispatch('getTrips', state.estatusTrip);
+                dispatch('getTrips', payload.estatus);
                 router.push('/trip');
             } catch (error) {
                 trip.error(error);

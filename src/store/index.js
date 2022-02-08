@@ -10,6 +10,8 @@ import empresaModule from '../modules/empresa'
 import remolqueModule from '../modules/remolque'
 import patioModule from '../modules/patio'
 import unidadModule from '../modules/unidad'
+import conceptoModule from '../modules/concepto'
+import servicioModule from '../modules/servicio'
 
 export default createStore({
   modules: {
@@ -22,6 +24,8 @@ export default createStore({
     empresaModule,
     remolqueModule,
     patioModule,
-    unidadModule
+    unidadModule,
+    conceptoModule,
+    servicioModule
   }
 })

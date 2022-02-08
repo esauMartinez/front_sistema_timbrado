@@ -12,13 +12,34 @@
                     <option value="extranjero">Extranjero</option>
                 </select>
             </div>
-            <div class="col-lg-12 mb-3" v-if="cliente.origen === 'nacional'">
+            <div class="col-lg-3 mb-3" v-if="cliente.origen === 'nacional'">
                 <label for="" class="form-label">RFC</label>
                 <input type="text" class="form-control" v-model="cliente.rfc" required>
             </div>
-            <div class="col-lg-12 mb-3" v-if="cliente.origen === 'extranjero'">
+            <div class="col-lg-3 mb-3" v-if="cliente.origen === 'extranjero'">
                 <label for="" class="form-label">TAX ID</label>
                 <input type="text" class="form-control" v-model="cliente.tax_id" required>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <label for="" class="form-label">Uso de CFDI</label>
+                <!-- <input type="text" class="form-control" v-model="cliente.uso_CFDI" required> -->
+                <select class="form-control" v-model="cliente.uso_CFDI" required>
+                    <option v-for="(item, index) in uso_cfdi" :key="index" :value="item.clave">{{ item.descripcion }}</option>
+                </select>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <label for="" class="form-label">Metodo de Pago</label>
+                <!-- <input type="text" class="form-control" v-model="cliente.metodo_pago" required> -->
+                <select class="form-control" v-model="cliente.metodo_pago" required>
+                    <option v-for="(item, index) in metodo_pago" :key="index" :value="item.clave">{{ item.descripcion }}</option>
+                </select>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <label for="" class="form-label">Forma de Pago</label>
+                <!-- <input type="text" class="form-control" v-model="cliente.forma_pago" required> -->
+                <select class="form-control" v-model="cliente.forma_pago" required>
+                    <option v-for="(item, index) in forma_pago" :key="index" :value="item.clave">{{ item.descripcion }}</option>
+                </select>
             </div>
             <div class="col-lg-3 mb-3">
                 <label for="" class="form-label">Codigo Postal</label>
@@ -72,7 +93,7 @@ import { mapActions, mapMutations, mapState } from 'vuex'
 export default {
     name: 'formCliente',
     computed: {
-        ...mapState('clienteModule', ['cliente']),
+        ...mapState('clienteModule', ['cliente', 'metodo_pago', 'uso_cfdi', 'forma_pago']),
         ...mapState('postalModule', ['codigos'])
     },
     methods: {

@@ -40,7 +40,10 @@ class Cotizacion {
         },
         costo_viaje = 0,
         moneda = 'MXN',
-        tipo_viaje = 'nacional'
+        tipo_viaje = 'nacional',
+        metodo_pago = null,
+        forma_pago = null,
+        uso_CFDI = null
     ) {
         this.id = id;
         this.origen = origen;
@@ -48,6 +51,9 @@ class Cotizacion {
         this.costo_viaje = costo_viaje;
         this.moneda = moneda;
         this.tipo_viaje = tipo_viaje;
+        this.metodo_pago = metodo_pago;
+        this.forma_pago = forma_pago;
+        this.uso_CFDI = uso_CFDI;
     }
 
     findAll(estatus) {
@@ -76,7 +82,20 @@ class Cotizacion {
 
     autorizar(id) {
         return new Promise((resolve, reject) => {
-            axios.put(`${url}/cotizacion/autorizar/${id}`, {}, token()).then(response => resolve(response.data)).catch(error => reject(error))
+            Swal.fire({
+                title: 'Deseas autorizar la cotizacion?',
+                text: "Ya no se podran hacer cambios",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.put(`${url}/cotizacion/autorizar/${id}`, {}, token()).then(response => resolve(response.data)).catch(error => reject(error))
+                }
+            })
         });
     }
 

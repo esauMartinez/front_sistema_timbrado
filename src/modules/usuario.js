@@ -23,7 +23,6 @@ const usuarioModule = {
             state.user_accepted = true;
             state.user_rol = auth.data.user_rol;
             state.empresa = auth.data.empresa;
-            console.log(state);
             localStorage.setItem('token', auth.token);
             localStorage.setItem('usuario', JSON.stringify(auth.data));
             state.usuario = new Usuario();

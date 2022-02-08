@@ -67,7 +67,7 @@ const patioModule = {
                 let response = await patio.findById(id);
                 commit('setPatio', response);
             } catch (error) {
-                patio.error(error);
+                // patio.error(error);
             }
         },
         async getPatioTrip({commit}, payload) {

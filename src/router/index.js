@@ -38,6 +38,9 @@ import Root from '../views/Root.vue'
 import crearEmpresa from '../components/empresa/crear.vue'
 import modificarEmpresa from '../components/empresa/modificar.vue'
 
+import Servicio from '../views/Servicio'
+import crearServicio from '../components/servicio/crear.vue'
+
 import Ajustes from '../views/Ajustes.vue'
 
 import verifyUser from '../guards'
@@ -217,6 +220,18 @@ const routes = [
     path: '/ver-usuario/:id',
     name: 'ver-usuario',
     component: modificarUsuario,
+    beforeEnter: [verifyUser]
+  },
+  {
+    path: '/servicio',
+    name: 'Servicio',
+    component: Servicio,
+    beforeEnter: [verifyUser]
+  },
+  {
+    path: '/crear-servicio',
+    name: 'crear-servicio',
+    component: crearServicio,
     beforeEnter: [verifyUser]
   },
   {

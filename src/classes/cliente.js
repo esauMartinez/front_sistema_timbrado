@@ -18,7 +18,10 @@ class Cliente {
         interior = '',
         rfc = '',
         tax_id = '',
-        email = ''
+        email = '',
+        metodo_pago = '',
+        forma_pago = '',
+        uso_CFDI = ''
     ) {
         this.id = id;
         this.razon_social = razon_social;
@@ -34,6 +37,9 @@ class Cliente {
         this.rfc = rfc;
         this.tax_id = tax_id;
         this.email = email;
+        this.metodo_pago = metodo_pago;
+        this.forma_pago = forma_pago;
+        this.uso_CFDI = uso_CFDI;
     }
 
     findAll() {
