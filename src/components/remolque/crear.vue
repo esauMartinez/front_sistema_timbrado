@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container">
         <form-remolque @submit.prevent="postRemolque(remolque)" id="form-remolque"></form-remolque>
 
         <div class="row">

@@ -33,13 +33,17 @@ const usuarioModule = {
                 room = 'cliente';
             }
 
-            socket.connectToWorkspace(`empresa_${auth.data.empresa.replace(/-/g, '_')}`, room);
+            if (auth.data.empresa !== null) {
+                socket.connectToWorkspace(`empresa_${auth.data.empresa.replace(/-/g, '_')}`, room);
+            }
         },
         logOut(state) {
             localStorage.removeItem('usuario');
             localStorage.removeItem('token');
             state.user_accepted = false;
-            socket.disconnectToWorkspace();
+            if (state.empresa !== null) {
+                socket.disconnectToWorkspace();
+            }
             router.push('/');
         },
         setUsuarios(state, usuarios) {
@@ -67,9 +71,7 @@ const usuarioModule = {
     actions: {
         async auth({ commit }, payload) {
             try {
-                let response = await usuario.auth(payload);
-                commit('setAuth', response);
-                
+                let response = await usuario.auth(payload);                
                 if (response.data.user_rol === 'USER_CLIENTE_SYSTEM') {
                     router.push('/cotizacion');
                 } else if (response.data.user_rol === 'USER_ROOT_SYSTEM') {
@@ -77,6 +79,8 @@ const usuarioModule = {
                 } else {
                     router.push('/home');
                 }
+
+                commit('setAuth', response);
 
             } catch (error) {
                 console.log(error);
@@ -155,6 +159,11 @@ const usuarioModule = {
             const usuario = JSON.parse(localStorage.getItem('usuario'));
 
             return usuario
+        },
+        logo() {
+            const usuario = JSON.parse(localStorage.getItem('usuario'));
+
+            return usuario.logo;
         }
     }
 }

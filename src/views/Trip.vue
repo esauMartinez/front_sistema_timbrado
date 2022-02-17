@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid mt-5">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-lg-2 mb-3">
                 <button class="btn btn btn-success me-3 w-100" @click="postTrip">

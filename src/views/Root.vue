@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container">
         <div class="row">
             <div class="col-lg-12 mb-3 d-flex justify-content-end">
                 <router-link class="btn btn-primary" to="/crear-empresa">

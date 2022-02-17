@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container">
         <form id="form-cotizacion" @submit.prevent="putCotizacion(cotizacion)">
 
 
@@ -94,6 +94,7 @@
                         <div class="accordion-body">
                             <div class="row">
                                 <div class="col-lg-12 d-flex justify-content-end">
+                                    <button type="button" class="btn btn-outline-danger mb-3 w-25 me-3" @click="deleteAllMercanciasCotizacion(cotizacion.id)">Eliminar todas mercancias</button>
                                     <button type="button" class="btn btn-info mb-3 w-25" @click="showModal">Agregar mercancia</button>
                                 </div>
                                 <div class="col-lg-12">
@@ -178,7 +179,7 @@ export default {
         },
         ...mapMutations('tripModule', ['showModal']),
         ...mapMutations('conceptoModule', ['showModalConcepto']),
-        ...mapActions('cotizacionModule', ['getCotizacion', 'putCotizacion']),
+        ...mapActions('cotizacionModule', ['getCotizacion', 'putCotizacion', 'deleteAllMercanciasCotizacion']),
         tipoViaje(tipo_viaje) {
             if (tipo_viaje === 'importacion') {
                 this.origen = false;

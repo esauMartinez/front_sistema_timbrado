@@ -172,6 +172,18 @@ class Trip {
         });
     }
 
+    upladMercanciasFromFile(formData) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${url}/upload-file`, formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then((response) => resolve(response.data)).catch((error) => reject(error));
+        });
+    }
+
+    deleteMercanciasTrip(id) {
+        return new Promise((resolve, reject) => {
+            axios.delete(`${url}/delete-mercancias-trip/${id}`, token()).then((response) => resolve(response.data)).catch((error) => reject(error));
+        });
+    }
+
     success(msg) {
         Swal.fire({
             position: 'top-end',

@@ -19,12 +19,12 @@
                             <font-awesome-icon icon="trash-alt" />
                             Eliminar
                         </button> -->
-                        <router-link class="btn btn-warning" :to="{ path: `/modificar-empresa/${item.id}` }">
+                        <router-link class="btn btn-warning" :to="{ path: `/modificar-empresa/${item.uuid}` }">
                             <font-awesome-icon icon="pencil-alt" />
                             <!-- Modificar -->
                         </router-link>
 
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary" @click="setEmpresa(item.uuid)" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <font-awesome-icon icon="users" />
                         </button>
                     </div>
@@ -32,16 +32,48 @@
             </tr>
         </tbody>
     </table>
+
+    <div class="modal" tabindex="-1" id="exampleModal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Crear usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form-usuario @submit.prevent="crearUsuarioEmpresa(usuario)" :usuario="usuario" id="form-usuario"></form-usuario>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" form="form-usuario">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+import formUsuario from '../usuario/form.vue'
 export default {
     name: 'tableEmpresa',
+    components: {
+        formUsuario
+    },
     props: {
         empresas: {
             type: Array,
             default: []
         }
-    }
+    },
+    computed: {
+        ...mapState('usuarioModule', ['usuario']),
+    },
+    methods: {
+        ...mapActions('empresaModule', ['crearUsuarioEmpresa']),
+        setEmpresa(empresa) {
+            this.usuario.empresa = empresa;
+        }
+    },
 }
 </script>

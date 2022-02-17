@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container">
         <form id="form-cotizacion" @submit.prevent="cotizar(cotizacion)">
 
             <div class="accordion" id="accordionPanelsStayOpenExample">

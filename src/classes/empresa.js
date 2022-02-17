@@ -69,6 +69,19 @@ class Empresa {
         });
     }
 
+    uploadLogoEmpresa(logo) {
+        return new Promise((resolve, reject) => {
+            token()['Content-Type'] = 'multipart/form-data';
+            axios.post(`${url}/empresa/uploadLogoEmpresa`, logo, token()).then(response => resolve(response.data)).catch(error => reject(error))
+        });
+    }
+
+    uploadUser(user) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${url}/empresa/uploadUser`, user, token()).then(response => resolve(response.data)).catch(error => reject(error))
+        });
+    }
+
 
     success(msg) {
         Swal.fire({
@@ -84,7 +97,7 @@ class Empresa {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: msg,
+            text: msg.response.data.msg,
         })
     }
 

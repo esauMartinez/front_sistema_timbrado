@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid mt-5">
+    <div class="container-fluid">
         <tablePatio/>
     </div>
 </template>

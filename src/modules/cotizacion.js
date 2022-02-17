@@ -190,7 +190,7 @@ const cotizacionModule = {
                 let mercancias = await mercancia.findAllCotizacion(payload);
                 store.commit('tripModule/setMercancias', mercancias);
             } catch (error) {
-                trip.error(error);
+                cotizacion.error(error);
             }
         },
         async postMercanciaCotizacion({ dispatch, state, commit }, payload) {
@@ -203,7 +203,7 @@ const cotizacionModule = {
                 state.mercancia = new Mercancia();
                 dispatch('getMercanciasCotizacion', payload.cotizacion);
             } catch (error) {
-                trip.error(error);
+                cotizacion.error(error);
             }
         },
         async deleteMercanciaCotizacion({ dispatch, state }, payload) {
@@ -212,9 +212,33 @@ const cotizacionModule = {
                 mercancia.success(response.msg);
                 dispatch('getMercanciasCotizacion', state.cotizacion.id);
             } catch (error) {
-                trip.error(error);
+                cotizacion.error(error);
             }
         },
+        async uploadMercanciasFromFileCotizacion({ dispatch, state }, payload) {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    payload.append('cotizacion', state.cotizacion.id);
+                    payload.append('tipo', 'cotizacion');
+                    let response = await cotizacion.upladMercanciasFromFile(payload);
+                    cotizacion.success(response.msg);
+                    dispatch('getMercanciasCotizacion', state.cotizacion.id);
+                    resolve();
+                } catch (error) {
+                    cotizacion.error(error);
+                    reject();
+                }
+            });
+        },
+        async deleteAllMercanciasCotizacion({ state, dispatch }, payload) {
+            try {
+                let response = await cotizacion.deleteMercanciasCotizacion(payload);
+                cotizacion.success(response.msg);
+                dispatch('getMercanciasCotizacion', state.cotizacion.id);
+            } catch (error) {
+                cotizacion.error(error);
+            }
+        }
     }
 }
 

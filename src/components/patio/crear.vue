@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container">
         <form-patio @submit.prevent="postPatio(patio)" id="form-patio"></form-patio>
         
         <div class="row">

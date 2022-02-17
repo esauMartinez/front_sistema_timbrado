@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container">
         <form-trip @submit.prevent="putTrip(trip)" id="form-trip" :estatus="trip.estatus"></form-trip>
 
         <div class="row">

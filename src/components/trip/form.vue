@@ -260,6 +260,7 @@
                 <div id="panelsStayOpen-collapseMercancias" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingMercancias">
                     <div class="accordion-body">
                         <div class="col-lg-12 d-flex justify-content-end" v-if="(trip.estatus === 'creado' && trip.tipo === 'trip')">
+                            <button type="button" class="btn btn-outline-danger mb-3 w-25 me-3" @click="deleteAllMercancias(trip.id)">Eliminar todas mercancias</button>
                             <button type="button" class="btn btn-info mb-3 w-25" @click="showModal">Agregar mercancia</button>
                         </div>
                         <div class="col-lg-12">
@@ -353,7 +354,7 @@ export default {
         ...mapState('patioModule', ['patio'])
     },
     methods: {
-        ...mapActions('tripModule', ['getCliente', 'getOperador', 'updateStatus']),
+        ...mapActions('tripModule', ['getCliente', 'getOperador', 'updateStatus', 'deleteAllMercancias']),
         ...mapMutations('tripModule', ['setCliente', 'setOperador', 'showModal', 'showModalTable']),
         ...mapMutations('conceptoModule', ['showModalConcepto']),
         ...mapActions('conceptoModule', ['getConceptos']),

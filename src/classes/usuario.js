@@ -4,7 +4,7 @@ import Swal from 'sweetalert2'
 import token from '../services/token'
 
 class Usuario {
-    constructor(id = '', nombre = '', paterno = '', materno = '', email = 'martinez117esau@gmail.com', password= 'Mace930111', user_rol = '', cliente = null) {
+    constructor(id = '', nombre = '', paterno = '', materno = '', email = 'martinez117esau@gmail.com', password= 'Mace930111', user_rol = '', cliente = null, empresa = null) {
         this.id = id;
         this.nombre = nombre;
         this.paterno = paterno;
@@ -13,6 +13,7 @@ class Usuario {
         this.password = password;
         this.user_rol = user_rol;
         this.cliente = cliente;
+        this.empresa = empresa;
     }
 
     auth(auth) {

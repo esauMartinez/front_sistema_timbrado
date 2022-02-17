@@ -17,7 +17,9 @@ async function verifyUser(to, from, next) {
             if (empresaRol.user_rol === 'USER_CLIENTE_SYSTEM') {
                 room = 'cliente';
             }
-            socket.connectToWorkspace(`empresa_${empresaRol.empresa.replace(/-/g, '_')}`, room);
+            if (empresaRol.empresa !== null) {
+                socket.connectToWorkspace(`empresa_${empresaRol.empresa.replace(/-/g, '_')}`, room);
+            }
         }
     }
 

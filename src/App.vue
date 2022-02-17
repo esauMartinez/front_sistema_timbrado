@@ -1,16 +1,19 @@
 <template>
+    <!-- <navbar></navbar> -->
 	<sidenav v-if="user_accepted"></sidenav>
 
-	<router-view/>
+	<router-view class="mt-5"/>
 </template>
 
 <script>
 import sidenav from './layout/sidenav.vue'
+import navbar from './layout/navbar.vue'
 import { mapState } from 'vuex'
 
 export default {
 	components: {
-		sidenav
+		sidenav,
+        navbar
 	},
 	computed: {
 		...mapState('usuarioModule', ['user_accepted'])
@@ -27,8 +30,8 @@ export default {
 	}
 	
 	body {
-		padding: 10px 10px 10px 360px;
-		/* background-color: rgb(223, 223, 223) !important; */
+		padding: 0px 0px 10px 350px;
+		background-color: rgba(255, 255, 255, 0.945) !important;
 	}
 
 	.list {
@@ -42,6 +45,7 @@ export default {
         list-style-type: none;
         padding: 0;
         margin: 0;
+        z-index: 2;
     }
 
     .list ul li {

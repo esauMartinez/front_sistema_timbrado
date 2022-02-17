@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container">
         <form-cliente @submit.prevent="postCliente(cliente)" id="form-cliente"></form-cliente>
 
         <div class="row">

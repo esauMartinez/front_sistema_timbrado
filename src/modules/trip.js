@@ -39,7 +39,6 @@ const tripModule = {
             state.trips = trips;
         },
         setTrip(state, trip) {
-            console.log(trip);
             if (trip.tipo === 'cotizacion') {
                 state.trip.cliente = trip.cliente_id_cotizacion;
                 state.trip.nombre_cliente = trip.cliente_nombre_cotizacion;
@@ -171,8 +170,6 @@ const tripModule = {
             state.mercancia.claveProducto = producto.clave_STCC;
             state.mercancia.materialPeligroso = producto.material_peligroso;
 
-            console.log(state.mercancia);
-
             state.productos = [];
         },
         setUnidadesMedida(state, unidadesMedida) {
@@ -223,22 +220,22 @@ const tripModule = {
         },
         async putTrip({ state, dispatch }, payload) {
             try {
-                await trip.update(payload);
+                let response = await trip.update(payload);
                 state.trip = new Trip();
                 dispatch('getTrips', state.estatusTrip);
                 console.log(response);
                 
                 router.push('/trip');
             } catch (error) {
-
-                if (error.response.status === 404) {
-                    trip.notFound(error.response.data.msg);
-                } else if (error.response.status === 400) {
-                    console.log(error.response.data);
-                    trip.error(error.response.data.msg.message);
-                } else {
-                    trip.error(error);
-                }
+                console.log(error);
+                // if (error.response.status === 404) {
+                //     trip.notFound(error.response.data.msg);
+                // } else if (error.response.status === 400) {
+                //     console.log(error.response.data);
+                //     trip.error(error.response.data.msg.message);
+                // } else {
+                //     trip.error(error);
+                // }
             }
         },
         async updateStatus({ state, dispatch }, payload) {
@@ -326,6 +323,30 @@ const tripModule = {
                 } else {
                     commit('setUnidadesMedida', []);
                 }
+            } catch (error) {
+                trip.error(error);
+            }
+        },
+        async uploadMercanciasFromFile({ dispatch, state }, payload) {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    payload.append('trip', state.trip.id);
+                    payload.append('tipo', state.trip.tipo);
+                    let response = await trip.upladMercanciasFromFile(payload);
+                    trip.success(response.msg);
+                    dispatch('getMercancias', state.trip.id);
+                    resolve();
+                } catch (error) {
+                    trip.error(error);
+                    reject();
+                }
+            });
+        },
+        async deleteAllMercancias({ state, dispatch }, payload) {
+            try {
+                let response = await trip.deleteMercanciasTrip(payload);
+                trip.success(response.msg);
+                dispatch('getMercancias', state.trip.id);
             } catch (error) {
                 trip.error(error);
             }

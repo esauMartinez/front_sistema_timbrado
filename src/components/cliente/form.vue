@@ -24,21 +24,21 @@
                 <label for="" class="form-label">Uso de CFDI</label>
                 <!-- <input type="text" class="form-control" v-model="cliente.uso_CFDI" required> -->
                 <select class="form-control" v-model="cliente.uso_CFDI" required>
-                    <option v-for="(item, index) in uso_cfdi" :key="index" :value="item.clave">{{ item.descripcion }}</option>
+                    <option v-for="(item, index) in uso_cfdi" :key="index" :value="item.clave">{{item.clave}}-{{ item.descripcion }}</option>
                 </select>
             </div>
             <div class="col-lg-3 mb-3">
                 <label for="" class="form-label">Metodo de Pago</label>
                 <!-- <input type="text" class="form-control" v-model="cliente.metodo_pago" required> -->
                 <select class="form-control" v-model="cliente.metodo_pago" required>
-                    <option v-for="(item, index) in metodo_pago" :key="index" :value="item.clave">{{ item.descripcion }}</option>
+                    <option v-for="(item, index) in metodo_pago" :key="index" :value="item.clave">{{item.clave}}-{{ item.descripcion }}</option>
                 </select>
             </div>
             <div class="col-lg-3 mb-3">
                 <label for="" class="form-label">Forma de Pago</label>
                 <!-- <input type="text" class="form-control" v-model="cliente.forma_pago" required> -->
                 <select class="form-control" v-model="cliente.forma_pago" required>
-                    <option v-for="(item, index) in forma_pago" :key="index" :value="item.clave">{{ item.descripcion }}</option>
+                    <option v-for="(item, index) in forma_pago" :key="index" :value="item.clave">{{item.clave}}-{{ item.descripcion }}</option>
                 </select>
             </div>
             <div class="col-lg-3 mb-3">

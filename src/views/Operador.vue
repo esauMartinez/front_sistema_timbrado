@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container">
         <table-operador></table-operador>
     </div>
 </template>

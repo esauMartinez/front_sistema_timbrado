@@ -41,10 +41,10 @@ const empresaModule = {
         setEmpresa(state, empresa) {
             state.empresa = empresa;
         },
-        setRegimenFiscal(state, payload) {
-            state.empresa.clave_regimen_fiscal = payload.clave;
-            state.empresa.descripcion_regimen_fiscal = payload.descripcion;
-        }
+        // setRegimenFiscal(state, payload) {
+        //     state.empresa.clave_regimen_fiscal = payload.clave;
+        //     state.empresa.descripcion_regimen_fiscal = payload.descripcion;
+        // }
     },
     actions: {
         async getEmpresas({ commit }) {
@@ -93,6 +93,25 @@ const empresaModule = {
                 empresa.success(response.msg);
             } catch (error) {
                 empresa.error(error);   
+            }
+        },
+        async uploadLogo({ state, dispatch }, payload) {
+            try {
+                let formData = new FormData();
+                formData.append('logo', payload);
+                let response = await empresa.uploadLogoEmpresa(formData);
+                empresa.success(response.msg);
+                dispatch('getEmpresa', state.empresa.uuid);
+            } catch (error) {
+                empresa.error(error);
+            }
+        },
+        async crearUsuarioEmpresa({}, payload) {
+            try {
+                let response = await empresa.uploadUser(payload);
+                empresa.success(response.msg);
+            } catch (error) {
+                empresa.error(error);
             }
         }
     }

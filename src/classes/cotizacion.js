@@ -80,6 +80,18 @@ class Cotizacion {
         });
     }
 
+    upladMercanciasFromFile(formData) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${url}/upload-file-cotizacion`, formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then((response) => resolve(response.data)).catch((error) => reject(error));
+        });
+    }
+
+    deleteMercanciasCotizacion(id) {
+        return new Promise((resolve, reject) => {
+            axios.delete(`${url}/delete-mercancias-cotizacion/${id}`, token()).then((response) => resolve(response.data)).catch((error) => reject(error));
+        });
+    }
+
     autorizar(id) {
         return new Promise((resolve, reject) => {
             Swal.fire({

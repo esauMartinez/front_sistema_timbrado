@@ -1,8 +1,11 @@
 <template>
     <div class="side-nav">
         <div class="logo">
-            <div class="image">
-                <img src="../assets/logo-user.png" >
+            <div class="image" v-if="empresa !== null">
+                <img :src="`http://localhost:3000/uploads/${empresa}/${logo()}`" width="100%">
+            </div>
+            <div class="image" v-else>
+                <img :src="`http://localhost:3000/uploads/logo-user.png`" width="100%">
             </div>
             <div class="name mt-3">
                 <p>{{nombre}}</p>
@@ -27,7 +30,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapGetters, mapMutations, mapState } from 'vuex'
 export default {
     name: 'sidenav',
     data() {
@@ -52,7 +55,8 @@ export default {
         ...mapState('usuarioModule', ['user_rol', 'nombre', 'empresa'])
     },
     methods: {
-        ...mapMutations('usuarioModule', ['logOut'])
+        ...mapMutations('usuarioModule', ['logOut']),
+        ...mapGetters('usuarioModule', ['logo'])
     }
 }
 </script>
@@ -83,7 +87,7 @@ export default {
         left: 0;
         bottom: 0;
         width: 350px;
-        background: rgb(87, 87, 87);
+        background: #132226;
     }
 
     .menu {
@@ -105,8 +109,8 @@ export default {
     }
 
     .link-menu:hover {
-        background: rgb(143, 143, 143);
-        color: #000000;
+        background: #00406c;
+        /* color: #000000; */
     }
 
     .icon {

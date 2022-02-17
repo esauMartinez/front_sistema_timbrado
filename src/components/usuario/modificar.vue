@@ -1,5 +1,5 @@
 <template>
-     <div class="container mt-5">
+     <div class="container">
          <form-usuario @submit.prevent="putUsuario(usuario)" id="form-usuario" :usuario="usuario"></form-usuario>
 
         <div class="row">
