@@ -19,12 +19,16 @@
                             <font-awesome-icon icon="trash-alt" />
                             Eliminar
                         </button> -->
-                        <router-link class="btn btn-warning" :to="{ path: `/modificar-empresa/${item.uuid}` }">
+                        <button class="btn btn-outline-secondary" @click="setEmpresa({ empresa: item.uuid, tipo: 'timbres' })" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <font-awesome-icon icon="plus" />
+                        </button>
+
+                        <router-link class="btn btn-outline-secondary" :to="{ path: `/modificar-empresa/${item.uuid}` }">
                             <font-awesome-icon icon="pencil-alt" />
                             <!-- Modificar -->
                         </router-link>
 
-                        <button class="btn btn-primary" @click="setEmpresa(item.uuid)" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button class="btn btn-outline-secondary" @click="setEmpresa({ empresa: item.uuid, tipo: 'usuarios' })" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <font-awesome-icon icon="users" />
                         </button>
                     </div>
@@ -41,11 +45,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form-usuario @submit.prevent="crearUsuarioEmpresa(usuario)" :usuario="usuario" id="form-usuario"></form-usuario>
+                    <form-usuario v-if="showFormUsuario" @submit.prevent="crearUsuarioEmpresa(usuario)" :usuario="usuario" id="form-data"></form-usuario>
+
+                    <form-timbres v-else @submit.prevent="addTimbresEmpresa(timbres)" id="form-data"></form-timbres>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" form="form-usuario">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" form="form-data">Guardar usuario</button>
                 </div>
             </div>
         </div>
@@ -55,25 +61,39 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import formUsuario from '../usuario/form.vue'
+import formTimbres from '../ajustes/formularioTimbre.vue'
 export default {
     name: 'tableEmpresa',
     components: {
-        formUsuario
+        formUsuario,
+        formTimbres
     },
     props: {
         empresas: {
             type: Array,
-            default: []
+            default: [],
+        }
+    },
+    data() {
+        return {
+            showFormUsuario: false,
         }
     },
     computed: {
         ...mapState('usuarioModule', ['usuario']),
+        ...mapState('empresaModule', ['timbres'])
     },
     methods: {
-        ...mapActions('empresaModule', ['crearUsuarioEmpresa']),
-        setEmpresa(empresa) {
-            this.usuario.empresa = empresa;
-        }
+        ...mapActions('empresaModule', ['crearUsuarioEmpresa', 'addTimbresEmpresa']),
+        setEmpresa(payload) {
+            if (payload.tipo === 'usuarios') {
+                this.usuario.empresa = payload.empresa;
+                this.showFormUsuario = true;
+            } else {
+                this.showFormUsuario = false;
+                this.timbres.empresa = payload.empresa;
+            }
+        },
     },
 }
 </script>

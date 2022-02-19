@@ -36,8 +36,16 @@
                         <td>
                             <div class="d-flex justify-content-around" 
                                 v-if="(item.estatus !== 'cancelado' || user_rol === 'USER_ADMIN_SYSTEM') && (item.estatus !== 'terminado' || user_rol === 'USER_ADMIN_SYSTEM')">
-
+                        
                                 <boton class="me-1" :id="item.id" v-if="user_rol === 'USER_ADMIN_SYSTEM' && item.estatus !== 'creado'"></boton>
+                                
+                                <button class="btn btn-outline-success text-success me-1" 
+                                    v-if="user_rol === 'USER_ADMIN_SYSTEM' && item.estatus !== 'creado'"
+                                    @click="printCp(item.id)">
+                                    <font-awesome-icon icon="print" />
+                                    <!-- Cancelar Trip -->
+                                </button>
+
 
                                 <button class="btn btn-outline-danger text-danger me-1" 
                                     v-if="(item.estatus !== 'terminado' && user_rol === 'USER_ADMIN_SYSTEM') && (item.estatus !== 'cancelado' && user_rol === 'USER_ADMIN_SYSTEM')"
@@ -82,7 +90,7 @@ export default {
             }
             return data;
         },
-        ...mapActions('tripModule', ['updateStatus'])
+        ...mapActions('tripModule', ['updateStatus', 'printCp'])
     },
 }
 </script>

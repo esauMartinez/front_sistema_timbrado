@@ -184,6 +184,19 @@ class Trip {
         });
     }
 
+
+    getDatosPdf(trip) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${url}/datos-pdf/${trip}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
+        });
+    }
+
+    getTimbre(trip) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${url}/timbre/${trip}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
+        });
+    }
+
     success(msg) {
         Swal.fire({
             position: 'top-end',

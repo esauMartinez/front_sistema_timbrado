@@ -19,7 +19,14 @@ class Empresa {
         permiso_SCT = '',
         numero_permiso_SCT = '',
         clave_regimen_fiscal = '',
-        descripcion_regimen_fiscal = ''
+        descripcion_regimen_fiscal = '',
+        calle = '',
+        colonia = '',
+        municipio = '',
+        estado = '',
+        pais = '',
+        numero_exterior = '',
+        numero_interior = '',
     ) {
         this.id = id;
         this.uuid = uuid;
@@ -36,6 +43,13 @@ class Empresa {
         this.numero_permiso_SCT = numero_permiso_SCT;
         this.clave_regimen_fiscal= clave_regimen_fiscal;
         this.descripcion_regimen_fiscal = descripcion_regimen_fiscal;
+        this.calle = calle;
+        this.colonia = colonia;
+        this.municipio = municipio;
+        this.estado = estado;
+        this.pais = pais;
+        this.numero_exterior = numero_exterior;
+        this.numero_interior = numero_interior;
     }
 
 
@@ -79,6 +93,12 @@ class Empresa {
     uploadUser(user) {
         return new Promise((resolve, reject) => {
             axios.post(`${url}/empresa/uploadUser`, user, token()).then(response => resolve(response.data)).catch(error => reject(error))
+        });
+    }
+    
+    addTimbresEmpresa(payload) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${url}/empresa/addTimbresEmpresa`, payload, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 

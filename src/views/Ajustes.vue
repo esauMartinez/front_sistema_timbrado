@@ -17,13 +17,45 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="panelsStayOpen-perimso">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapsePermiso" aria-expanded="true" aria-controls="panelsStayOpen-collapsePermiso">
-                        Datos SCT
+                        Datos empresa
                     </button>
                 </h2>
                 <div id="panelsStayOpen-collapsePermiso" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-perimso">
                     <div class="accordion-body">
                         <form action="" @submit.prevent="updatePermisoSCT(empresa)">
                             <div class="row">
+                                <div class="col-lg-4 mb-3">
+                                    <label for="" class="form-label">Calle</label>
+                                    <input type="text" class="form-control" v-model="empresa.calle" required>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label for="" class="form-label">Colonia</label>
+                                    <input type="text" class="form-control" v-model="empresa.colonia" required>
+                                </div>                               
+                                <div class="col-lg-4 mb-3">
+                                    <label for="" class="form-label">Municipio</label>
+                                    <input type="text" class="form-control" v-model="empresa.municipio" required>
+                                </div>                               
+                                <div class="col-lg-6 mb-3">
+                                    <label for="" class="form-label">Estado</label>
+                                    <input type="text" class="form-control" v-model="empresa.estado" required>
+                                </div>                               
+                                <div class="col-lg-6 mb-3">
+                                    <label for="" class="form-label">Pais</label>
+                                    <input type="text" class="form-control" v-model="empresa.pais" required>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label for="" class="form-label">Numero exterior</label>
+                                    <input type="text" class="form-control" v-model="empresa.numero_exterior" required>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label for="" class="form-label">Numero interior</label>
+                                    <input type="text" class="form-control" v-model="empresa.numero_interior" required>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label for="" class="form-label">Codigo postal</label>
+                                    <input type="text" class="form-control" v-model="empresa.codigo_postal" required>
+                                </div>
                                 <div class="col-lg-4 mb-3">
                                     <label for="" class="form-label">Regimen fiscal</label>
                                     <!-- <input type="text" class="form-control" v-model="empresa.clave_regimen_fiscal" required> -->
@@ -47,8 +79,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
-            
+            </div>       
 
             <div class="accordion-item">
                 <h2 class="accordion-header" id="panelsStayOpen-perimso">

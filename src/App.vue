@@ -2,7 +2,7 @@
     <!-- <navbar></navbar> -->
 	<sidenav v-if="user_accepted"></sidenav>
 
-	<router-view class="mt-5"/>
+	<router-view :class="{ 'mt-5': user_accepted }"/>
 </template>
 
 <script>

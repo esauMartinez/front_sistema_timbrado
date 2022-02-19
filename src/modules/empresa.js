@@ -32,7 +32,12 @@ const empresaModule = {
             { clave: 628, descripcion: 'Hidrocarburos' },
             { clave: 629, descripcion: 'De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales' },
             { clave: 630, descripcion: 'Enajenación de acciones en bolsa de valores' }
-        ]
+        ],
+        timbres: {
+            empresa: null,
+            timbres: null,
+            comentarios: null
+        }
     }),
     mutations: {
         setEmpresas(state, empresas) {
@@ -109,6 +114,14 @@ const empresaModule = {
         async crearUsuarioEmpresa({}, payload) {
             try {
                 let response = await empresa.uploadUser(payload);
+                empresa.success(response.msg);
+            } catch (error) {
+                empresa.error(error);
+            }
+        },
+        async addTimbresEmpresa({}, payload) {
+            try {
+                let response = await empresa.addTimbresEmpresa(payload);
                 empresa.success(response.msg);
             } catch (error) {
                 empresa.error(error);

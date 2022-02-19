@@ -3,6 +3,7 @@ import Mercancia from '../classes/mercancia'
 import router from '../router';
 import store from '../store';
 import moment from 'moment';
+import { generatePDF } from '../services/generatePDF';
 
 let trip = new Trip();
 let mercancia = new Mercancia();
@@ -220,23 +221,34 @@ const tripModule = {
         },
         async putTrip({ state, dispatch }, payload) {
             try {
-                let response = await trip.update(payload);
-                state.trip = new Trip();
+                await trip.update(payload);
+                await dispatch('printCp', payload.id);
                 dispatch('getTrips', state.estatusTrip);
-                console.log(response);
-                
+
+                state.trip = new Trip();
                 router.push('/trip');
             } catch (error) {
-                console.log(error);
-                // if (error.response.status === 404) {
-                //     trip.notFound(error.response.data.msg);
-                // } else if (error.response.status === 400) {
-                //     console.log(error.response.data);
-                //     trip.error(error.response.data.msg.message);
-                // } else {
-                //     trip.error(error);
-                // }
+                if (error.response.status === 404) {
+                    trip.notFound(error.response.data.msg);
+                } else if (error.response.status === 400) {
+                    trip.error(error.response.data.msg.message);
+                } else {
+                    trip.error(error);
+                }
             }
+        },
+        async printCp({ state }, payload) {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    let response = await trip.getDatosPdf(payload);
+                    
+                    generatePDF(response);
+                    
+                    resolve();
+                } catch (error) {
+                    reject(error);
+                }
+            });
         },
         async updateStatus({ state, dispatch }, payload) {
             try {
