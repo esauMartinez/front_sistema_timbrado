@@ -74,6 +74,8 @@ const usuarioModule = {
                 let response = await usuario.auth(payload);                
                 if (response.data.user_rol === 'USER_CLIENTE_SYSTEM') {
                     router.push('/cotizacion');
+                } else if (response.data.user_rol === 'USER_ONLY_TIMBRE') {
+                    router.push('/timbre');
                 } else if (response.data.user_rol === 'USER_ROOT_SYSTEM') {
                     router.push('/root');
                 } else {

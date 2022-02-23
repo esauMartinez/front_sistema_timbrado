@@ -41,6 +41,8 @@ import modificarEmpresa from '../components/empresa/modificar.vue'
 import Servicio from '../views/Servicio'
 import crearServicio from '../components/servicio/crear.vue'
 
+import Timbre from '../views/Timbre.vue'
+
 import Ajustes from '../views/Ajustes.vue'
 
 import verifyUser from '../guards'
@@ -238,6 +240,12 @@ const routes = [
     path: '/ajustes',
     name: 'ajustes',
     component: Ajustes,
+    beforeEnter: [verifyUser]
+  },
+  {
+    path: '/timbre',
+    name: 'timbre',
+    component: Timbre,
     beforeEnter: [verifyUser]
   }
 ]
