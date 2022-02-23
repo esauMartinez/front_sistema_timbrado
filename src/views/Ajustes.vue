@@ -93,7 +93,7 @@
                             <div class="row">
                                 <div class="col-lg-4 offset-lg-4 mb-3">
                                     <div class="card" style="width: 18rem;">
-                                        <img :src="`http://localhost:3000/uploads/${empresa.uuid}/${empresa.logo}`" height="200" width="100%" class="card-img-top" alt="logotipo empresa">
+                                        <img :src="`https://timbrado-cfdi.herokuapp.com:3000/uploads/${empresa.uuid}/${empresa.logo}`" height="200" width="100%" class="card-img-top" alt="logotipo empresa">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-3">

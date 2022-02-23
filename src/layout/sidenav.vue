@@ -2,10 +2,10 @@
     <div class="side-nav">
         <div class="logo">
             <div class="image" v-if="empresa !== null">
-                <img :src="`http://localhost:3000/uploads/${empresa}/${logo()}`" width="100%">
+                <img :src="`https://timbrado-cfdi.herokuapp.com/uploads/${empresa}/${logo()}`" width="100%">
             </div>
             <div class="image" v-else>
-                <img :src="`http://localhost:3000/uploads/logo-user.png`" width="100%">
+                <img :src="`https://timbrado-cfdi.herokuapp.com/uploads/logo-user.png`" width="100%">
             </div>
             <div class="name mt-3">
                 <p>{{nombre}}</p>
