@@ -24,14 +24,14 @@
                         <td>
                             <div class="d-flex justify-content-around">
                                 <button 
-                                    v-if="user_rol !== 'USER_ROOT_SYSTEM'"
+                                    v-if="user_rol === 'USER_ADMIN_SYSTEM'"
                                     class="btn btn-outline-danger" 
                                     @click="deleteUsuario(item)">
                                     <font-awesome-icon icon="trash-alt" />
                                     <!-- Eliminar -->
                                 </button>
                                 <router-link 
-                                    v-if="user_rol !== 'USER_ROOT_SYSTEM'"
+                                    v-if="user_rol === 'USER_ADMIN_SYSTEM'"
                                     class="btn btn-warning" 
                                     :to="{ path: `/modificar-usuario/${item.id}` }">
                                     <font-awesome-icon icon="pencil-alt" />
