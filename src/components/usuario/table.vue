@@ -24,14 +24,14 @@
                         <td>
                             <div class="d-flex justify-content-around">
                                 <button 
-                                    v-if="type === 1"
+                                    v-if="user_rol !== 'USER_ROOT_SYSTEM'"
                                     class="btn btn-outline-danger" 
                                     @click="deleteUsuario(item)">
                                     <font-awesome-icon icon="trash-alt" />
                                     <!-- Eliminar -->
                                 </button>
                                 <router-link 
-                                    v-if="type === 1"
+                                    v-if="user_rol !== 'USER_ROOT_SYSTEM'"
                                     class="btn btn-warning" 
                                     :to="{ path: `/modificar-usuario/${item.id}` }">
                                     <font-awesome-icon icon="pencil-alt" />
@@ -39,7 +39,7 @@
                                 </router-link>
 
                                 <button
-                                    v-if="type === -1"
+                                    v-if="user_rol === 'USER_ROOT_SYSTEM'"
                                     class="btn btn-info"
                                     @click="getUsuario(item.id)">
                                     <font-awesome-icon icon="pencil-alt" />
@@ -61,8 +61,8 @@ export default {
         empresa: {
             type: String
         },
-        type: {
-            type: Number
+        user_rol: {
+            type: String
         }
     },
     computed: {

@@ -95,7 +95,7 @@
                     <tableUsuarios 
                         v-if="tipo === 'usuarios'" 
                         :empresa="usuario.empresa"
-                        :type="-1">
+                        :user_rol="user_rol">
                     </tableUsuarios>
                 </div>
             </div>
@@ -131,7 +131,7 @@ export default {
     computed: {
         ...mapState(
             'usuarioModule', 
-            [ 'usuario' ]
+            [ 'usuario', 'user_rol' ]
         ),
         ...mapState(
             'empresaModule', 
@@ -147,15 +147,6 @@ export default {
             this.tipo = tipo;
             this.usuario.empresa = empresa;
             this.timbres.empresa = empresa;
-            // if (tipo === 'usuarios') {
-            //     this.showFormUsuario = true;
-            // } else if (tipo === 'timbre') {
-            //     this.showFormUsuario = false;
-            //     this.timbres.empresa = empresa;
-            // } else {
-            //     this.showFormUsuario = true;
-            //     this.timbres.empresa = empresa;
-            // }
         },
     },
     mounted() {

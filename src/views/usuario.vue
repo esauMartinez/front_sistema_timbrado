@@ -11,12 +11,13 @@
         </div>
         <table-usuario 
             :empresa="empresa" 
-            :type="1">
+            :user_rol="user_rol">
         </table-usuario>
     </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import tableUsuario from '../components/usuario/table.vue'
 export default {
     name: 'usuario',
@@ -27,6 +28,12 @@ export default {
         return {
             empresa: null
         }
+    },
+    computed: {
+        ...mapState(
+            'usuarioModule', 
+            [ 'user_rol' ]
+        ),
     },
     beforeMount() {
         const { empresa } = JSON.parse(localStorage.getItem('usuario'));
