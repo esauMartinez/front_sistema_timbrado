@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import { urlSocket } from '../services/url';
 import store from '../store'
 
 class Socket {
@@ -9,7 +10,7 @@ class Socket {
     }
     
     connectToWorkspace(namespace, room) {
-        this.socket = io(`http://localhost:3000/${namespace}`);
+        this.socket = io(`${urlSocket}/${namespace}`);
 
         this.joinToRoom(room);
 
