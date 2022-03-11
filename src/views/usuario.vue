@@ -9,7 +9,10 @@
                 </router-link>
             </div>
         </div>
-        <table-usuario :empresa="empresa"></table-usuario>
+        <table-usuario 
+            :empresa="empresa" 
+            :type="1">
+        </table-usuario>
     </div>
 </template>
 
