@@ -16,7 +16,7 @@
                     width="100%">
             </div>
             <div class="name mt-3">
-                <p>{{nombre}}</p>
+                <p>{{ nombre }}</p>
             </div>
         </div>
         <ul class="menu mt-3">
@@ -108,7 +108,7 @@ export default {
         left: 0;
         bottom: 0;
         width: 350px;
-        background: #132226;
+        background: #6c757d;
     }
 
     .menu {
@@ -130,7 +130,7 @@ export default {
     }
 
     .link-menu:hover {
-        background: #00406c;
+        background: #565c61;
         /* color: #000000; */
     }
 

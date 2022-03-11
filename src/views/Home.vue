@@ -65,7 +65,7 @@ export default {
 <style scoped>
 	.my-card {
 		width: 100%;
-		/* border-radius: 6px; */
+		border-radius: 6px;
 		border: 1px solid rgba(189, 189, 189, 0.87);
 	}
 

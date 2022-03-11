@@ -1,35 +1,21 @@
 <template>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-2 mb-3">
+            <div class="mb-3 my-flex-menu">
                 <button 
-                    class="btn btn btn-success me-3 w-100" 
+                    class="btn btn-secondary button-menu" 
                     @click="postTrip">
                     Crear Nuevo Trip
+                    <font-awesome-icon icon="plus" size="lg" />
                 </button>
-            </div>
-            <div class="col-lg-3 mb-3">
-                <select 
-                    class="form-control" 
-                    v-model="estatus" 
-                    @change="getTrips(estatus)">
-                    <option 
-                        value="creado">
-                        Creados
-                    </option>
-                    <option 
-                        value="transito">
-                        Transito
-                    </option>
-                    <option 
-                        value="terminado">
-                        Terminados
-                    </option>
-                    <option 
-                        value="cancelado">
-                        Cancelados
-                    </option>
-                </select>
+                <button                
+                    v-for="({ title, type, icon }, index) in buttons"
+                    :key="index"
+                    :class="[ {'btn': true }, 'btn-secondary', 'button-menu' ]" 
+                    @click="getTrips(type)">
+                    {{ title }}
+                    <font-awesome-icon :icon="icon" size="lg" />
+                </button>
             </div>
         </div>
 
@@ -44,6 +30,16 @@ export default {
     name: 'Timbre',
     components: {
         tableTrip
+    },
+    data() {
+        return {
+            buttons: [
+                { color: 'btn-info', type: 'creado', title: 'Trips creados', icon: 'truck' },
+                { color: 'btn-warning', type: 'transito', title: 'Trips en transito', icon: 'road' },
+                { color: 'btn-success', type: 'terminado', title: 'Trips terminados', icon: 'truck-loading' },
+                { color: 'btn-danger', type: 'cancelado', title: 'Trips cancelados', icon: 'ban' },
+            ]
+        }
     },
     computed: {
         estatus: {
@@ -70,3 +66,10 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+    .my-flex-menu {
+        display: flex;
+        justify-content: center;
+    }
+</style>

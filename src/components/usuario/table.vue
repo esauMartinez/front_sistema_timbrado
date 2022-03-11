@@ -16,7 +16,7 @@
                     <tr 
                         v-for="(item, index) in usuarios" 
                         :key="index"
-                        :class="[{ isHide: item.user_rol === 'USER_CLIENTE_SYSTEM' && type === -1 }]">
+                        :class="[{ isHide: item.user_rol === 'USER_CLIENTE_SYSTEM' && user_rol === 'USER_ROOT_SYSTEM' }]">
                         <td>{{ item.nombre }} {{ item.paterno }} {{ item.materno }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.password }}</td>

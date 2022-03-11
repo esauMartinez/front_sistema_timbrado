@@ -68,4 +68,13 @@ export default {
     .list ul li a:hover {
         background: rgb(161, 161, 161);
     }
+
+    .button-menu {
+        border-radius: 0 !important;
+        padding: 20px !important;
+        width: 200px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
 </style>

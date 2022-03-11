@@ -5,7 +5,34 @@ import store from './store'
 
 // icons libraries
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faAddressCard, faBell, faCheck, faCog, faDollarSign, faFileAlt, faFileInvoice, faFolderPlus, faHardHat, faHome, faMapMarkerAlt, faPencilAlt, faPlus, faPlusCircle, faPrint, faSave, faSignOutAlt, faTrashAlt, faTruckLoading, faTruckMoving, faUndoAlt, faUserPlus, faUsers, faUserSecret } from '@fortawesome/free-solid-svg-icons'
+import { 
+    faAddressCard, 
+    faBan, 
+    faBell, 
+    faCheck, 
+    faCog, 
+    faDollarSign, 
+    faFileAlt, 
+    faFileInvoice, 
+    faFolderPlus, 
+    faHardHat, 
+    faHome, 
+    faMapMarkerAlt, 
+    faPencilAlt, 
+    faPlus, 
+    faPlusCircle, 
+    faPrint, 
+    faRoad, 
+    faSave, 
+    faSignOutAlt, 
+    faTrashAlt, 
+    faTruck, 
+    faTruckLoading, 
+    faTruckMoving,
+    faUndoAlt, 
+    faUserPlus, 
+    faUsers, 
+    faUserSecret } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 //import bootstrap
@@ -38,5 +65,9 @@ library.add(faFolderPlus)
 library.add(faPlusCircle)
 library.add(faUserPlus)
 library.add(faBell)
+library.add(faTruckLoading)
+library.add(faBan)
+library.add(faTruck)
+library.add(faRoad)
 
 createApp(App).use(store).use(router).component('font-awesome-icon', FontAwesomeIcon).mount('#app')

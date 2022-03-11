@@ -125,7 +125,7 @@ export default {
     data() {
         return {
             showFormUsuario: false,
-            tipo: 'crear'
+            tipo: null
         }
     },
     computed: {
@@ -155,6 +155,7 @@ export default {
 
         modalRoot.addEventListener('hidden.bs.modal', () => {
             this.showFormUsuario = false;
+            this.tipo = null;
         })
     },
 }
