@@ -1,8 +1,10 @@
-import axios from 'axios'
-import Swal from 'sweetalert2'
 import Usuario from '../classes/usuario';
 import router from '../router';
 import socket from '../classes/socket'
+import axios from 'axios';
+import { url } from '../services/url';
+import { messages } from '../classes/messages';
+import { render_page } from '../services/renderPage';
 
 const usuario = new Usuario();
 
@@ -19,31 +21,32 @@ const usuarioModule = {
         nombre: ''
     }),
     mutations: {
-        setAuth(state, auth) {
+        setAuth(state, { data: { data: { user_rol, empresa } } }) {
+
             state.user_accepted = true;
-            state.user_rol = auth.data.user_rol;
-            state.empresa = auth.data.empresa;
-            localStorage.setItem('token', auth.token);
-            localStorage.setItem('usuario', JSON.stringify(auth.data));
+            state.user_rol = user_rol;
+            state.empresa = empresa;
             state.usuario = new Usuario();
 
             let room = 'admin';
 
-            if (auth.data.user_rol === 'USER_CLIENTE_SYSTEM') {
+            if (user_rol === 'USER_CLIENTE_SYSTEM') {
                 room = 'cliente';
             }
 
-            if (auth.data.empresa !== null) {
-                socket.connectToWorkspace(`empresa_${auth.data.empresa.replace(/-/g, '_')}`, room);
+            if (empresa !== null) {
+                socket.connectToWorkspace(`empresa_${empresa.replace(/-/g, '_')}`, room);
             }
         },
         logOut(state) {
             localStorage.removeItem('usuario');
             localStorage.removeItem('token');
             state.user_accepted = false;
+
             if (state.empresa !== null) {
                 socket.disconnectToWorkspace();
             }
+            
             router.push('/');
         },
         setUsuarios(state, usuarios) {
@@ -71,75 +74,45 @@ const usuarioModule = {
     actions: {
         async auth({ commit }, payload) {
             try {
-                let response = await usuario.auth(payload);                
-                if (response.data.user_rol === 'USER_CLIENTE_SYSTEM') {
-                    router.push('/cotizacion');
-                } else if (response.data.user_rol === 'USER_ONLY_TIMBRE') {
-                    router.push('/timbre');
-                } else if (response.data.user_rol === 'USER_ROOT_SYSTEM') {
-                    router.push('/root');
-                } else {
-                    router.push('/home');
-                }
-
+                const response = await axios.post(`${url}/auth`, payload);
+                
                 commit('setAuth', response);
+                render_page(response);
+                messages.statusMessage({ status: 200, data: { msg: 'Usuario autenticiado correctamente' } });
 
             } catch (error) {
-                console.log(error);
-                let errorStatus = error.response;
-
-                if (errorStatus === 404) {
-                    usuario.notFound(error.response.data.message);
-                } else {
-                    usuario.error('Hubo un error');
-                }
+                messages.statusMessage(error.response);
             }
         },
-        async getUsuarios({ commit }) {
-            try {
-                let response = await usuario.findAll();
-                commit('setUsuarios', response);
-            } catch (error) {
-                usuario.error(error);
-            }
+        async getUsuarios({ commit }, payload) {
+            const { data } = await axios.get(`${url}/usuario/empresa/${payload}`, token());
+            commit('setUsuarios', data);
         },
         async getUsuario({ commit }, payload) {
-            try {
-                let response = await usuario.findById(payload);
-                commit('setUsuario', response);
-            } catch (error) {
-                router.push('/usuario');
-                usuario.error(error);
-            }
+            const { data } = await axios.get(`${url}/usuario/${payload}`, token())
+            commit('setUsuario', data);
         },
         async postUsuario({ dispatch, state }, payload) {
-            try {
-                let response = await usuario.create(payload);
-                usuario.success(response.msg);
-                router.push('/usuario');
-                state.usuario = new Usuario();
-                dispatch('getUsuarios');
-            } catch (error) {
-                usuario.error(error);
-            }
+            const data = await axios.post(`${url}/usuario`, payload, token());
+            messages.statusMessage(data);
+            router.push('/usuario');
+            state.usuario= new Usuario();
+            dispatch('getUsuarios');
         },
         async putUsuario({ dispatch }, payload) {
-            try {
-                let response = await usuario.update(payload);
-                usuario.success(response.msg);
-                router.push('/usuario');
-                dispatch('getUsuarios');
-            } catch (error) {
-                usuario.error(error);
-            }
+            const data = await axios.put(`${url}/usuario/${payload.id}`, payload, token());
+            messages.statusMessage(data);
+            dispatch('getUsuarios', payload.empresa);
+            router.push('/usuario');
         },
-        async deleteUsuario({ dispatch }, payload) {
-            try {
-                let response = await usuario.delete(payload);
-                usuario.success(response.msg);
-                dispatch('getUsuarios');
-            } catch (error) {
-                usuario.error(error);
+        async deleteUsuario({ dispatch }, { id, empresa }) {
+
+            const responseQuestion = await messages.question();
+
+            if (responseQuestion) {
+                const data = await axios.delete(`${url}/usuario/${id}`, token());
+                messages.statusMessage(data);
+                dispatch('getUsuarios', empresa);
             }
         }
     },

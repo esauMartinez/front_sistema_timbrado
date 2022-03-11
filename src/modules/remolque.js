@@ -1,6 +1,11 @@
 import router from '../router'
 import Remolque from '../classes/remolque'
 import store from '../store'
+import { arr_subtipo } from '../services/datos'
+import { url } from '../services/url'
+import axios from 'axios'
+import token from '../services/token'
+import { messages } from '../classes/messages'
 
 let remolque = new Remolque()
 
@@ -10,40 +15,7 @@ const remolqueModule = {
         remolque,
         remolques: [],
         copia: [],
-        arr_subtipo: [
-            { clave: 'CTR001', descripcion:	'Caballete' },
-            { clave: 'CTR002', descripcion:	'Caja' },
-            { clave: 'CTR003', descripcion:	'Caja Abierta' },
-            { clave: 'CTR004', descripcion:	'Caja Cerrada' },
-            { clave: 'CTR005', descripcion:	'Caja De Recolección Con Cargador Frontal' },
-            { clave: 'CTR006', descripcion:	'Caja Refrigerada' },
-            { clave: 'CTR007', descripcion:	'Caja Seca' },
-            { clave: 'CTR008', descripcion:	'Caja Transferencia' },
-            { clave: 'CTR009', descripcion:	'Cama Baja o Cuello Ganso' },
-            { clave: 'CTR010', descripcion:	'Chasis Portacontenedor' },
-            { clave: 'CTR011', descripcion:	'Convencional De Chasis' },
-            { clave: 'CTR012', descripcion:	'Equipo Especial' },
-            { clave: 'CTR013', descripcion:	'Estacas' },
-            { clave: 'CTR014', descripcion:	'Góndola Madrina' },
-            { clave: 'CTR015', descripcion:	'Grúa Industrial' },
-            { clave: 'CTR016', descripcion:	'Grúa ' },
-            { clave: 'CTR017', descripcion:	'Integral' },
-            { clave: 'CTR018', descripcion:	'Jaula' },
-            { clave: 'CTR019', descripcion:	'Media Redila' },
-            { clave: 'CTR020', descripcion:	'Pallet o Celdillas' },
-            { clave: 'CTR021', descripcion:	'Plataforma' },
-            { clave: 'CTR022', descripcion:	'Plataforma Con Grúa' },
-            { clave: 'CTR023', descripcion:	'Plataforma Encortinada' },
-            { clave: 'CTR024', descripcion:	'Redilas' },
-            { clave: 'CTR025', descripcion:	'Refrigerador' },
-            { clave: 'CTR026', descripcion:	'Revolvedora' },
-            { clave: 'CTR027', descripcion:	'Semicaja' },
-            { clave: 'CTR028', descripcion:	'Tanque' },
-            { clave: 'CTR029', descripcion:	'Tolva' },
-            { clave: 'CTR031', descripcion:	'Volteo' },
-            { clave: 'CTR032', descripcion:	'Volteo Desmontable' },
-
-        ]
+        arr_subtipo
     }),
     mutations: {
         setRemolques(state, remolques) {
@@ -72,48 +44,52 @@ const remolqueModule = {
     actions: {
         async getRemolques({ commit }) {
             try {
-                let response = await remolque.findAll();
-                commit('setRemolques', response);
+                const { data } = await axios.get(`${url}/remolque`, token());
+                commit('setRemolques', data);
             } catch (error) { 
-                remolque.error(error);
+                messages.statusMessage(error.response);
             }
         },
-        async getRemolque({ commit }, id) {
+        async getRemolque({ commit }, payload) {
             try{
-                let response = await remolque.findById(id);
-                commit('setRemolque', response);
+                let { data } = await axios.get(`${url}/remolque/${payload}`, token());
+                commit('setRemolque', data);
             } catch (error) {
                 // remolque.error(error);
             }
         },
         async postRemolque( { dispatch, state }, payload){
             try {
-                let response = await remolque.create(payload);
-                remolque.success(response.msg);
-                router.push('/remolque');
+                const data = await axios.post(`${url}/remolque`, payload, token());
+                messages.statusMessage(data);
                 state.remolque = new Remolque();
                 dispatch('getRemolques');
+                router.push('/remolque');
             } catch (error) {
-                remolque.error(error);
+                messages.statusMessage(error.response);
             }
         },
         async putRemolque({ dispatch }, payload){
             try {
-                let response = await remolque.update(payload);
-                remolque.success(response.msg);
+                const data = await axios.put(`${url}/remolque/${payload.id}`, payload, token());
+                messages.statusMessage(data);
                 router.push('/remolque');
                 dispatch('getRemolques');
             } catch(error) {
-                remolque.error(error);
+                messages.statusMessage(error.response);
             }
         },
-        async deleteRemolque({ dispatch }, id){
+        async deleteRemolque({ dispatch }, payload){
             try{
-                let response = await remolque.delete(id);
-                remolque.success(response.msg);
-                dispatch('getRemolques');
+                const responseQuestion = await messages.question();
+
+                if (responseQuestion) {
+                    const data = await axios.delete(`${url}/remolque/${payload}`, token());
+                    messages.statusMessage(data);
+                    dispatch('getRemolques');
+                }
             } catch (error) {
-                remolque.error(error);
+                messages.statusMessage(error.response);
             }
         }
     }

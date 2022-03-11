@@ -1,6 +1,10 @@
 import Trip from '../classes/trip';
 import Empresa from '../classes/empresa'
 import router from '../router';
+import axios from 'axios';
+import token from '../services/token';
+import { messages } from '../classes/messages';
+import { url } from '../services/url';
 
 let empresa = new Empresa();
 
@@ -115,6 +119,14 @@ const empresaModule = {
             try {
                 let response = await empresa.uploadUser(payload);
                 empresa.success(response.msg);
+            } catch (error) {
+                empresa.error(error);
+            }
+        },
+        async putUsuarioEmpresa({}, payload) {
+            try {
+                const data = await axios.put(`${url}/usuario/${payload.id}`, payload, token());
+                messages.statusMessage(data);
             } catch (error) {
                 empresa.error(error);
             }

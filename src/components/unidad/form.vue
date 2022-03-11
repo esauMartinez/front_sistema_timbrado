@@ -41,7 +41,7 @@
                 <label for="" class="form-label">Configuracion vehicular </label>
                 <select class="form-control" v-model="unidad.configuracion_vehicular" required>
                     <option value=""></option>
-                    <option v-for="(item, index) in comfiguracion" :key="index" :value="item.clave">{{item.clave}} - {{ item.descripcion }}</option>
+                    <option v-for="(item, index) in configuracion" :key="index" :value="item.clave">{{item.clave}} - {{ item.descripcion }}</option>
                 </select>
             </div>
         </div>
@@ -54,7 +54,7 @@ import { mapState } from 'vuex'
 export default {
     name: 'formUnidad',
     computed: {
-        ...mapState('unidadModule', ['unidad', 'comfiguracion'])
+        ...mapState('unidadModule', ['unidad', 'configuracion'])
     }
 }
 </script>

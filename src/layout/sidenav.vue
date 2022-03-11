@@ -1,27 +1,49 @@
 <template>
     <div class="side-nav">
         <div class="logo">
-            <div class="image" v-if="empresa !== null">
-                <img :src="`https://timbrado-cfdi.herokuapp.com/uploads/${empresa}/${logo()}`" width="100%">
+            <div 
+                class="image" 
+                v-if="empresa !== null">
+                <img 
+                    :src="`${url}/uploads/${empresa}/${logo()}`" 
+                    width="100%">
             </div>
-            <div class="image" v-else>
-                <img :src="`https://timbrado-cfdi.herokuapp.com/uploads/logo-user.png`" width="100%">
+            <div 
+                class="image" 
+                v-else>
+                <img 
+                    :src="`${url}/uploads/logo-user.png`" 
+                    width="100%">
             </div>
             <div class="name mt-3">
                 <p>{{nombre}}</p>
             </div>
         </div>
         <ul class="menu mt-3">
-            <li class="li-menu" v-for="(item, index) in items" :key="index">
-                <router-link class="link-menu" :to="item.url" v-for="(permiso, i) in item.permisos" :key="i" :class="{ hideItem: permiso !== user_rol }">
-                    <font-awesome-icon class="icon" :icon="item.icon" />
+            <li 
+                class="li-menu" 
+                v-for="(item, index) in items" 
+                :key="index">
+                <router-link 
+                    class="link-menu" 
+                    :to="item.url" 
+                    v-for="(permiso, i) in item.permisos" 
+                    :key="i" 
+                    :class="{ hideItem: permiso !== user_rol }">
+                    <font-awesome-icon 
+                        class="icon" 
+                        :icon="item.icon" />
                     {{ item.nombre }}
                 </router-link>
             </li>
 
             <li class="li-menu">
-                <a class="link-menu" @click="logOut">
-                    <font-awesome-icon class="icon" icon="sign-out-alt" />
+                <a 
+                    class="link-menu" 
+                    @click="logOut">
+                    <font-awesome-icon 
+                        class="icon" 
+                        icon="sign-out-alt" />
                     Salir
                 </a>
             </li>
@@ -31,32 +53,31 @@
 
 <script>
 import { mapGetters, mapMutations, mapState } from 'vuex'
+import { items_sidenav } from '../services/datos'
+import { url } from '../services/url'
 export default {
     name: 'sidenav',
     data() {
         return {
-            items: [
-                { nombre: 'Ajustes', url: '/ajustes', icon: 'cog', permisos: [ 'USER_ADMIN_SYSTEM' ] },
-                { nombre: 'Inicio', url: '/home', icon: 'home', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
-                { nombre: 'Clientes', url: '/cliente', icon: 'address-card', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
-                { nombre: 'Operadores', url: '/operador', icon: 'hard-hat', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
-                { nombre: 'Remolques', url: '/remolque', icon: 'truck-loading', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
-                { nombre: 'Unidades', url: '/unidad', icon: 'truck-moving', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
-                { nombre: 'Patios', url: '/patio', icon: 'map-marker-alt', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
-                { nombre: 'Servicios', url: '/servicio', icon: 'file-alt', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
-                { nombre: 'Cotizaciones', url: '/cotizacion', icon: 'dollar-sign', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
-                { nombre: 'Trips', url: '/trip', icon: 'file-invoice', permisos: [ 'USER_ADMIN_SYSTEM', 'USER_STD_SYSTEM' ] },
-                { nombre: 'Usuarios', url: '/usuario', icon: 'users', permisos: [ 'USER_ADMIN_SYSTEM' ] },
-                { nombre: 'Mis cotizaciones', url: '/cotizacion', icon: 'file-invoice', permisos: [ 'USER_CLIENTE_SYSTEM' ] },
-            ]
+            items: items_sidenav,
+            url
         }
     },
     computed: {
-        ...mapState('usuarioModule', ['user_rol', 'nombre', 'empresa'])
+        ...mapState(
+            'usuarioModule', 
+            [ 'user_rol', 'nombre', 'empresa' ]
+        )
     },
     methods: {
-        ...mapMutations('usuarioModule', ['logOut']),
-        ...mapGetters('usuarioModule', ['logo'])
+        ...mapMutations(
+            'usuarioModule', 
+            [ 'logOut' ]
+        ),
+        ...mapGetters(
+            'usuarioModule', 
+            [ 'logo' ]
+        )
     }
 }
 </script>

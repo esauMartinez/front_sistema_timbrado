@@ -1,6 +1,10 @@
 import router from '../router'
 import store from '../store'
 import Servicio from '../classes/servicio'
+import axios from 'axios'
+import { url } from '../services/url'
+import token from '../services/token'
+import { messages } from '../classes/messages'
 
 let servicio = new Servicio()
 
@@ -21,40 +25,44 @@ const servicioModule = {
     actions: {
         async getServicios({ commit }) {
             try {
-                let response = await servicio.findAll();
-                commit('setServicios', response);
+                const { data } = await axios.get(`${url}/servicio`, token());
+                commit('setServicios', data);
             } catch (error) {
-                servicio.error(error);
+                messages.statusMessage(error.response);
             }
         },
         async getServicio({ commit }, payload) {
             try {
-                let response = await servicio.findById(payload);
-                commit('setServicio', response);
+                const { data } = await axios.get(`${url}/servicio/${payload}`, token());
+                commit('setServicio', data);
             } catch (error) {
                 router.push('/root');
-                servicio.error(error);
+                messages.statusMessage(error.response);
             }
         },
         async postServicio({ dispatch, state }, payload) {
             try {
-                let response = await servicio.create(payload);
-                servicio.success(response.msg);
-                router.push('/servicio');
+                const data = await axios.post(`${url}/servicio`, payload, token());
+                messages.statusMessage(data)
                 state.servicio = new Servicio();
                 dispatch('getServicios');
+                router.push('/servicio');
             } catch (error) {
-                servicio.error(error);
+                messages.statusMessage(error.response);
             }
         },
-        async deleteServicio({ dispatch }, id) {
+        async deleteServicio({ dispatch }, payload) {
             try {
-                let response = await servicio.delete(id);
-                servicio.success(response.msg);
-                router.push('/servicio');
-                dispatch('getServicios');
+                const responseQuestion = await messages.question();
+
+                if (responseQuestion) { 
+                    const data = await axios.delete(`${url}/servicio/${payload}`, token());
+                    messages.statusMessage(data)
+                    dispatch('getServicios');
+                    router.push('/servicio');
+                }
             } catch (error) {
-                servicio.error(error);
+                messages.statusMessage(error.response);
             }
         }
     }

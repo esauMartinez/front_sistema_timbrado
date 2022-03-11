@@ -1,31 +1,49 @@
 <template>
     <div class="row">
         <div class="col-lg-12">
-            <table class="table table-striped table-bordered table-hover">
+            <table class="table table-bordered table-hover">
+                
                 <thead>
                     <tr>
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Password</th>
                         <th>Rol</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in usuarios" :key="index">
-                        <td>{{ item.nombre }} {{ item.patern }} {{ item.materno }}</td>
+                    <tr 
+                        v-for="(item, index) in usuarios" 
+                        :key="index"
+                        :class="[{ isHide: item.user_rol === 'USER_CLIENTE_SYSTEM' && type === -1 }]">
+                        <td>{{ item.nombre }} {{ item.paterno }} {{ item.materno }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.password }}</td>
                         <td>{{ tipoUsuario(item.user_rol) }}</td>
                         <td>
                             <div class="d-flex justify-content-around">
-                                <button class="btn btn-outline-danger" @click="deleteUsuario(item.id)">
+                                <button 
+                                    v-if="type === 1"
+                                    class="btn btn-outline-danger" 
+                                    @click="deleteUsuario(item)">
                                     <font-awesome-icon icon="trash-alt" />
                                     <!-- Eliminar -->
                                 </button>
-                                <router-link class="btn btn-warning" :to="{ path: `/modificar-usuario/${item.id}` }">
+                                <router-link 
+                                    v-if="type === 1"
+                                    class="btn btn-warning" 
+                                    :to="{ path: `/modificar-usuario/${item.id}` }">
                                     <font-awesome-icon icon="pencil-alt" />
                                     <!-- Modificar -->
                                 </router-link>
+
+                                <button
+                                    v-if="type === -1"
+                                    class="btn btn-info"
+                                    @click="getUsuario(item.id)">
+                                    <font-awesome-icon icon="pencil-alt" />
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -39,11 +57,25 @@
 import { mapActions, mapState } from 'vuex'
 export default {
     name: 'tableUsuario',
+    props: {
+        empresa: {
+            type: String
+        },
+        type: {
+            type: Number
+        }
+    },
     computed: {
-        ...mapState('usuarioModule', ['usuarios'])
+        ...mapState(
+            'usuarioModule', 
+            [ 'usuarios' ]
+        )
     },
     methods: {
-        ...mapActions('usuarioModule', ['getUsuarios', 'deleteUsuario']),
+        ...mapActions(
+            'usuarioModule', 
+            [ 'getUsuarios', 'deleteUsuario', 'getUsuario' ]
+        ),
         tipoUsuario(rol) {
             if (rol === 'USER_ADMIN_SYSTEM') {
                 return 'Administrador';
@@ -55,7 +87,12 @@ export default {
         }
     },
     mounted() {
-        this.getUsuarios();
+        this.getUsuarios(this.empresa);
     }
 }
 </script>
+<style scoped>
+    .isHide {
+        display: none;
+    }
+</style>

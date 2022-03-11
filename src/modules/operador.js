@@ -1,6 +1,10 @@
 import router from '../router'
 import Operador from '../classes/operador'
 import store from '../store'
+import token from '../services/token'
+import axios from 'axios'
+import { messages } from '../classes/messages'
+import { url } from '../services/url'
 
 let operador = new Operador()
 
@@ -45,48 +49,52 @@ const operadorModule = {
     actions: {
         async getOperadores({ commit }) {
             try {
-                let response = await operador.findAll();
-                commit('setOperadores', response);
+                const { data } = await axios.get(`${url}/operador`, token());
+                commit('setOperadores', data);
             } catch (error) {
-                operador.error(error);
+                messages.statusMessage(error.response);
             }
         },
         async getOperador({ commit }, payload) {
             try {
-                let response = await operador.findById(payload);
-                commit('setOperador', response);
+                let { data } = await axios.get(`${url}/operador/${payload}`, token());
+                commit('setOperador', data);
             } catch (error) {
                 // operador.error(error);
             }
         },
         async postOperador({ dispatch, state }, payload) {
             try {
-                let response = await operador.create(payload);
-                operador.success(response.msg);
-                router.push('/operador');
+                const data = await axios.post(`${url}/operador`, payload, token());
+                messages.statusMessage(data);
                 state.operador = new Operador();
                 dispatch('getOperadores');
+                router.push('/operador');
             } catch (error) {
-                operador.error(error);
+                messages.statusMessage(error.response);
             }
         },
         async putOperador({ dispatch }, payload) {
             try {
-                let response = await operador.update(payload);
-                operador.success(response.msg);
-                router.push('/operador');
+                const data = await axios.put(`${url}/operador/${payload.id}`, payload, token());
+                messages.statusMessage(data);
                 dispatch('getOperadores');
+                router.push('/operador');
             } catch (error) {
-                operador.error(error);
+                messages.statusMessage(error.response);
             }
         },
         async deleteOperador({ dispatch }, payload) {
             try {
-                let response = await operador.delete(payload);
-                operador.success(response.msg);
-                dispatch('getOperadores');
+                const responseQuestion = await messages.question();
+                
+                if (responseQuestion) {
+                    const data = await axios.delete(`${url}/operador/${payload}`, token());
+                    messages.statusMessage(data);
+                    dispatch('getOperadores');
+                }
             } catch (error) {
-                operador.error(error);
+                messages.statusMessage(error.response);
             }
         }
     }

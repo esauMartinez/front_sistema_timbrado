@@ -41,81 +41,11 @@ class Cliente {
         this.forma_pago = forma_pago;
         this.uso_CFDI = uso_CFDI;
     }
-
-    findAll() {
-        return new Promise((resolve, reject) => {
-            axios.get(`${url}/cliente`, token()).then(response => resolve(response.data)).catch(error => reject(error))
-        });
-    }
     
-    findById(id) {
-        return new Promise((resolve, reject) => {
-            axios.get(`${url}/cliente/id/${id}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
-        });
-    }
-    
-    create(cliente) {
-        return new Promise((resolve, reject) => {
-            axios.post(`${url}/cliente`, cliente, token()).then(response => resolve(response.data)).catch(error => reject(error))
-        });
-    }
-
-    update(cliente) {
-        return new Promise((resolve, reject) => {
-            axios.put(`${url}/cliente/${cliente.id}`, cliente, token()).then(response => resolve(response.data)).catch(error => reject(error))
-        });
-    }
-
     searchCp(codigo_postal) {
         return new Promise((resolve, reject) => {
             axios.get(`${urlCp}/find-codigos/${codigo_postal}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
-    }
-    
-    delete(id) {
-        return new Promise((resolve, reject) => {
-            Swal.fire({
-                title: 'Estas seguro ?',
-                text: "No podras revertir esta accion",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, Eliminar',
-                cancelButtonText: 'No'
-            }).then((result) => {
-                if (result.isConfirmed) {                    
-                    axios.delete(`${url}/cliente/${id}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
-                }
-            })
-        });
-    }
-
-
-    success(msg) {
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: msg,
-            showConfirmButton: false,
-            timer: 1500
-        })
-    }
-
-    error(msg) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: msg,
-        })
-    }
-
-    notFound(msg) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Oops...',
-            text: msg,
-        })
     }
 
 }

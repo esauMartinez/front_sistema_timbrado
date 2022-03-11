@@ -15,20 +15,34 @@
                 <td>{{ item.usuarios }}</td>
                 <td>
                     <div class="d-flex justify-content-around">
-                        <!-- <button class="btn btn-outline-danger" @click="deleteCliente(item.id)">
-                            <font-awesome-icon icon="trash-alt" />
-                            Eliminar
-                        </button> -->
-                        <button class="btn btn-outline-secondary" @click="setEmpresa({ empresa: item.uuid, tipo: 'timbres' })" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <font-awesome-icon icon="plus" />
+                        <button 
+                            class="btn btn-outline-secondary" 
+                            @click="setEmpresa({ empresa: item.uuid, tipo: 'timbres' })" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#modalRoot">
+                            <font-awesome-icon icon="bell" />
                         </button>
 
-                        <router-link class="btn btn-outline-secondary" :to="{ path: `/modificar-empresa/${item.uuid}` }">
+
+                        <router-link 
+                            class="btn btn-outline-secondary" 
+                            :to="{ path: `/modificar-empresa/${item.uuid}` }">
                             <font-awesome-icon icon="pencil-alt" />
-                            <!-- Modificar -->
                         </router-link>
 
-                        <button class="btn btn-outline-secondary" @click="setEmpresa({ empresa: item.uuid, tipo: 'usuarios' })" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button 
+                            class="btn btn-outline-secondary" 
+                            @click="setEmpresa({ empresa: item.uuid, tipo: 'crear' })" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#modalRoot">
+                            <font-awesome-icon icon="user-plus" />
+                        </button>
+
+                        <button 
+                            class="btn btn-outline-secondary" 
+                            @click="setEmpresa({ empresa: item.uuid, tipo: 'usuarios' })"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#modalRoot">
                             <font-awesome-icon icon="users" />
                         </button>
                     </div>
@@ -37,21 +51,52 @@
         </tbody>
     </table>
 
-    <div class="modal" tabindex="-1" id="exampleModal">
+    <div class="modal" tabindex="-1" id="modalRoot">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Crear usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <!-- <h5 class="modal-title">Crear usuario</h5> -->
+                    <button 
+                        type="button" 
+                        class="btn-close" 
+                        data-bs-dismiss="modal" 
+                        aria-label="Close">
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <form-usuario v-if="showFormUsuario" @submit.prevent="crearUsuarioEmpresa(usuario)" :usuario="usuario" id="form-data"></form-usuario>
+                    <form-usuario 
+                        v-if="tipo === 'usuarios' || tipo === 'crear'" 
+                        @submit.prevent="tipo !== 'crear' ? putUsuarioEmpresa(usuario) : crearUsuarioEmpresa(usuario)" 
+                        :usuario="usuario" 
+                        id="form-data">
+                    </form-usuario>
 
-                    <form-timbres v-else @submit.prevent="addTimbresEmpresa(timbres)" id="form-data"></form-timbres>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" form="form-data">Guardar usuario</button>
+                    <form-timbres 
+                        v-if="tipo === 'timbres'" 
+                        @submit.prevent="addTimbresEmpresa(timbres)" 
+                        id="form-data">
+                    </form-timbres>
+                    
+                    <div class="d-flex justify-content-end mb-3">
+                        <button 
+                            type="button" 
+                            class="btn btn-secondary me-3" 
+                            data-bs-dismiss="modal">
+                            Cerrar
+                        </button>
+                        <button 
+                            type="submit" 
+                            class="btn btn-primary" 
+                            form="form-data">
+                            Guardar usuario
+                        </button>
+                    </div>
+
+                    <tableUsuarios 
+                        v-if="tipo === 'usuarios'" 
+                        :empresa="usuario.empresa"
+                        :type="-1">
+                    </tableUsuarios>
                 </div>
             </div>
         </div>
@@ -62,11 +107,14 @@
 import { mapActions, mapState } from 'vuex'
 import formUsuario from '../usuario/form.vue'
 import formTimbres from '../ajustes/formularioTimbre.vue'
+import tableUsuarios from '../usuario/table.vue'
+
 export default {
     name: 'tableEmpresa',
     components: {
         formUsuario,
-        formTimbres
+        formTimbres,
+        tableUsuarios
     },
     props: {
         empresas: {
@@ -77,23 +125,46 @@ export default {
     data() {
         return {
             showFormUsuario: false,
+            tipo: 'crear'
         }
     },
     computed: {
-        ...mapState('usuarioModule', ['usuario']),
-        ...mapState('empresaModule', ['timbres'])
+        ...mapState(
+            'usuarioModule', 
+            [ 'usuario' ]
+        ),
+        ...mapState(
+            'empresaModule', 
+            [ 'timbres' ]
+        ),
     },
     methods: {
-        ...mapActions('empresaModule', ['crearUsuarioEmpresa', 'addTimbresEmpresa']),
-        setEmpresa(payload) {
-            if (payload.tipo === 'usuarios') {
-                this.usuario.empresa = payload.empresa;
-                this.showFormUsuario = true;
-            } else {
-                this.showFormUsuario = false;
-                this.timbres.empresa = payload.empresa;
-            }
+        ...mapActions(
+            'empresaModule', 
+            [ 'crearUsuarioEmpresa', 'addTimbresEmpresa', 'putUsuarioEmpresa' ]
+        ),
+        setEmpresa({ tipo, empresa }) {
+            this.tipo = tipo;
+            this.usuario.empresa = empresa;
+            this.timbres.empresa = empresa;
+            // if (tipo === 'usuarios') {
+            //     this.showFormUsuario = true;
+            // } else if (tipo === 'timbre') {
+            //     this.showFormUsuario = false;
+            //     this.timbres.empresa = empresa;
+            // } else {
+            //     this.showFormUsuario = true;
+            //     this.timbres.empresa = empresa;
+            // }
         },
+    },
+    mounted() {
+
+        const modalRoot = document.getElementById('modalRoot')
+
+        modalRoot.addEventListener('hidden.bs.modal', () => {
+            this.showFormUsuario = false;
+        })
     },
 }
 </script>

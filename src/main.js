@@ -5,10 +5,11 @@ import store from './store'
 
 // icons libraries
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faAddressCard, faCheck, faCog, faDollarSign, faFileAlt, faFileInvoice, faHardHat, faHome, faMapMarkerAlt, faPencilAlt, faPlus, faPrint, faSave, faSignOutAlt, faTrashAlt, faTruckLoading, faTruckMoving, faUndoAlt, faUsers, faUserSecret } from '@fortawesome/free-solid-svg-icons'
+import { faAddressCard, faBell, faCheck, faCog, faDollarSign, faFileAlt, faFileInvoice, faFolderPlus, faHardHat, faHome, faMapMarkerAlt, faPencilAlt, faPlus, faPlusCircle, faPrint, faSave, faSignOutAlt, faTrashAlt, faTruckLoading, faTruckMoving, faUndoAlt, faUserPlus, faUsers, faUserSecret } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 //import bootstrap
+import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 // icons
@@ -33,5 +34,9 @@ library.add(faCog)
 library.add(faUsers)
 library.add(faFileAlt)
 library.add(faPrint)
+library.add(faFolderPlus)
+library.add(faPlusCircle)
+library.add(faUserPlus)
+library.add(faBell)
 
 createApp(App).use(store).use(router).component('font-awesome-icon', FontAwesomeIcon).mount('#app')

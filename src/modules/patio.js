@@ -1,6 +1,10 @@
 import router from '../router';
 import Patio from '../classes/patio'
 import store from '../store'
+import axios from 'axios';
+import { url } from '../services/url';
+import token from '../services/token';
+import { messages } from '../classes/messages';
 
 let patio = new Patio();
 
@@ -25,7 +29,6 @@ const patioModule = {
             } else {
                 store.commit('tripModule/setDestino', patio.patio);
             }
-            console.log(patio);
         },
         searchPatio(state, nombre) {
             let array = [];
@@ -56,57 +59,61 @@ const patioModule = {
     actions: {
         async getPatios({commit}) {
             try {
-                let response = await patio.findAll();
-                commit('setPatios', response);
+                const { data } = await axios.get(`${url}/patio`, token());
+                commit('setPatios', data);
             } catch (error) {
-                patio.error(error);
+                messages.statusMessage(error.response);
             }
         },
-        async getPatio({commit}, id) {
+        async getPatio({commit}, payload) {
             try {
-                let response = await patio.findById(id);
-                commit('setPatio', response);
+                const { data } = await axios.get(`${url}/patio/${payload}`, token());
+                commit('setPatio', data);
             } catch (error) {
-                // patio.error(error);
+                // messages.statusMessage(error.response);
             }
         },
         async getPatioTrip({commit}, payload) {
             try {
-                let response = await patio.findById(payload.id);
-                commit('setPatioTrip', { patio: response, tipo: payload.tipo });
+                const { data } = await axios.get(`${url}/patio/${payload.id}`, token());
+                commit('setPatioTrip', { patio: data, tipo: payload.tipo });
             } catch (error) {
-                patio.error(error);
+                messages.statusMessage(error.response);
             }
         },
         async postPatio({ dispatch, state }, payload) {
             try {
-                let response = await patio.create(payload);
-                patio.success(response.msg);
-                router.push('/patio');
+                const data = await axios.post(`${url}/patio`, payload, token());
+                messages.statusMessage(data);
                 state.patio = new Patio();
                 dispatch('getPatios');
+                router.push('/patio');
             } catch (error) {
-                patio.error(error);
+                messages.statusMessage(error.response);
             }
         },
         async putPatio({ dispatch }, payload) {
             try {
-                let response = await patio.update(payload);
-                patio.success(response.msg);
+                const data = await axios.put(`${url}/patio/${payload.id}`, payload, token());
+                messages.statusMessage(data);
                 router.push('/patio');
                 dispatch('getPatios');
             } catch (error) {
-                patio.error(error);
+                messages.statusMessage(error.response);
             }
         },
-        async deletePatio({ dispatch }, id) {
+        async deletePatio({ dispatch }, payload) {
             try {
-                let response = await patio.delete(id);
-                patio.success(response.msg);
-                router.push('/patio');
-                dispatch('getPatios');
+                const responseQuestion = await messages.question();
+
+                if (responseQuestion) {
+                    const data = await axios.delete(`${url}/patio/${payload}`, token());
+                    messages.statusMessage(data);
+                    dispatch('getPatios');
+                    router.push('/patio');
+                }
             } catch (error) {
-                patio.error(error);
+                messages.statusMessage(error.response);
             }
         }
     }

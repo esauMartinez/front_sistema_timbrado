@@ -102,7 +102,6 @@ class Empresa {
         });
     }
 
-
     success(msg) {
         Swal.fire({
             position: 'top-end',

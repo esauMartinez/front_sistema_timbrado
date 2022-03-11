@@ -33,10 +33,6 @@
                 <label for="" class="form-label">Usuarios</label>
                 <input type="number" class="form-control" v-model="empresa.usuarios" required>
             </div>
-            <div class="col-lg-12 mb-3">
-                <label for="" class="form-label">Token</label>
-                <input type="text" class="form-control" v-model="empresa.token" >
-            </div>
         </div>
     </form>
 </template>

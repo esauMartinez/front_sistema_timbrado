@@ -1,8 +1,11 @@
 <template>
     <!-- <navbar></navbar> -->
-	<sidenav v-if="user_accepted"></sidenav>
+	<sidenav 
+        v-if="user_accepted">
+    </sidenav>
 
-	<router-view :class="{ 'mt-5': user_accepted }"/>
+	<router-view 
+        :class="{ 'mt-5': user_accepted }"/>
 </template>
 
 <script>
@@ -16,17 +19,20 @@ export default {
         navbar
 	},
 	computed: {
-		...mapState('usuarioModule', ['user_accepted'])
+		...mapState(
+            'usuarioModule', 
+            [ 'user_accepted' ]
+        )
 	}
 }
 </script>
 
 <style>
 
-	@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+	@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400&display=swap');
 
 	html, body, * {
-		font-family: 'Roboto', sans-serif !important;
+		font-family: 'Fredoka', sans-serif;
 	}
 	
 	body {
