@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { url, urlCp } from '../services/url'
+import { url } from '../services/url'
 import Swal from 'sweetalert2'
 import token from '../services/token'
 
@@ -44,7 +44,7 @@ class Cliente {
     
     searchCp(codigo_postal) {
         return new Promise((resolve, reject) => {
-            axios.get(`${urlCp}/find-codigos/${codigo_postal}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
+            axios.get(`${url}/find-codigos/${codigo_postal}`, token()).then(response => resolve(response.data)).catch(error => reject(error))
         });
     }
 

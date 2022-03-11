@@ -12,7 +12,7 @@
                         type="button" 
                         data-bs-toggle="collapse" 
                         data-bs-target="#panelsStayOpen-collapseCertificados" 
-                        aria-expanded="true" 
+                        aria-expanded="true"
                         aria-controls="panelsStayOpen-collapseCertificados">
                         Certificados
                     </button>

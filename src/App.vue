@@ -156,4 +156,9 @@ export default {
         transform: translateX(20px);
         opacity: 0;
     }
+
+    .accordion-button {
+        background-color: #47809E !important;
+        color: #ffffff !important;
+    }
 </style>

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { url, urlCp } from '../services/url'
+import { url } from '../services/url'
 import Swal from 'sweetalert2'
 import token from '../services/token'
 
