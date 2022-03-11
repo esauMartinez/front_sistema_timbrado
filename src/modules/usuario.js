@@ -49,6 +49,11 @@ const usuarioModule = {
             
             router.push('/');
         },
+        clearSession(state) {
+            localStorage.removeItem('usuario');
+            localStorage.removeItem('token');
+            state.user_accepted = false;
+        },
         setUsuarios(state, usuarios) {
             state.usuarios = usuarios;
             state.copia = usuarios;

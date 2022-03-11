@@ -24,15 +24,28 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 
 export default {
     name: 'Login',
     computed: {
-        ...mapState('usuarioModule', ['usuario'])
+        ...mapState(
+            'usuarioModule', 
+            [ 'usuario' ]
+        )
     },
     methods: {
-        ...mapActions('usuarioModule', ['auth'])
+        ...mapMutations(
+            'usuarioModule', 
+            [ 'clearSession' ]
+        ),
+        ...mapActions(
+            'usuarioModule', 
+            [ 'auth' ]
+        )
+    },
+    mounted() {
+        this.clearSession();
     },
 }
 </script>

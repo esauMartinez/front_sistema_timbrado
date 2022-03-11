@@ -1,8 +1,7 @@
 <template>
     <div class="row">
         <div class="col-lg-12">
-            <table class="table table-bordered table-hover">
-                
+            <table :class="{ 'table': true, 'table-striped': user_rol === 'USER_ADMIN_SYSTEM', 'table-bordered': true, 'table-hover': true }">
                 <thead>
                     <tr>
                         <th>Nombre</th>

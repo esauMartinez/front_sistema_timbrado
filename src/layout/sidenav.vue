@@ -100,6 +100,7 @@ export default {
 
     .name p {
         color: #fff;
+        text-align: center;
     }
 
     .side-nav {
@@ -107,8 +108,8 @@ export default {
         top: 0;
         left: 0;
         bottom: 0;
-        width: 350px;
-        background: #6c757d;
+        width: 300px;
+        background: #47809E;
     }
 
     .menu {

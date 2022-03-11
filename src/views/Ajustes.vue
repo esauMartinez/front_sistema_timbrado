@@ -228,6 +228,7 @@
                                         class="card" 
                                         style="width: 18rem;">
                                         <img 
+                                            v-if="empresa.uuid !== ''"
                                             :src="`${url}/uploads/${empresa.uuid}/${empresa.logo}`" 
                                             height="200" 
                                             width="100%" 

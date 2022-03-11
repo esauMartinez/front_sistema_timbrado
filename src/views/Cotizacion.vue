@@ -1,19 +1,21 @@
 <template>
     <div class="container">
          <div class="row" v-if="user_rol === 'USER_CLIENTE_SYSTEM'">
-            <div class="col-lg-2 mb-3">
-                <button class="btn btn btn-success me-3 w-100" @click="postCotizacion">
-                    <font-awesome-icon icon="plus" />
-                    Nueva Cotizacion
+             <div class="mb-3 my-flex-menu">
+                <button 
+                    class="btn btn-secondary button-menu" 
+                    @click="postCotizacion">
+                    Crear una otizacion
+                    <!-- <font-awesome-icon icon="plus" size="lg" /> -->
                 </button>
-            </div>
-            <div class="col-lg-3 mb-3" v-if="user_rol === 'USER_CLIENTE_SYSTEM'">
-                <select class="form-control" v-model="estatus" @change="getCotizaciones(estatus)">
-                    <option value="creada">Creadas</option>
-                    <option value="enviada">Enviadas</option>
-                    <option value="cotizada">Cotizadas</option>
-                    <option value="autorizada">Autorizadas</option>
-                </select>
+                <button                
+                    v-for="({ title, type, icon }, index) in buttons"
+                    :key="index"
+                    :class="[ {'btn': true }, 'btn-secondary', 'button-menu' ]" 
+                    @click="getCotizaciones(type)">
+                    {{ title }}
+                    <!-- <font-awesome-icon :icon="icon" size="lg" /> -->
+                </button>
             </div>
         </div>
 
@@ -29,9 +31,25 @@ export default {
     components: {
         tableCotizacion
     },
+    data() {
+        return {
+              buttons: [
+                { type: 'creada', title: 'Cotizaciones creadas', icon: 'truck' },
+                { type: 'enviada', title: 'Cotizaciones en enviadas', icon: 'road' },
+                { type: 'cotizada', title: 'Cotizaciones cotizadas', icon: 'truck-loading' },
+                { type: 'autorizada', title: 'Cotizaciones autorizadas', icon: 'ban' },
+            ]
+        }
+    },
     computed: {
-        ...mapState('usuarioModule', ['user_rol']),
-        ...mapState('cotizacionModule', ['estatusCotizacion']),
+        ...mapState(
+            'usuarioModule', 
+            [ 'user_rol' ]
+        ),
+        ...mapState(
+            'cotizacionModule', 
+            [ 'estatusCotizacion' ]
+        ),
         estatus: {
             get() {
                 return this.estatusCotizacion
@@ -55,3 +73,10 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+    .my-flex-menu {
+        display: flex;
+        justify-content: center;
+    }
+</style>

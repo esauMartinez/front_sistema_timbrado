@@ -9,6 +9,8 @@ import {
     faAddressCard, 
     faBan, 
     faBell, 
+    faCaretLeft, 
+    faCaretRight, 
     faCheck, 
     faCog, 
     faDollarSign, 
@@ -69,5 +71,7 @@ library.add(faTruckLoading)
 library.add(faBan)
 library.add(faTruck)
 library.add(faRoad)
+library.add(faCaretRight)
+library.add(faCaretLeft)
 
 createApp(App).use(store).use(router).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
